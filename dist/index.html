@@ -15,9 +15,6 @@
     <div class="header-inner">
       <a class="brand" href="./" aria-label="Undokai 2026 home"><img src="assets/undokai-logo.webp" width="398" height="202" alt="Undokai 2026"></a>
       <div class="header-label"><span class="header-dot"></span> SPORTS FESTIVAL <span class="header-divider">/</span> 2026</div>
-      <nav aria-label="Main navigation">
-        <a id="header-link" class="nav-link" href="#games">All games <span aria-hidden="true">↓</span></a>
-      </nav>
     </div>
   </header>
 
@@ -53,42 +50,98 @@
       <div class="race-sky">
         <img class="cloud race-cloud" src="assets/cloud.png" alt="" aria-hidden="true">
         <div class="wrap race-content">
-          <a class="back-link" href="./"><span aria-hidden="true">←</span> Back to home</a>
+          <a class="back-link" href="./#games"><span aria-hidden="true">←</span> All games</a>
           <div class="race-layout">
             <div class="race-intro">
-              <p class="eyebrow race-kicker"><span class="mini-number" aria-label="Game 2">02</span> TEAM RELAY</p>
+              <p class="eyebrow race-kicker"><span class="mini-number" aria-label="Game 1">01</span> TEAM RELAY <span class="kicker-jp" lang="ja">台風の目</span></p>
               <h1 id="race-title" class="race-title" tabindex="-1" data-pixel="TYPHOON|RACE"><span>Typhoon Race</span></h1>
-              <p class="race-lede">Five players. One pole. Run the course together and pass the relay to your next group.</p>
+              <p class="race-lede">Five players, one long pole. Spin around cone 1, U-turn at cone 2, sweep the pole under your team’s feet and over their heads, then pass it on.</p>
+              <ul class="race-facts" aria-label="At a glance">
+                <li><strong>3</strong> teams</li>
+                <li><strong>5</strong> per group</li>
+                <li><strong>1</strong> long pole</li>
+              </ul>
               <img class="race-art" src="assets/typhoon-art.webp" width="472" height="413" alt="Illustration of players carrying a pole around a cone">
             </div>
-            <div class="race-guide">
-              <section class="demo" aria-labelledby="demo-title">
-                <div class="demo-bar">
-                  <h2 id="demo-title"><span class="header-dot"></span> Race walkthrough</h2>
-                  <span id="demo-counter" class="demo-counter">01 / 04</span>
-                </div>
-                <div class="demo-field">
-                  <canvas id="race-canvas" width="320" height="128" aria-hidden="true"></canvas>
-                  <span class="field-label" id="field-label">AT THE START</span>
-                  <button class="demo-play" type="button" id="demo-play"><span aria-hidden="true">▶︎</span> Play walkthrough</button>
-                </div>
-                <div class="demo-caption" id="demo-caption" role="status" aria-atomic="true"></div>
-              </section>
-              <div class="step-grid" id="steps" role="group" aria-label="Walkthrough steps"></div>
-            </div>
+            <section class="video-card" aria-labelledby="video-title">
+              <div class="video-bar">
+                <h2 id="video-title"><span class="header-dot"></span> Watch one round</h2>
+                <span class="video-time">0:00 – 0:38</span>
+              </div>
+              <div class="video-frame">
+                <iframe id="race-video" data-src="https://www.youtube-nocookie.com/embed/SG-FIztlRp8?rel=0" title="Typhoon Race example video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <p class="video-note">The first 38 seconds show one full round. Your team keeps going until every group has run.</p>
+            </section>
           </div>
         </div>
       </div>
-      <section class="wrap full-rules" aria-labelledby="full-rules-title">
-        <p class="eyebrow section-kicker"><span></span> BEFORE THE RACE</p>
-        <h2 id="full-rules-title">Typhoon Race rules</h2>
-        <div class="rule-grid">
-          <article><h3>Set up</h3><p>All three teams race at the same time, with one lane per team. Waiting teammates line up in rows of five. The front row goes next.</p></article>
-          <article><h3>Pass the pole</h3><p>When the group returns, two players sweep the pole low so the waiting players can jump over it. They sweep it back high so everyone can duck. Then the next group runs.</p></article>
-          <article><h3>Keep going</h3><p>If anyone drops or lets go of the pole, grab it again and continue. There’s no penalty if the pole touches a waiting teammate who misses the jump or duck.</p></article>
-          <article><h3>Finish</h3><p>Teams are ranked in the order they finish the relay.</p></article>
+
+      <section class="wrap how" aria-labelledby="how-title">
+        <div class="how-heading">
+          <p class="eyebrow section-kicker"><span></span> STEP BY STEP</p>
+          <h2 id="how-title">How to play</h2>
+          <p class="how-hint">Tap a card to play its animation.</p>
         </div>
-        <div class="video-slot" id="video-slot" hidden></div>
+        <ol class="step-list" id="steps"></ol>
+        <section class="course-panel" aria-labelledby="course-title">
+          <div class="video-bar">
+            <h3 id="course-title"><span class="header-dot"></span> Whole course · top view</h3>
+            <span class="video-time">One full round</span>
+          </div>
+          <div class="course-body">
+            <div class="course-field">
+              <canvas id="course-canvas" width="320" height="246" role="img" aria-label="Top view of three lanes. Each team's group spins a full circle around cone 1, makes a U-turn at cone 2, runs back, sweeps the pole along the waiting rows, and hands it to the next group."></canvas>
+              <span class="course-label" style="left: 26%">WAITING</span>
+              <span class="course-label" style="left: 37.5%">START</span>
+              <span class="course-label" style="left: 59.4%">CONE 1</span>
+              <span class="course-label" style="left: 81.9%">CONE 2 · U-TURN</span>
+            </div>
+            <div class="course-side">
+              <ol class="course-phases" id="course-phases" aria-label="Steps"></ol>
+              <p class="course-now"><span class="course-now-label">NOW</span> <span id="course-caption"></span></p>
+              <div class="course-speed" role="group" aria-label="Animation speed">
+                <span class="course-speed-label">SPEED</span>
+                <button class="speed-button" type="button" id="speed-down" aria-label="Slow down">« Slower</button>
+                <output class="speed-value" id="speed-value" aria-live="polite">1×</output>
+                <button class="speed-button" type="button" id="speed-up" aria-label="Speed up">Faster »</button>
+              </div>
+              <p class="course-legend">
+                <span><span class="swatch" style="background: #f47748"></span><span class="swatch" style="background: #4a7fd4"></span><span class="swatch" style="background: #fffdf5"></span> 3 teams, one lane each</span>
+                <span>Cone positions are illustrative</span>
+              </p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="wrap full-rules" aria-labelledby="full-rules-title">
+        <p class="eyebrow section-kicker"><span></span> GOOD TO KNOW</p>
+        <h2 id="full-rules-title">Rules</h2>
+        <div class="rule-grid">
+          <article><h3>Teams and lanes</h3><p>All 3 teams run a continuous relay at the same time, one lane per team. Waiting groups stand in rows, one group per row. The front row goes next.</p></article>
+          <article><h3>Dropped the pole?</h3><p>If the pole falls or someone lets go, grab it again and keep going. No penalty.</p></article>
+          <article><h3>Missed a jump or duck?</h3><p>If the pole hits a waiting teammate who didn’t jump or duck, there’s no penalty. Keep going.</p></article>
+          <article><h3>Finish</h3><p>The relay ends when every group on your team has run. Teams are ranked by the order they finish.</p></article>
+        </div>
+        <div class="rule-extras">
+          <section class="score-card" aria-labelledby="score-title">
+            <h3 id="score-title">Points</h3>
+            <ol class="podium">
+              <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
+              <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
+              <li class="place-3"><span class="place">3rd</span><span class="bar"><strong>20</strong> pts</span></li>
+            </ol>
+          </section>
+          <section class="tba-card" aria-labelledby="tba-title">
+            <h3 id="tba-title">To be announced</h3>
+            <dl class="tba-list">
+              <div><dt>Groups per team <span class="tag">TBA</span></dt><dd>Up to 8. Eight groups means all 40 players run.</dd></div>
+              <div><dt>Cones <span class="tag">TBA</span></dt><dd>2 cones are planned. Positions to follow.</dd></div>
+              <div><dt>Skipped cone <span class="tag">TBA</span></dt><dd>What happens if a group misses a cone.</dd></div>
+            </dl>
+          </section>
+        </div>
       </section>
     </section>
   </main>
@@ -97,14 +150,6 @@
     <div class="wrap footer-inner"><span><strong>UNDOKAI</strong> 2026</span><span>Japanese Sports Festival</span></div>
   </footer>
 
-  <dialog id="pending-game" aria-labelledby="pending-title">
-    <form method="dialog">
-      <button class="dialog-x" value="close" aria-label="Close">×</button>
-      <p class="eyebrow section-kicker"><span></span> GAME GUIDE</p>
-      <h2 id="pending-title">Game</h2>
-      <p>Rules for this game will be added soon.</p>
-      <button class="button button-primary" value="close" autofocus>Back to games <span aria-hidden="true">↗</span></button>
-    </form>
-  </dialog>
+
 </body>
 </html>
