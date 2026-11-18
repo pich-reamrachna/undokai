@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#9bdee6">
+  <meta name="description" content="The participant game guide for Undokai 2026, including the Typhoon Race relay walkthrough.">
+  <title>Game Rules | Undokai 2026</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="guide.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Undokai 2026 home"><img src="assets/undokai-logo.webp" width="398" height="202" alt="Undokai 2026"></a>
+      <div class="header-label"><span class="header-dot"></span> SPORTS FESTIVAL <span class="header-divider">/</span> 2026</div>
+      <nav aria-label="Main navigation">
+        <a id="header-link" class="nav-link" href="#games">All games <span aria-hidden="true">↓</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="home-view">
+      <section class="hero" aria-labelledby="home-title">
+        <div class="scene" aria-hidden="true">
+          <img class="cloud cloud-left" src="assets/cloud.png" alt="">
+          <img class="cloud cloud-right" src="assets/cloud.png" alt="">
+          <img class="cloud cloud-small" src="assets/cloud.png" alt="">
+          <span class="spark spark-left">✦</span><span class="spark spark-right">✦</span>
+          <div class="field"></div>
+          <img class="tree" src="assets/tree.webp" alt="">
+        </div>
+        <div class="hero-content">
+          <p class="eyebrow hero-kicker"><span aria-hidden="true"></span> UNDOKAI 2026 <span aria-hidden="true"></span></p>
+          <h1 id="home-title" class="hero-title" data-pixel="GAME|RULES"><span>Game Rules</span></h1>
+          <p class="hero-copy">Pick a game, learn the rules, and get ready to play.</p>
+          <a href="#games" class="button button-primary">Choose a game <span aria-hidden="true">»</span></a>
+        </div>
+      </section>
+
+      <section id="games" class="games wrap" aria-labelledby="games-title">
+        <div class="section-heading">
+          <div><p class="eyebrow section-kicker"><span></span> PARTICIPANT GUIDE</p><h2 id="games-title">Choose your game</h2></div>
+        </div>
+        <div class="game-grid" id="game-grid"></div>
+        <noscript><p>Enable JavaScript to open the game guide.</p></noscript>
+      </section>
+    </div>
+
+    <section id="race-view" class="race" aria-labelledby="race-title" hidden>
+      <div class="race-sky">
+        <img class="cloud race-cloud" src="assets/cloud.png" alt="" aria-hidden="true">
+        <div class="wrap race-content">
+          <a class="back-link" href="./"><span aria-hidden="true">←</span> Back to home</a>
+          <div class="race-layout">
+            <div class="race-intro">
+              <p class="eyebrow race-kicker"><span class="mini-number" aria-label="Game 2">02</span> TEAM RELAY</p>
+              <h1 id="race-title" class="race-title" tabindex="-1" data-pixel="TYPHOON|RACE"><span>Typhoon Race</span></h1>
+              <p class="race-lede">Five players. One pole. Run the course together and pass the relay to your next group.</p>
+              <img class="race-art" src="assets/typhoon-art.webp" width="472" height="413" alt="Illustration of players carrying a pole around a cone">
+            </div>
+            <div class="race-guide">
+              <section class="demo" aria-labelledby="demo-title">
+                <div class="demo-bar">
+                  <h2 id="demo-title"><span class="header-dot"></span> Race walkthrough</h2>
+                  <span id="demo-counter" class="demo-counter">01 / 04</span>
+                </div>
+                <div class="demo-field">
+                  <canvas id="race-canvas" width="320" height="128" aria-hidden="true"></canvas>
+                  <span class="field-label" id="field-label">AT THE START</span>
+                  <button class="demo-play" type="button" id="demo-play"><span aria-hidden="true">▶︎</span> Play walkthrough</button>
+                </div>
+                <div class="demo-caption" id="demo-caption" role="status" aria-atomic="true"></div>
+              </section>
+              <div class="step-grid" id="steps" role="group" aria-label="Walkthrough steps"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="wrap full-rules" aria-labelledby="full-rules-title">
+        <p class="eyebrow section-kicker"><span></span> BEFORE THE RACE</p>
+        <h2 id="full-rules-title">Typhoon Race rules</h2>
+        <div class="rule-grid">
+          <article><h3>Set up</h3><p>All three teams race at the same time, with one lane per team. Waiting teammates line up in rows of five. The front row goes next.</p></article>
+          <article><h3>Pass the pole</h3><p>When the group returns, two players sweep the pole low so the waiting players can jump over it. They sweep it back high so everyone can duck. Then the next group runs.</p></article>
+          <article><h3>Keep going</h3><p>If anyone drops or lets go of the pole, grab it again and continue. There’s no penalty if the pole touches a waiting teammate who misses the jump or duck.</p></article>
+          <article><h3>Finish</h3><p>Teams are ranked in the order they finish the relay.</p></article>
+        </div>
+        <div class="video-slot" id="video-slot" hidden></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner"><span><strong>UNDOKAI</strong> 2026</span><span>Japanese Sports Festival</span></div>
+  </footer>
+
+  <dialog id="pending-game" aria-labelledby="pending-title">
+    <form method="dialog">
+      <button class="dialog-x" value="close" aria-label="Close">×</button>
+      <p class="eyebrow section-kicker"><span></span> GAME GUIDE</p>
+      <h2 id="pending-title">Game</h2>
+      <p>Rules for this game will be added soon.</p>
+      <button class="button button-primary" value="close" autofocus>Back to games <span aria-hidden="true">↗</span></button>
+    </form>
+  </dialog>
+</body>
+</html>
