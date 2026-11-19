@@ -7,6 +7,7 @@
   <meta name="description" content="The participant game guide for Undokai 2026, with walkthroughs for Typhoon Race, Beanbag Toss, Centipede Race and Dondarm Slerk Cher.">
   <title>Game Rules | Undokai 2026</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="translations.js" defer></script>
   <script src="guide.js" defer></script>
   <script src="typhoon.js" defer></script>
   <script src="beanbag.js" defer></script>
@@ -18,6 +19,10 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="./" aria-label="Undokai 2026 home"><img src="assets/undokai-logo.webp" width="398" height="202" alt="Undokai 2026"></a>
+      <div class="language-toggle" role="group" aria-label="Language" hidden>
+        <button type="button" lang="en" data-language="en" aria-pressed="true">English</button>
+        <button type="button" lang="ja" data-language="ja" aria-pressed="false">日本語</button>
+      </div>
     </div>
   </header>
 
@@ -49,7 +54,7 @@
         </div>
         <div class="hero-content">
           <p class="eyebrow hero-kicker"><span aria-hidden="true"></span> UNDOKAI 2026 <span aria-hidden="true"></span></p>
-          <h1 id="home-title" class="hero-title" data-pixel="GAME|RULES"><span>Game Rules</span></h1>
+          <h1 id="home-title" class="hero-title" lang="en" data-pixel="GAME|RULES"><span>Game Rules</span></h1>
           <p class="hero-copy">Pick a game, learn the rules, and get ready to play.</p>
           <div id="games" class="hero-games">
             <div class="game-grid" id="game-grid"></div>

@@ -21,7 +21,7 @@
 
   const progress = (time, from, to) => Math.min(1, Math.max(0, (time - from) / (to - from)));
   const movePlayers = (from, to, amount) => from.map((point, i) => mix(point, to[i], amount));
-  const winner = ({ name, color }) => ({ label: `${name.toUpperCase()} WINS`, color });
+  const winner = ({ name, color }) => ({ label: "{team} wins", values: { team: name }, color });
   const noPoints = { label: "NO POINTS", color: "#ffe079" };
   const tagContact = [2, 1];
 
@@ -58,13 +58,15 @@
     block(ctx, "#fffaf0", x + 3, y + 2, 2, 2);
 
     const labelY = carrierY - (side ? 33 : 22);
-    block(ctx, ink, x - 14, labelY, 29, 12);
-    block(ctx, "#ffe079", x - 13, labelY + 1, 27, 10);
+    const label = translate("TAG!");
+    ctx.font = language === "ja" ? 'bold 8px "Yu Gothic", Meiryo, sans-serif' : "bold 8px monospace";
+    const width = Math.max(29, Math.ceil(ctx.measureText(label).width) + 6);
+    block(ctx, ink, x - width / 2, labelY, width, 12);
+    block(ctx, "#ffe079", x - width / 2 + 1, labelY + 1, width - 2, 10);
     ctx.fillStyle = ink;
-    ctx.font = "bold 8px monospace";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    ctx.fillText("TAG!", x + 0.5, labelY + 2);
+    ctx.fillText(label, x + 0.5, labelY + 2);
   }
 
   function drawCircle(ctx, state) {
@@ -97,17 +99,19 @@
 
   function drawLabels(ctx, { number = firstNumber, additionalNumber, remaining, result }, labelSize) {
     ctx.fillStyle = ink;
-    ctx.font = `bold ${labelSize}px monospace`;
+    ctx.font = `bold ${labelSize}px ${language === "ja" ? '"Yu Gothic", Meiryo, sans-serif' : "monospace"}`;
     ctx.textBaseline = "top";
     ctx.textAlign = "left";
-    ctx.fillText("CALL #" + number + (additionalNumber ? " + #" + additionalNumber : ""), 5, 2);
+    const call = translate(additionalNumber ? "CALL #{number} + #{extra}" : "CALL #{number}", { number, extra: additionalNumber });
+    ctx.fillText(call, 5, 2);
     if (remaining !== undefined) {
       ctx.textAlign = "right";
       const clock = Math.floor(remaining / 60) + ":" + String(remaining % 60).padStart(2, "0");
       ctx.fillText(clock, W - 5, 2);
     }
     if (result) {
-      const badgeWidth = Math.ceil(ctx.measureText(result.label).width) + 8;
+      const label = translate(result.label, result.values).toUpperCase();
+      const badgeWidth = Math.ceil(ctx.measureText(label).width) + 8;
       const badgeHeight = labelSize + 4;
       const badgeX = W - 4 - badgeWidth;
       const badgeY = H - 1 - badgeHeight;
@@ -115,7 +119,7 @@
       block(ctx, result.color, badgeX + 1, badgeY + 1, badgeWidth - 2, badgeHeight - 2);
       ctx.fillStyle = "#080812";
       ctx.textAlign = "right";
-      ctx.fillText(result.label, W - 8, badgeY + 2);
+      ctx.fillText(label, W - 8, badgeY + 2);
     }
   }
 
@@ -269,8 +273,8 @@
         { until: 1000, step: 0, caption: "Players wait outside the circle until the game master calls a number." },
         { until: additionalCall, step: 0, caption: "The three number 1 players stop near the leaf. Nobody picks it up." },
         { until: pickup, step: 0, caption: "The game master calls number 7. One more player from each team joins the players already inside." },
-        { until: assistedFinish, step: 2, caption: `${teams[0].name}’s number 7 takes the leaf. Their number 1 blocks an opponent’s path from inside the circle without pushing.` },
-        { until: exampleDuration, step: 2, caption: `${teams[0].name} crosses the circle line with the leaf and wins the set.` },
+        { until: assistedFinish, step: 2, caption: "{team}’s number 7 takes the leaf. Their number 1 blocks an opponent’s path from inside the circle without pushing.", values: { team: teams[0].name } },
+        { until: exampleDuration, step: 2, caption: "{team} crosses the circle line with the leaf and wins the set.", values: { team: teams[0].name } },
       ],
       state: assistedSet,
     },
@@ -280,9 +284,9 @@
       end: 5400,
       phases: [
         call,
-        { until: 2700, step: 1, caption: `${teams[0].name} gets to the leaf first.` },
+        { until: 2700, step: 1, caption: "{team} gets to the leaf first.", values: { team: teams[0].name } },
         { until: 5400, step: 2, caption: "The carrier heads for the edge while the other players follow." },
-        { until: exampleDuration, step: 2, caption: `${teams[0].name} crosses the circle line with the leaf and wins the set.` },
+        { until: exampleDuration, step: 2, caption: "{team} crosses the circle line with the leaf and wins the set.", values: { team: teams[0].name } },
       ],
       state: (t, number) => ({
         players: t < 2700 ? approach(progress(t, 1000, 2700), number) : runForEdge(progress(t, 2700, 5400)),
@@ -298,8 +302,8 @@
         call,
         { until: 2500, step: 1, caption: "Two players reach the leaf at the same instant." },
         { until: 3700, step: 1, caption: "Both players touch the leaf. Either can be tagged while still inside the circle, even after letting go." },
-        { until: tagEnd, step: 3, caption: `${teams[1].name} takes the leaf. ${teams[2].name} closes in.` },
-        { until: exampleDuration, step: 3, caption: `${teams[2].name} touches ${teams[1].name}’s leaf carrier inside the circle and wins the set.` },
+        { until: tagEnd, step: 3, caption: "{carrier} takes the leaf. {tagger} closes in.", values: { carrier: teams[1].name, tagger: teams[2].name } },
+        { until: exampleDuration, step: 3, caption: "{tagger} touches {carrier}’s leaf carrier inside the circle and wins the set.", values: { tagger: teams[2].name, carrier: teams[1].name } },
       ],
       state: (t, number) => ({
         players: t < 3700 ? approach(progress(t, 1000, 2500), number) : stealAndTag(progress(t, 3700, tagEnd)),
@@ -345,7 +349,7 @@
     const button = document.createElement("button");
     button.type = "button";
     button.className = "speed-button";
-    button.textContent = example.title;
+    button.textContent = translate(example.title);
     button.setAttribute("aria-pressed", String(example === selectedExample));
     button.addEventListener("click", () => {
       selectExample(example);
@@ -353,6 +357,9 @@
     });
     scenarios.append(button);
     return button;
+  });
+  onLanguageChange(() => {
+    scenarioButtons.forEach((button, index) => { button.textContent = translate(examples[index].title); });
   });
 
   function selectExample(example) {

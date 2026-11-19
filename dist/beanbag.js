@@ -565,13 +565,13 @@
     }
     const scores = CENTERS.map((_, teamIndex) => simulate(teamIndex, t).score);
     const final = phaseAt(time).id === "count";
-    const key = scores.join() + final;
+    const key = language + scores.join() + final;
     if (key === shownScores) return;
     shownScores = key;
     const order = [...scores].sort((a, b) => b - a);
     scores.forEach((score, index) => {
       scoreCells[index].textContent = score;
-      rankCells[index].textContent = final ? ["1st", "2nd", "3rd"][order.indexOf(score)] : "";
+      rankCells[index].textContent = final ? translate(["1st", "2nd", "3rd"][order.indexOf(score)]) : "";
     });
   }
 

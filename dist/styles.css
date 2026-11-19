@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "DotGothic16";
+  src: url("assets/dotgothic16-game-titles.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+306E, U+308C, U+3099, U+30A7, U+30AB-30AC, U+30AF-30B0, U+30B9-30BA, U+30BF-30C3, U+30C6-30C9, U+30E0, U+30EC, U+30F3, U+30FB-30FC, U+4E89, U+5165, U+53F0, U+7389, U+76EE, U+7AF6, U+98A8;
+}
+
 :root {
   color-scheme: light;
   --ink: #202345;
@@ -26,9 +35,28 @@ main:focus, .race-title:focus { outline: none; }
 .skip { position: fixed; z-index: 5; top: 12px; left: 12px; padding: 10px; background: white; transform: translateY(-160%); }
 .skip:focus { transform: translateY(0); }
 .site-header { background: var(--white); border-bottom: 2px solid var(--ink); position: relative; z-index: 1; }
-.header-inner { height: 75px; display: flex; align-items: center; padding-inline: clamp(24px, 4vw, 64px); }
+.header-inner { height: 75px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-inline: clamp(24px, 4vw, 64px); }
+.language-toggle { display: inline-flex; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); }
+.language-toggle button { min-height: 36px; padding: 4px 10px; border: 0; background: transparent; font: 700 .8rem var(--sans); }
+.language-toggle button + button { border-left: 2px solid var(--ink); }
+.language-toggle button[aria-pressed="true"] { background: var(--yellow); }
+.language-toggle button:hover { background: #fff0a6; }
 .brand { width: 134px; display: block; }
 .brand img { width: 100%; height: auto; }
+html[lang="ja"] { --sans: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; --mono: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; --muted: #374055; }
+html[lang="ja"] .kicker-jp { display: none; }
+html[lang="ja"] .race-title.pixel-ready canvas { display: none; }
+html[lang="ja"] .race-title.pixel-ready > span { position: static; display: block; width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; white-space: normal; }
+html[lang="ja"] .race-title {
+  color: var(--ink);
+  font-family: "DotGothic16", var(--sans);
+  font-size: clamp(1.8rem, 4.4vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  -webkit-text-stroke: .4px currentColor;
+  text-shadow: 2px 2px var(--yellow), 3px 3px var(--orange);
+}
+html[lang="ja"] #dsc-title { word-break: keep-all; overflow-wrap: anywhere; }
 .eyebrow, .footer-inner { font-family: var(--mono); font-weight: 700; }
 .header-dot { background: #ee8348; display: inline-block; width: 8px; height: 8px; flex: 0 0 8px; }
 .hero { --track-h: 144px; --fence-h: 101px; --reserve: 244px; min-height: calc(100svh - var(--header-h)); position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; text-align: center; background: linear-gradient(165deg,#91d8e5,#c9f1ec 82%); border-bottom: 2px solid var(--ink); }
@@ -306,6 +334,34 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .rule-grid { gap: 12px; }
   .rule-extras { grid-template-columns: minmax(0,1fr); gap: 14px; margin-top: 22px; }
 }
+
+/* Give Japanese body copy more room without enlarging every label. */
+html[lang="ja"] .hero-copy { font-size: 1rem; line-height: 1.6; }
+html[lang="ja"] .card-title { font-size: clamp(.9rem, 1.6vw, 1.05rem); line-height: 1.35; }
+html[lang="ja"] .race-lede { font-size: clamp(.96rem, 1.6vw, 1.075rem); font-weight: 500; line-height: 1.65; }
+html[lang="ja"] .race-facts li { font-size: .8rem; line-height: 1.4; }
+html[lang="ja"] .video-bar :is(h2, h3) { font-size: .88rem; line-height: 1.35; }
+html[lang="ja"] :is(.step-text p, .rule-grid p, .rule-list li, .score-note, .tba-list dd, .course-now, .how-hint) {
+  color: var(--ink);
+  font-size: clamp(.94rem, 1.35vw, 1rem);
+  font-weight: 500;
+  line-height: 1.65;
+}
+html[lang="ja"] :is(.step-text h3, .rule-grid h3, .rule-extras h3) { font-size: 1.05rem; line-height: 1.4; }
+html[lang="ja"] .step-text h3 { margin-bottom: 8px; }
+html[lang="ja"] .rule-list { gap: 12px; }
+html[lang="ja"] .rule-list li { align-items: start; }
+html[lang="ja"] .course-phases li { font-size: .95rem; line-height: 1.4; }
+html[lang="ja"] .field-key { font-size: .86rem; line-height: 1.5; }
+
+@media (max-width: 540px) {
+  html[lang="ja"] .rule-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
+@media (max-width: 360px) {
+  html[lang="ja"] .step-card { grid-template-columns: minmax(0, 1fr); }
+  html[lang="ja"] .step-media { border-right: 0; border-bottom: 2px solid var(--ink); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scroll, .cat-runner, .cat-frame, .flag-cat .flag-strip { animation: none; }
   .cat-frame-2 { opacity: 0; }

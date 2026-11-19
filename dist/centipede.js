@@ -186,10 +186,10 @@
     { time: READY, step: 1, caption: "Go! Group 1 walks to the first handoff point, one lane per team." },
     { time: schedules[firstTeam][0].arrive, step: 2, caption: "Group 1 steps aside. Group 2 takes the planks and continues toward the finish." },
     { time: schedules[firstTeam][1].start + 400, step: 1, caption: "Every group walks the same distance in the same direction." },
-    { time: stumble.stumble, step: 3, caption: `${teams[STUMBLE.team].name}’s planks came apart. Put them back on and carry on from the same spot. No penalty.` },
+    { time: stumble.stumble, step: 3, caption: "{team}’s planks came apart. Put them back on and carry on from the same spot. No penalty.", values: { team: teams[STUMBLE.team].name } },
     { time: stumble.stumble + STUMBLE.ms, step: 1, caption: "The waiting groups take over at the next handoff points down the field." },
     { time: schedules[firstTeam][GROUPS - 1].start, step: 1, caption: "Group 6 takes the planks for the final leg to the finish line." },
-    { time: finishes[firstTeam], step: -1, caption: `${teams[firstTeam].name}’s 6th group finishes first.` },
+    { time: finishes[firstTeam], step: -1, caption: "{team}’s 6th group finishes first.", values: { team: teams[firstTeam].name } },
     { time: Math.max(...finishes), step: -1, caption: "Ranked by finish order: 1st gets 50 points, 2nd 40, 3rd 20. No stopwatch." },
   ].sort((a, b) => a.time - b.time);
   const local = (time) => ((time % CYCLE) + CYCLE) % CYCLE;
@@ -240,8 +240,8 @@
     }
     if (group === -1) {
       topPlanks(ctx, FINISH, c, 0, 0);
-      const label = ["1ST", "2ND", "3RD"][ranks[teamIndex]];
-      ctx.font = "bold 9px monospace";
+      const label = translate(["1ST", "2ND", "3RD"][ranks[teamIndex]]);
+      ctx.font = language === "ja" ? 'bold 9px "Yu Gothic", Meiryo, sans-serif' : "bold 9px monospace";
       block(ctx, ink, FINISH + 22, c - 19, 22, 12);
       block(ctx, ranks[teamIndex] === 0 ? "#ffe079" : "#fffaf0", FINISH + 23, c - 18, 20, 10);
       ctx.fillStyle = ink;
@@ -272,13 +272,13 @@
     block(ctx, "#b9e3a8", 0, 0, VW, 26);
     block(ctx, "#7db475", 10, 13, VW - 20, 10);
     block(ctx, "#e7f4cc", mapX(camera), 13, VW * scale, 10);
-    ctx.font = "bold 8px monospace";
+    ctx.font = language === "ja" ? 'bold 8px "Yu Gothic", Meiryo, sans-serif' : "bold 8px monospace";
     ctx.textAlign = "center";
     for (let i = 0; i <= GROUPS; i++) {
       const x = mapX(station(i));
       block(ctx, ink, x, 13, 1, 10);
       ctx.fillStyle = ink;
-      ctx.fillText(i === 0 ? "START" : i === GROUPS ? "FINISH" : String(i + 1), x, 10);
+      ctx.fillText(i === 0 ? translate("START") : i === GROUPS ? translate("FINISH") : String(i + 1), x, 10);
     }
     positions.forEach(({ x }, teamIndex) => {
       block(ctx, ink, mapX(x) - 2, 14 + teamIndex * 3, 5, 3);
@@ -319,12 +319,12 @@
     const t = local(time);
     const done = schedules.map((legs) => legs.filter((leg) => leg.arrive <= t).length);
     const finished = finishes.map((f) => t >= f);
-    const key = done.join() + finished.join();
+    const key = language + done.join() + finished.join();
     if (key === shown) return;
     shown = key;
     done.forEach((count, i) => {
       scoreCells[i].textContent = count + "/" + GROUPS;
-      rankCells[i].textContent = finished[i] ? ["1st", "2nd", "3rd"][ranks[i]] : "";
+      rankCells[i].textContent = finished[i] ? translate(["1st", "2nd", "3rd"][ranks[i]]) : "";
     });
   }
 

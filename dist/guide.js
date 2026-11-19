@@ -157,11 +157,18 @@ games.forEach((game) => {
   const text = document.createElement("span");
   const name = document.createElement("strong");
   name.className = "card-title";
-  name.textContent = game.title;
-  const description = document.createElement("span");
-  description.className = "card-caption";
-  description.textContent = game.href ? "View game rules" : "Coming soon";
-  text.append(name, description);
+  const description = game.href ? null : document.createElement("span");
+  text.append(name);
+  if (description) {
+    description.className = "card-caption";
+    text.append(description);
+  }
+  function updateCopy() {
+    name.textContent = translate(game.title);
+    if (description) description.textContent = translate("Coming soon");
+  }
+  updateCopy();
+  onLanguageChange(updateCopy);
   card.append(text);
   if (game.href) {
     const arrow = document.createElement("span");
@@ -254,7 +261,6 @@ function createSteps(view, steps) {
     play.type = "button";
     play.className = "step-play";
     play.setAttribute("aria-pressed", "false");
-    play.setAttribute("aria-label", "Play step " + (index + 1) + " animation");
     play.textContent = "▶";
     card.addEventListener("click", () => toggle(index));
     media.append(scene, play);
@@ -262,15 +268,12 @@ function createSteps(view, steps) {
     text.className = "step-text";
     const number = document.createElement("span");
     number.className = "step-number";
-    number.textContent = "STEP " + (index + 1);
     const title = document.createElement("h3");
-    title.textContent = step.title;
     const detail = document.createElement("p");
-    detail.textContent = step.detail;
     text.append(number, title, detail);
     card.append(media, text);
     view.querySelector(".step-list").append(card);
-    return card;
+    return { card, play, number, title, detail };
   });
 
   let playing = -1;
@@ -293,13 +296,12 @@ function createSteps(view, steps) {
   }
 
   function updateControls() {
-    cards.forEach((card, cardIndex) => {
+    cards.forEach(({ card, play }, cardIndex) => {
       const active = cardIndex === playing;
-      const button = card.querySelector(".step-play");
       card.classList.toggle("current", active);
-      button.setAttribute("aria-pressed", String(active));
-      button.setAttribute("aria-label", (active ? "Pause" : "Play") + " step " + (cardIndex + 1) + " animation");
-      button.textContent = active ? "Ⅱ" : "▶";
+      play.setAttribute("aria-pressed", String(active));
+      play.setAttribute("aria-label", translate(active ? "Pause step {number} animation" : "Play step {number} animation", { number: cardIndex + 1 }));
+      play.textContent = active ? "Ⅱ" : "▶";
     });
   }
 
@@ -316,6 +318,19 @@ function createSteps(view, steps) {
     start();
     steps.forEach((step, index) => step.scene(contexts[index], 0));
   }
+
+  function updateCopy() {
+    cards.forEach(({ number, title, detail }, index) => {
+      const step = steps[index];
+      number.textContent = translate("STEP {number}", { number: index + 1 });
+      title.textContent = translate(step.title);
+      detail.textContent = translate(step.detail);
+      if (!view.hidden) step.scene(contexts[index], times[index] / step.duration);
+    });
+    updateControls();
+  }
+  updateCopy();
+  onLanguageChange(updateCopy);
 
   return { start, reset };
 }
@@ -334,10 +349,11 @@ function createOverview(view, { steps, draw, phaseAt, onRender }) {
   const speedValue = view.querySelector(".speed-value");
   const slower = view.querySelector(".speed-down");
   const faster = view.querySelector(".speed-up");
-  steps.forEach((step) => {
+  const phaseItems = steps.map((step) => {
     const item = document.createElement("li");
-    item.textContent = step.title;
+    item.textContent = translate(step.title);
     phaseList.append(item);
+    return item;
   });
 
   let current = null;
@@ -346,15 +362,17 @@ function createOverview(view, { steps, draw, phaseAt, onRender }) {
   let frame = 0;
   let visible = false;
   let speedIndex = defaultSpeedIndex;
+  let displayedTime = 0;
 
   function render(time) {
+    displayedTime = time;
     draw(ctx, time);
     if (onRender) onRender(time);
     const phase = phaseAt(time);
     if (phase !== current) {
       current = phase;
-      caption.textContent = phase.caption;
-      [...phaseList.children].forEach((item, index) => item.classList.toggle("current", index === phase.step));
+      caption.textContent = translate(phase.caption, phase.values);
+      phaseItems.forEach((item, index) => item.classList.toggle("current", index === phase.step));
     }
   }
 
@@ -397,6 +415,12 @@ function createOverview(view, { steps, draw, phaseAt, onRender }) {
     restart();
   }
 
+  onLanguageChange(() => {
+    phaseItems.forEach((item, index) => { item.textContent = translate(steps[index].title); });
+    current = null;
+    if (!view.hidden) render(displayedTime);
+  });
+
   return { start, restart, reset };
 }
 
@@ -407,12 +431,17 @@ function registerGuide(guide) {
   guides.push(guide);
 }
 
+function updatePageTitle(active = guides.find((guide) => guide.hash === location.hash)) {
+  document.title = `${translate(active ? active.title : "Game Rules")} | ${translate("Undokai 2026")}`;
+}
+onLanguageChange(() => updatePageTitle());
+
 function route(restored = false) {
   const active = guides.find((guide) => guide.hash === location.hash);
   home.hidden = Boolean(active);
   // The home page fills the screen exactly, so the footer only shows on game pages.
   select("site-footer").hidden = !active;
-  document.title = (active ? active.title : "Game Rules") + " | Undokai 2026";
+  updatePageTitle(active);
   guides.forEach((guide) => {
     const show = guide === active;
     const entering = show && (guide.view.hidden || restored);

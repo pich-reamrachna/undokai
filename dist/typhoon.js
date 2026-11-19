@@ -241,8 +241,9 @@
 
   const finalHandoff = { step: 3, caption: "The sash group is last in line. It picks up the pole and starts its lap." };
   const finalReturn = { step: 1, caption: "The group wearing sashes runs straight back across the finish line." };
-  const winner = { step: -1, caption: `${teams[order[0]].name} wins. Its sash group crossed the finish line first.` };
-  const standings = { step: -1, caption: `${teams[order[0]].name} wins, followed by ${teams[order[1]].name} and ${teams[order[2]].name}.` };
+  const winner = { step: -1, caption: "{team} wins. Its sash group crossed the finish line first.", values: { team: teams[order[0]].name } };
+  const standings = { step: -1, caption: "{first} wins, followed by {second} and {third}.",
+    values: { first: teams[order[0]].name, second: teams[order[1]].name, third: teams[order[2]].name } };
 
   function relayAt(lane, time) {
     if (time >= finishes[lane]) return { group: GROUPS - 1, phase: null, p: 1 };
@@ -408,7 +409,7 @@
       block(ctx, (y - 15) % 4 ? "#fff7e0" : "#6c8a62", 119, y, 2, 2);
       block(ctx, (y - 15) % 4 ? "#6c8a62" : "#fff7e0", 121, y, 2, 2);
     }
-    ctx.font = "bold 9px monospace";
+    ctx.font = language === "ja" ? 'bold 9px "Yu Gothic", Meiryo, sans-serif' : "bold 9px monospace";
     for (let lane = 0; lane < 3; lane++) {
       const c = 52 + lane * 76;
       drawRoute(c, (x, y) => block(ctx, "#6eaa6d", x, y, 1, 1));
@@ -416,15 +417,15 @@
       const relay = relayAt(lane, t);
       drawLane(ctx, c, teams[lane].color, relay);
       ctx.fillStyle = ink;
-      ctx.fillText(teams[lane].name, 5, c - 24);
+      ctx.fillText(translate(teams[lane].name), 5, c - 24);
       const completed = relay.phase ? relay.group + Number(relay.phase.id === "hand") : GROUPS;
-      ctx.fillText(`${completed}/${GROUPS} groups`, 5, c + 30);
+      ctx.fillText(translate("{count}/{total} groups", { count: completed, total: GROUPS }), 5, c + 30);
       if (!relay.phase) {
         const rank = order.indexOf(lane);
         block(ctx, ink, 284, c - 29, 28, 14);
         block(ctx, rank === 0 ? SASH : "#fffaf0", 285, c - 28, 26, 12);
         ctx.fillStyle = ink;
-        ctx.fillText(places[rank], 290, c - 19);
+        ctx.fillText(translate(places[rank]), 290, c - 19);
       }
     }
     ctx.restore();
