@@ -64,8 +64,9 @@ function drawTitle(title) {
   lettering.setAttribute("aria-hidden", "true");
   const brush = lettering.getContext("2d");
   const pixels = [];
+  const alignLeft = title.dataset.pixelAlign === "left";
   lines.forEach((line, lineIndex) => {
-    const inset = Math.floor((width - (line.length * 6 - 1) * unit) / 2) + 2;
+    const inset = alignLeft ? 2 : Math.floor((width - (line.length * 6 - 1) * unit) / 2) + 2;
     [...line].forEach((letter, letterIndex) => {
       glyphs[letter].forEach((row, y) => {
         [...row].forEach((cell, x) => {
@@ -335,7 +336,7 @@ function drawNext(ctx, t) {
   group(ctx, lerp(28, 78, p), 89, nextUp, p < 1 ? 1 + (Math.floor(t * 24) % 2) : 0);
 }
 
-// Step cards: all visible; clicking a card plays its animation, clicking again stops it.
+// Step cards play one at a time and keep their position when paused.
 const contexts = [];
 const cards = steps.map((step, index) => {
   const card = document.createElement("li");
@@ -354,7 +355,7 @@ const cards = steps.map((step, index) => {
   play.setAttribute("aria-pressed", "false");
   play.setAttribute("aria-label", "Play step " + (index + 1) + " animation");
   play.textContent = "▶";
-  card.addEventListener("click", () => playStep(playing === index ? -1 : index));
+  card.addEventListener("click", () => toggleStep(index));
   media.append(scene, play);
   const text = document.createElement("div");
   text.className = "step-text";
@@ -374,32 +375,36 @@ const cards = steps.map((step, index) => {
 
 let playing = -1;
 let frame = 0;
-let playStart = 0;
+let lastStepFrame = null;
+const stepTimes = steps.map(() => 0);
 
 function animate(now) {
   const step = steps[playing];
-  step.scene(contexts[playing], ((now - playStart) % step.duration) / step.duration);
+  if (lastStepFrame !== null) {
+    stepTimes[playing] = (stepTimes[playing] + now - lastStepFrame) % step.duration;
+  }
+  lastStepFrame = now;
+  step.scene(contexts[playing], stepTimes[playing] / step.duration);
   frame = requestAnimationFrame(animate);
 }
 
 function startAnimation() {
   cancelAnimationFrame(frame);
+  lastStepFrame = null;
   if (playing >= 0 && !race.hidden) {
-    playStart = performance.now();
     frame = requestAnimationFrame(animate);
   }
 }
 
-function playStep(index) {
-  playing = index;
+function toggleStep(index) {
+  playing = playing === index ? -1 : index;
   cards.forEach((card, cardIndex) => {
-    const active = cardIndex === index;
+    const active = cardIndex === playing;
     const button = card.querySelector(".step-play");
     card.classList.toggle("current", active);
     button.setAttribute("aria-pressed", String(active));
-    button.setAttribute("aria-label", (active ? "Stop" : "Play") + " step " + (cardIndex + 1) + " animation");
+    button.setAttribute("aria-label", (active ? "Pause" : "Play") + " step " + (cardIndex + 1) + " animation");
     button.textContent = active ? "Ⅱ" : "▶";
-    if (!active) steps[cardIndex].scene(contexts[cardIndex], steps[cardIndex].still);
   });
   startAnimation();
 }

@@ -81,10 +81,12 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .race-sky { position: relative; isolation: isolate; overflow: hidden; border-bottom: 2px solid var(--ink); background: linear-gradient(165deg, #9bdde7, #d7f5ee 95%); }
 .race-cloud { width: 230px; bottom: 52px; right: -85px; z-index: -1; opacity: .6; }
 .race-content { padding-block: 23px 34px; }
-.back-link { display: inline-flex; align-items: center; gap: 7px; padding: 5px 0; font: 800 .82rem var(--mono); }
-.back-link:hover { text-decoration: underline; }
-.back-link span { font-size: 1.1rem; }
+.back-link { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 8px 14px; border: 2px solid var(--ink); background: var(--white); box-shadow: 3px 3px var(--ink); font: 800 .88rem var(--mono); }
+.back-link span { font-size: 1.1rem; line-height: 1; }
+.back-link:hover { background: var(--yellow); }
+.back-link:active { box-shadow: 1px 1px var(--ink); transform: translate(2px, 2px); }
 .race-layout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr); align-items: start; gap: clamp(22px,4vw,58px); margin-top: 19px; }
+.race-layout > .video-card { margin-top: 24px; }
 .race-intro { padding-top: 6px; }
 .race-kicker { display: flex; align-items: center; gap: 10px; }
 .mini-number { width: 34px; min-height: 29px; box-shadow: 2px 2px #927446; font-size: .75rem; }
@@ -117,15 +119,12 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .course-phases li.current { background: var(--yellow); box-shadow: 3px 3px var(--ink); transform: translate(-2px,-2px); }
 .course-now { margin: 0; font-size: .92rem; line-height: 1.45; min-height: 2.9em; }
 .course-now-label { font: 800 .64rem var(--mono); letter-spacing: .1em; background: var(--ink); color: var(--yellow); padding: 2px 5px; margin-right: 4px; vertical-align: 1px; }
-.course-speed { display: flex; align-items: center; gap: 8px; }
-.course-speed-label { font: 800 .64rem var(--mono); letter-spacing: .1em; color: var(--muted); margin-right: 2px; }
+.course-speed { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; margin-top: auto; }
 .speed-button { min-height: 36px; padding: 6px 10px; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); font: 800 .76rem var(--mono); transition: transform .12s, box-shadow .12s; }
 .speed-button:hover:not(:disabled) { background: var(--yellow); }
 .speed-button:active:not(:disabled) { transform: translate(2px,2px); box-shadow: 0 0 var(--ink); }
 .speed-button:disabled { opacity: .4; cursor: default; box-shadow: none; }
 .speed-value { min-width: 3.2em; text-align: center; font: 800 .9rem var(--mono); }
-.course-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: auto 0 0; color: var(--muted); font-size: .78rem; }
-.swatch { display: inline-block; width: 10px; height: 10px; border: 1px solid var(--ink); margin-right: 3px; vertical-align: -1px; }
 .step-list { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
 .step-card { min-width: 0; border: 2px solid var(--ink); background: var(--white); cursor: pointer; transition: background-color .25s, box-shadow .25s, transform .25s; }
 .step-card.current { background: #fff6cc; box-shadow: 4px 4px var(--ink); transform: translate(-2px,-2px); }
@@ -200,6 +199,7 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .card-arrow { font-size: .9rem; }
   .race-content { padding-block: 13px 27px; }
   .race-layout { grid-template-columns: minmax(0,1fr); gap: 16px; margin-top: 8px; }
+  .race-layout > .video-card { margin-top: 8px; }
   .race-intro { position: relative; padding-right: 30%; min-height: 156px; }
   .race-title { width: min(100%, 300px); margin: 10px 0 5px; }
   .race-lede { font-size: .83rem; line-height: 1.4; margin-top: 5px; }

@@ -54,7 +54,7 @@
           <div class="race-layout">
             <div class="race-intro">
               <p class="eyebrow race-kicker"><span class="mini-number" aria-label="Game 1">01</span> TEAM RELAY <span class="kicker-jp" lang="ja">台風の目</span></p>
-              <h1 id="race-title" class="race-title" tabindex="-1" data-pixel="TYPHOON|RACE"><span>Typhoon Race</span></h1>
+              <h1 id="race-title" class="race-title" tabindex="-1" data-pixel="TYPHOON|RACE" data-pixel-align="left"><span>Typhoon Race</span></h1>
               <p class="race-lede">Five players, one long pole. Spin around cone 1, U-turn at cone 2, sweep the pole under your team’s feet and over their heads, then pass it on.</p>
               <ul class="race-facts" aria-label="At a glance">
                 <li><strong>3</strong> teams</li>
@@ -79,15 +79,14 @@
 
       <section class="wrap how" aria-labelledby="how-title">
         <div class="how-heading">
-          <p class="eyebrow section-kicker"><span></span> STEP BY STEP</p>
           <h2 id="how-title">How to play</h2>
-          <p class="how-hint">Tap a card to play its animation.</p>
+          <p class="how-hint">Tap a card to play or pause its animation.</p>
         </div>
         <ol class="step-list" id="steps"></ol>
         <section class="course-panel" aria-labelledby="course-title">
           <div class="video-bar">
-            <h3 id="course-title"><span class="header-dot"></span> Whole course · top view</h3>
-            <span class="video-time">One full round</span>
+            <h3 id="course-title"><span class="header-dot"></span> Whole course</h3>
+            <span class="video-time">Top view</span>
           </div>
           <div class="course-body">
             <div class="course-field">
@@ -101,22 +100,16 @@
               <ol class="course-phases" id="course-phases" aria-label="Steps"></ol>
               <p class="course-now"><span class="course-now-label">NOW</span> <span id="course-caption"></span></p>
               <div class="course-speed" role="group" aria-label="Animation speed">
-                <span class="course-speed-label">SPEED</span>
                 <button class="speed-button" type="button" id="speed-down" aria-label="Slow down">« Slower</button>
                 <output class="speed-value" id="speed-value" aria-live="polite">1×</output>
                 <button class="speed-button" type="button" id="speed-up" aria-label="Speed up">Faster »</button>
               </div>
-              <p class="course-legend">
-                <span><span class="swatch" style="background: #f47748"></span><span class="swatch" style="background: #4a7fd4"></span><span class="swatch" style="background: #fffdf5"></span> 3 teams, one lane each</span>
-                <span>Cone positions are illustrative</span>
-              </p>
             </div>
           </div>
         </section>
       </section>
 
       <section class="wrap full-rules" aria-labelledby="full-rules-title">
-        <p class="eyebrow section-kicker"><span></span> GOOD TO KNOW</p>
         <h2 id="full-rules-title">Rules</h2>
         <div class="rule-grid">
           <article><h3>Teams and lanes</h3><p>All 3 teams run a continuous relay at the same time, one lane per team. Waiting groups stand in rows, one group per row. The front row goes next.</p></article>

@@ -17,7 +17,7 @@ Alternatively, run `vercel --prod` from the project folder with the Vercel CLI.
 ## Update the game guide
 
 - Edit the `games` array at the top of `dist/guide.js` to update game names. Give a game an `href` to make its card a link. Cards without one show as "Coming soon".
-- Edit the `steps` array in the same file to update the Typhoon Race "How to play" cards. All cards show at once; clicking a card plays its animation, and clicking it again stops it.
+- Edit the `steps` array in the same file to update the Typhoon Race "How to play" cards. All cards show at once. Click a card to play or pause its animation. Each card resumes from where it paused.
 - Below the cards, the **Whole course · top view** panel plays a full round in all three lanes on its own, pausing while it is scrolled off screen. Its **Slower / Faster** buttons step through the speeds in the `speeds` array (0.25× to 3×). Its captions are in the `coursePhases` array in `dist/guide.js`, the cone positions are in `CONES`, and the team colours are in `teamColors`.
 - Edit the **Rules**, **Points**, and **To be announced** sections in `dist/index.html` for the full rules. Remove items from **To be announced** once they are decided.
 - To change the video, edit the `data-src` of the `race-video` iframe in `dist/index.html`. The video loads only when the Typhoon Race page is open.
