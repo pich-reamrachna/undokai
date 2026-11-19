@@ -144,7 +144,6 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .video-frame { aspect-ratio: 16/9; background: var(--ink); }
 .video-frame iframe, .video-frame video { display: block; width: 100%; height: 100%; border: 0; }
 .video-frame video { object-fit: contain; background: var(--ink); }
-.beanbag-art { image-rendering: pixelated; }
 .how { padding-block: 38px 8px; display: grid; grid-template-columns: minmax(0,1fr); gap: 20px; }
 .how-hint { margin: 8px 0 0; color: var(--muted); font-size: .9rem; }
 .course-panel { border: 2px solid var(--ink); background: var(--white); box-shadow: 5px 5px var(--ink); margin-top: 10px; }
@@ -264,6 +263,7 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .ricon { width: 30px; height: 30px; padding: 5px; border: 2px solid var(--ink); background: #fff3c4; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: square; stroke-linejoin: miter; }
 .rule-grid p { margin: 0; color: var(--muted); line-height: 1.5; font-size: .88rem; }
 .rule-extras { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin-top: 30px; }
+.rule-extras > :only-child { grid-column: 1 / -1; }
 .score-card, .tba-card { border: 2px solid var(--ink); background: var(--white); padding: 16px 18px 20px; }
 .tba-card { border-style: dashed; border-color: #afa894; background: transparent; }
 .tie-card { border-style: solid; border-color: var(--ink); background: var(--white); }
@@ -283,7 +283,6 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .tba-list div { border-top: 1px dashed #c9c1aa; padding-top: 10px; }
 .tba-list dt { font-weight: 800; font-size: .92rem; display: flex; align-items: center; gap: 8px; }
 .tba-list dd { margin: 3px 0 0; color: var(--muted); font-size: .86rem; line-height: 1.45; }
-.tag { font: 800 .62rem var(--mono); letter-spacing: .1em; padding: 2px 5px; background: #eee7d6; border: 1px solid #d6cfbb; color: #7d402b; }
 @media (max-height: 760px) {
   .hero { --track-h: 112px; --fence-h: 80px; }
   .trees { --h: clamp(100px, 8vw, 150px); }

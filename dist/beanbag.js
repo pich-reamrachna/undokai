@@ -1,6 +1,6 @@
 "use strict";
 
-// Beanbag Toss: step-card scenes, the page illustration and the whole-field top view.
+// Beanbag Toss: step-card scenes and the whole-field top view.
 (() => {
   const team = teams[0].color;
   const organizerColor = "#4fae63";
@@ -32,7 +32,7 @@
     },
     {
       title: "Pick up and throw",
-      detail: "Throw into the basket from outside. Inside helpers toss fallen balls back to teammates outside. Helpers cannot throw into the basket.",
+      detail: "Throw into the basket from outside. Inside helpers toss fallen beanbags back to teammates outside. Helpers cannot throw into the basket.",
       scene: drawThrow, duration: 5600,
     },
     {
@@ -42,7 +42,7 @@
     },
     {
       title: "Stop at the end signal",
-      detail: "Everyone stops at the end signal. Only balls inside the basket count. A ball thrown after the signal doesn't count.",
+      detail: "Everyone stops at the end signal. Only beanbags inside the basket count. A beanbag thrown after the signal doesn't count.",
       scene: drawStop, duration: 5000,
     },
   ];
@@ -290,23 +290,6 @@
     });
   }
 
-  // Illustration beside the title: the organizer holds the basket as throwers score.
-  function drawArt(canvas) {
-    const ctx = canvas.getContext("2d");
-    for (let y = 46; y < 96; y++) {
-      const half = 78 * Math.sqrt(Math.max(0, 1 - ((y - 70) / 25) ** 2));
-      block(ctx, y % 6 < 3 ? "#a2d492" : "#aadb9b", 80 - half, y, half * 2, 1);
-    }
-    ring(ctx, "#fff7e0");
-    LINE.filter((_, k) => k % 3).forEach((spot, k) => ball(ctx, spot[0], spot[1], k));
-    basket(ctx, 3, false);
-    HELPERS.forEach((spot) => player(ctx, spot, "stand", 0));
-    player(ctx, [24, 76], "throw", 0);
-    player(ctx, [136, 78], "throw", 0);
-    referee(ctx, [148, 91]);
-    [[46, 18], [60, 8], [108, 12], [118, 26]].forEach(([x, y], k) => ball(ctx, x, y, k));
-  }
-
   // Top view: three teams' circles side by side, playing one compressed 2-minute match.
   const VW = 320;
   const VH = 196;
@@ -316,11 +299,11 @@
   const fieldPhases = [
     { id: "ready", ms: 1400, step: 0, caption: "Three teammates wait inside each circle. The organizer in green holds the basket." },
     { id: "whistle", ms: 700, step: 0, caption: "The whistle starts the match." },
-    { id: "throw", ms: 5200, step: 1, caption: "Pick up balls from the line and throw them into your basket from outside the circle." },
+    { id: "throw", ms: 5200, step: 1, caption: "Pick up beanbags from the line and throw them into your basket from outside the circle." },
     { id: "line", ms: 2400, step: 2, caption: "The purple referee warns the player to stay outside. An inside helper keeps their teammate behind the line." },
-    { id: "throw2", ms: 3000, step: 1, caption: "Inside helpers toss fallen balls back to teammates outside. Only outside throwers aim for the basket." },
-    { id: "stop", ms: 1600, step: 3, caption: "End signal: everyone stops. A ball thrown after it doesn't count." },
-    { id: "count", ms: 2600, step: 3, caption: "Only balls inside the basket count. Totals over all 4 matches decide the winner." },
+    { id: "throw2", ms: 3000, step: 1, caption: "Inside helpers toss fallen beanbags back to teammates outside. Only outside throwers aim for the basket." },
+    { id: "stop", ms: 1600, step: 3, caption: "End signal: everyone stops. A beanbag thrown after it doesn't count." },
+    { id: "count", ms: 2600, step: 3, caption: "Each beanbag that counts adds 1 to the match score. Rank teams by their total across all 4 matches." },
   ];
   const CYCLE = fieldPhases.reduce((total, phase) => total + phase.ms, 0);
   const PLAY_START = 2100;
@@ -575,7 +558,6 @@
     });
   }
 
-  drawArt(view.querySelector(".beanbag-art"));
   registerGuide({
     hash: "#beanbag-toss",
     title: "Beanbag Toss",

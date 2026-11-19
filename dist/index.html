@@ -168,7 +168,8 @@
         </div>
         <div class="rule-extras">
           <section class="score-card" aria-labelledby="score-title">
-            <h3 id="score-title">Points</h3>
+            <h3 id="score-title">Overall Point</h3>
+            <p class="score-note">Teams earn overall points based on the order their final sash groups cross back over the start line. The first team to finish earns 50 overall points.</p>
             <ol class="podium">
               <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
               <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
@@ -194,14 +195,14 @@
             <div class="race-intro">
               <p class="eyebrow race-kicker">TEAM THROW <span class="kicker-jp" lang="ja">玉入れ</span></p>
               <h1 id="bb-title" class="race-title" tabindex="-1" data-pixel="BEANBAG|TOSS" data-pixel-align="left"><span>Beanbag Toss</span></h1>
-              <p class="race-lede">Ten throwers per team, one basket, two minutes. Score from outside the circle while three teammates inside return fallen balls.</p>
+              <p class="race-lede">Ten throwers per team, one basket, two minutes. Score from outside the circle while three teammates inside return fallen beanbags.</p>
               <ul class="race-facts" aria-label="At a glance">
                 <li><strong>3</strong> teams</li>
                 <li><strong>10</strong> throwers per team</li>
                 <li><strong>4</strong> matches</li>
-                <li><strong>100</strong> balls each</li>
+                <li><strong>100</strong> beanbags each</li>
               </ul>
-              <canvas class="race-art beanbag-art" width="160" height="96" role="img" aria-label="Throwers aim at a basket held by an organizer in green. Three teammates help inside the circle, and a referee watches from outside."></canvas>
+              <img class="race-art" src="assets/tamaire.png" width="400" height="371" alt="Illustration of two players tossing beanbags toward a raised basket">
             </div>
             <section class="video-card" aria-labelledby="bb-video-title">
               <div class="video-bar">
@@ -244,7 +245,7 @@
                 </span>
               </div>
               <div class="beanbag-field-map">
-                <canvas width="320" height="196" role="img" aria-label="Top view of White Team, Red Team, and Blue Team. The green organizers hold the baskets. Three helpers in each team’s color return balls to throwers outside their circle. A referee or guide watches each team for fouls."></canvas>
+                <canvas width="320" height="196" role="img" aria-label="Top view of White Team, Red Team, and Blue Team. The green organizers hold the baskets. Three helpers in each team’s color return beanbags to throwers outside their circle. A referee or guide watches each team for fouls."></canvas>
                 <span class="course-label" style="left: 18.1%">White Team</span>
                 <span class="course-label" style="left: 50%">Red Team</span>
                 <span class="course-label" style="left: 81.9%">Blue Team</span>
@@ -253,7 +254,7 @@
             <div class="course-side">
               <ol class="course-phases" aria-label="Steps"></ol>
               <p class="course-now"><span class="course-now-label">NOW</span> <span class="course-caption"></span></p>
-              <ol class="team-scores" aria-label="Balls in each basket this match">
+              <ol class="team-scores" aria-label="Match scores by team">
                 <li><span class="team-name"><span class="swatch" style="background: #fffdf5"></span>White Team</span><b class="team-score">0</b><span class="team-rank"></span></li>
                 <li><span class="team-name"><span class="swatch" style="background: #e04848"></span>Red Team</span><b class="team-score">0</b><span class="team-rank"></span></li>
                 <li><span class="team-name"><span class="swatch" style="background: #4a7fd4"></span>Blue Team</span><b class="team-score">0</b><span class="team-rank"></span></li>
@@ -297,12 +298,12 @@
             </ul>
           </article>
           <article>
-            <h3>Balls</h3>
+            <h3>Beanbags</h3>
             <ul class="rule-list">
-              <li><svg class="ricon"><use href="#i-ball"/></svg><span><b>100</b> balls per team</span></li>
+              <li><svg class="ricon"><use href="#i-ball"/></svg><span><b>100</b> beanbags per team</span></li>
               <li><svg class="ricon"><use href="#i-line"/></svg><span>They start on the circle line</span></li>
-              <li><svg class="ricon"><use href="#i-repeat"/></svg><span>Pick up balls from the line. Throw from outside.</span></li>
-              <li><svg class="ricon"><use href="#i-colors"/></svg><span>Any ball color is fine</span></li>
+              <li><svg class="ricon"><use href="#i-repeat"/></svg><span>Pick up beanbags from the line. Throw from outside.</span></li>
+              <li><svg class="ricon"><use href="#i-colors"/></svg><span>Any beanbag color is fine</span></li>
             </ul>
           </article>
           <article>
@@ -310,7 +311,7 @@
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#i-circle"/></svg><span><b>5 m</b> circle around the basket</span></li>
               <li><svg class="ricon"><use href="#i-helper"/></svg><span><b>3</b> teammates help inside. The organizer in green holds the basket.</span></li>
-              <li><svg class="ricon"><use href="#i-back"/></svg><span>Helpers toss fallen balls back to teammates outside.</span></li>
+              <li><svg class="ricon"><use href="#i-back"/></svg><span>Helpers toss fallen beanbags back to teammates outside.</span></li>
               <li><svg class="ricon"><use href="#i-no"/></svg><span>Helpers keep other teammates outside and never throw into the basket.</span></li>
             </ul>
           </article>
@@ -318,7 +319,7 @@
             <h3>What counts</h3>
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#i-whistle"/></svg><span>Whistle starts and ends the match</span></li>
-              <li><svg class="ricon"><use href="#i-basket"/></svg><span>Only balls thrown into the basket from outside count.</span></li>
+              <li><svg class="ricon"><use href="#i-basket"/></svg><span>Only beanbags thrown into the basket from outside count.</span></li>
               <li><svg class="ricon"><use href="#i-late"/></svg><span>Thrown after the end? Doesn’t count.</span></li>
               <li><svg class="ricon"><use href="#i-helper"/></svg><span>One referee or guide per team watches for fouls.</span></li>
             </ul>
@@ -326,8 +327,8 @@
         </div>
         <div class="rule-extras">
           <section class="score-card" aria-labelledby="bb-score-title">
-            <h3 id="bb-score-title">Points</h3>
-            <p class="score-note">Balls from all 4 matches are added up.</p>
+            <h3 id="bb-score-title">Overall Point</h3>
+            <p class="score-note">1 beanbag is worth 1 match point. Add up the match points from all 4 matches. The team with the most match points takes 1st place and earns 50 overall points.</p>
             <ol class="podium">
               <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
               <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
@@ -459,19 +460,13 @@
         </div>
         <div class="rule-extras">
           <section class="score-card" aria-labelledby="cp-score-title">
-            <h3 id="cp-score-title">Points</h3>
-            <p class="score-note">Ranked by finish order: the team whose 6th group finishes first wins. No stopwatch.</p>
+            <h3 id="cp-score-title">Overall Point</h3>
+            <p class="score-note">Teams earn overall points based on the order they finish.</p>
             <ol class="podium">
               <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
               <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
               <li class="place-3"><span class="place">3rd</span><span class="bar"><strong>20</strong> pts</span></li>
             </ol>
-          </section>
-          <section class="tba-card" aria-labelledby="cp-tba-title">
-            <h3 id="cp-tba-title">To be announced</h3>
-            <dl class="tba-list">
-              <div><dt>Who runs <span class="tag">TBA</span></dt><dd>Leader picks, volunteers, or random.</dd></div>
-            </dl>
           </section>
         </div>
       </section>
@@ -581,8 +576,8 @@
         </div>
         <div class="rule-extras">
           <section class="score-card" aria-labelledby="dsc-score-title">
-            <h3 id="dsc-score-title">Points</h3>
-            <p class="score-note">Record each set win and its time. The MC announces the totals, and teams are ranked by set wins across both rounds.</p>
+            <h3 id="dsc-score-title">Overall Point</h3>
+            <p class="score-note">Record each set win and its time. The MC announces the total wins from both rounds. The team with the most set wins takes 1st place and earns 50 overall points.</p>
             <ol class="podium">
               <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
               <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
