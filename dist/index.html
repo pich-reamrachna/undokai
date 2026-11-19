@@ -8,6 +8,7 @@
   <title>Game Rules | Undokai 2026</title>
   <link rel="stylesheet" href="styles.css">
   <script src="translations.js" defer></script>
+  <script src="music.js" defer></script>
   <script src="guide.js" defer></script>
   <script src="typhoon.js" defer></script>
   <script src="beanbag.js" defer></script>
@@ -18,13 +19,26 @@
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="./" aria-label="Undokai 2026 home"><img src="assets/undokai-logo.webp" width="398" height="202" alt="Undokai 2026"></a>
-      <div class="language-toggle" role="group" aria-label="Language" hidden>
-        <button type="button" lang="en" data-language="en" aria-pressed="true">English</button>
-        <button type="button" lang="ja" data-language="ja" aria-pressed="false">日本語</button>
+      <a class="brand" href="#" aria-label="Undokai 2026 home"><img src="assets/undokai-logo.webp" width="398" height="202" alt="Undokai 2026"></a>
+      <div class="header-controls">
+        <div class="music-controls" role="group" aria-label="Music controls" hidden>
+          <button class="music-toggle" type="button" aria-label="Background music" aria-pressed="false">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9h4l5-4v14l-5-4H3z"/>
+              <path class="music-waves" d="M16 9a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12"/>
+              <path class="music-muted" d="m16 10 5 5m0-5-5 5"/>
+            </svg>
+          </button>
+          <input class="music-volume" type="range" min="0" max="100" value="30" aria-label="Music volume">
+        </div>
+        <div class="language-toggle" role="group" aria-label="Language" hidden>
+          <button type="button" lang="en" data-language="en" aria-pressed="true">English</button>
+          <button type="button" lang="ja" data-language="ja" aria-pressed="false">日本語</button>
+        </div>
       </div>
     </div>
   </header>
+  <audio id="background-music" src="assets/Driftveil%20City%208%20Bit%20Remix.m4a" preload="none" loop hidden></audio>
 
   <main id="main" tabindex="-1">
     <div id="home-view">

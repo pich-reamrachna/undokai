@@ -36,12 +36,19 @@ main:focus, .race-title:focus { outline: none; }
 .skip:focus { transform: translateY(0); }
 .site-header { background: var(--white); border-bottom: 2px solid var(--ink); position: sticky; inset-block-start: 0; z-index: 1; }
 .header-inner { height: 75px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-inline: clamp(24px, 4vw, 64px); }
+.header-controls { display: flex; align-items: center; gap: 12px; flex: none; }
+.music-controls { display: flex; align-items: center; gap: 6px; padding-inline-end: 6px; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); }
+.music-toggle { display: grid; width: 36px; height: 36px; place-items: center; padding: 0; border: 0; border-inline-end: 2px solid var(--ink); background: transparent; }
+.music-toggle[aria-pressed="true"] { background: var(--yellow); }
+.music-toggle:hover { background: #fff0a6; }
+.music-toggle[aria-pressed="false"] .music-waves, .music-toggle[aria-pressed="true"] .music-muted { display: none; }
+.music-volume { width: 84px; height: 32px; margin: 0; accent-color: var(--ink); cursor: pointer; }
 .language-toggle { display: inline-flex; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); }
 .language-toggle button { min-height: 36px; padding: 4px 10px; border: 0; background: transparent; font: 700 .8rem var(--sans); }
 .language-toggle button + button { border-left: 2px solid var(--ink); }
 .language-toggle button[aria-pressed="true"] { background: var(--yellow); }
 .language-toggle button:hover { background: #fff0a6; }
-.brand { width: 134px; display: block; }
+.brand { width: 134px; min-width: 0; display: block; }
 .brand img { width: 100%; height: auto; }
 html[lang="ja"] { --sans: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; --mono: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; --muted: #374055; }
 html[lang="ja"] .kicker-jp { display: none; }
@@ -323,7 +330,12 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 }
 @media (max-width: 650px) {
   .wrap { width: calc(100% - 32px); }
-  .header-inner { height: 63px; padding-inline: 20px; }
+  .header-inner { height: 63px; gap: 8px; padding-inline: clamp(10px, 4vw, 20px); }
+  .header-controls { gap: 8px; }
+  .music-toggle { width: 32px; height: 32px; }
+  .music-toggle svg { width: 17px; height: 17px; }
+  .music-volume { width: clamp(38px, 13vw, 66px); height: 28px; }
+  .language-toggle button { min-height: 32px; padding: 3px 8px; font-size: .75rem; }
   .brand { width: 109px; }
   :root { --header-h: 65px; }
   .hero { --track-h: 96px; --fence-h: 68px; }

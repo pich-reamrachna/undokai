@@ -2,6 +2,11 @@
 
 const japaneseCopy = {
   "Language": "言語",
+  "Music controls": "音楽の操作",
+  "Background music": "BGM",
+  "Music volume": "BGMの音量",
+  "Turn music on": "BGMをオンにする",
+  "Turn music off": "BGMをオフにする",
   "Skip to content": "本文へ移動",
   "UNDOKAI 2026": "運動会 2026",
   "Undokai 2026": "運動会 2026",
