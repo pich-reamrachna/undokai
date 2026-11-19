@@ -156,7 +156,7 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .step-card { min-width: 0; border: 2px solid var(--ink); background: var(--white); cursor: pointer; transition: background-color .25s, box-shadow .25s, transform .25s; }
 .step-card.current { background: #fff6cc; box-shadow: 4px 4px var(--ink); transform: translate(-2px,-2px); }
 .step-media { position: relative; border-bottom: 2px solid var(--ink); background: #e5a16f; }
-.step-media canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+.step-media canvas { display: block; width: 100%; height: auto; }
 .step-play { position: absolute; right: 8px; top: 8px; width: 34px; height: 34px; padding: 0; display: grid; place-items: center; border: 2px solid var(--ink); background: var(--yellow); box-shadow: 2px 2px var(--ink); font: 800 .8rem var(--mono); }
 .current .step-play { background: var(--white); }
 .step-text { padding: 11px 12px 14px; }

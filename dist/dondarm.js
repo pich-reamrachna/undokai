@@ -4,13 +4,14 @@
 (() => {
   const center = [80, 52];
   const radius = 36;
-  const groupSize = 15;
+  const groupSize = 10;
   const firstNumber = 1;
   const extraNumber = 7;
-  const rosters = [2.63, 0.51, 4.71].map((middle) =>
+  const rosters = [2.75, 0.66, 4.85].map((middle) =>
     Array.from({ length: groupSize }, (_, i) => {
-      const angle = middle + lerp(-0.88, 0.88, i / (groupSize - 1));
-      return [center[0] + 63 * Math.cos(angle), center[1] + 42 * Math.sin(angle)];
+      const angle = middle + lerp(-0.82, 0.82, i / (groupSize - 1));
+      const distance = radius + 5;
+      return [center[0] + distance * Math.cos(angle), center[1] + distance * Math.sin(angle)];
     }),
   );
   const atBranch = [[75, 53], [85, 53], [82, 40]];
@@ -22,9 +23,8 @@
   const winner = ({ name, color }) => ({ label: `${name.toUpperCase()} WINS`, color });
   const noWinner = { label: "NO WINNER", color: "#ffe079" };
 
-  function drawCircle(ctx, { players = [], holders = [], number = firstNumber, helpers = [], additionalNumber, remaining, result }) {
+  function drawCircle(ctx, { players = [], holders = [], number = firstNumber, helpers = [], additionalNumber, remaining, result, labelSize = 9 }) {
     ctx.save();
-    ctx.scale(ctx.canvas.width / W, ctx.canvas.height / H);
     block(ctx, "#b9e3a8", 0, 0, W, H);
     for (let x = 0; x < W; x += 24) block(ctx, "#b0dba0", x, 13, 12, H - 13);
 
@@ -52,9 +52,8 @@
     block(ctx, "#376437", x + 3, y - 3, 3, 2);
 
     ctx.fillStyle = ink;
-    ctx.font = "bold 7px monospace";
+    ctx.font = `bold ${labelSize}px monospace`;
     ctx.textBaseline = "top";
-    ctx.fillText("7 M RADIUS", 5, 87);
     ctx.fillText("CALL #" + number + (additionalNumber ? " + #" + additionalNumber : ""), 5, 4);
     if (remaining !== undefined) {
       ctx.textAlign = "right";
@@ -63,12 +62,14 @@
     }
     if (result) {
       const badgeWidth = Math.ceil(ctx.measureText(result.label).width) + 8;
+      const badgeHeight = labelSize + 4;
       const badgeX = W - 4 - badgeWidth;
-      block(ctx, ink, badgeX, 84, badgeWidth, 11);
-      block(ctx, result.color, badgeX + 1, 85, badgeWidth - 2, 9);
+      const badgeY = H - 1 - badgeHeight;
+      block(ctx, ink, badgeX, badgeY, badgeWidth, badgeHeight);
+      block(ctx, result.color, badgeX + 1, badgeY + 1, badgeWidth - 2, badgeHeight - 2);
       ctx.fillStyle = "#080812";
       ctx.textAlign = "right";
-      ctx.fillText(result.label, W - 8, 86);
+      ctx.fillText(result.label, W - 8, badgeY + 2);
     }
     ctx.restore();
   }
@@ -152,7 +153,7 @@
       end: assistedFinish,
       still: 4100,
       phases: [
-        { until: 1000, step: 0, caption: "One group of 15 from each team waits around the circle. The first call is number 1." },
+        { until: 1000, step: 0, caption: `One group of ${groupSize} from each team waits near the circle’s edge. The first call is number 1.` },
         { until: additionalCall, step: 0, caption: "The three number 1 players stop near the branch. Nobody picks it up." },
         { until: pickup, step: 0, caption: "The game master calls number 7. One more player from each team joins the players already inside." },
         { until: assistedFinish, step: 2, caption: `${teams[0].name}’s number 7 takes the branch. Their number 1 blocks an opponent’s path without pushing.` },
@@ -213,7 +214,10 @@
     const example = selectedExample;
     const elapsed = time % exampleDuration;
     const seconds = example.timeout ? progress(elapsed, 0, example.end) * 90 : Math.min(elapsed, example.end) / 1000;
-    drawCircle(ctx, { ...example.state(elapsed, example.number), number: example.number, remaining: 90 - Math.floor(seconds) });
+    ctx.save();
+    ctx.scale(ctx.canvas.width / W, ctx.canvas.height / H);
+    drawCircle(ctx, { ...example.state(elapsed, example.number), number: example.number, remaining: 90 - Math.floor(seconds), labelSize: 7 });
+    ctx.restore();
   }
 
   function phaseAt(time) {

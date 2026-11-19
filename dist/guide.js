@@ -236,6 +236,7 @@ function topPlayer(ctx, [x, y], color, pose) {
 // Step cards: all visible; clicking a card plays or pauses its animation, one at a time,
 // and each card resumes from where it was paused.
 function createSteps(view, steps) {
+  const renderScale = 3;
   const contexts = [];
   const cards = steps.map((step, index) => {
     const card = document.createElement("li");
@@ -243,10 +244,12 @@ function createSteps(view, steps) {
     const media = document.createElement("div");
     media.className = "step-media";
     const scene = document.createElement("canvas");
-    scene.width = W;
-    scene.height = H;
+    scene.width = W * renderScale;
+    scene.height = H * renderScale;
     scene.setAttribute("aria-hidden", "true");
-    contexts.push(scene.getContext("2d"));
+    const context = scene.getContext("2d");
+    context.scale(renderScale, renderScale);
+    contexts.push(context);
     // The play badge is the keyboard-reachable control; its clicks bubble up to the card.
     const play = document.createElement("button");
     play.type = "button";

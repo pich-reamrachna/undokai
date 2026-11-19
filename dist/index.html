@@ -318,10 +318,12 @@
             </div>
             <section class="video-card" aria-labelledby="cp-video-title">
               <div class="video-bar">
-                <h2 id="cp-video-title"><span class="header-dot"></span> Watch a round</h2>
-                <span class="video-time">Coming soon</span>
+                <h2 id="cp-video-title"><span class="header-dot"></span> Watch a clip</h2>
+                <span class="video-time">0:17</span>
               </div>
-              <div class="video-frame video-empty"><p>Video coming soon</p></div>
+              <div class="video-frame">
+                <video src="assets/centipede.mp4" controls playsinline preload="metadata" aria-label="Centipede Race example clip"></video>
+              </div>
             </section>
           </div>
         </div>
@@ -444,7 +446,7 @@
               <p class="race-lede">When your number is called, run into the circle. Grab the branch and carry it to the edge before an opponent tags you.</p>
               <ul class="race-facts" aria-label="At a glance">
                 <li><strong>3</strong> teams</li>
-                <li><strong>2 × 15</strong> players per team</li>
+                <li><strong>2 × 10</strong> players per team</li>
                 <li><strong>7 m</strong> radius</li>
                 <li><strong>90 s</strong> per round</li>
               </ul>
@@ -475,7 +477,7 @@
           <div class="course-scenarios" role="group" aria-label="Choose a scenario"></div>
           <div class="course-body">
             <div class="course-field">
-              <canvas width="320" height="192" role="img" aria-label="Illustrated rounds inside a circle with a 7 meter radius. One group each from White Team, Red Team, and Blue Team waits around the edge. Players enter as their numbers are called. The examples show additional players called in during a stalemate, a goal, a tag, and a timeout."></canvas>
+              <canvas width="320" height="192" role="img" aria-label="Illustrated rounds inside the circle. One group of 10 each from White Team, Red Team, and Blue Team waits near the edge. Players enter as their numbers are called. The examples show additional players called in during a stalemate, a goal, a tag, and a timeout."></canvas>
             </div>
             <div class="course-side">
               <ol class="course-phases" aria-label="Steps"></ol>
@@ -493,28 +495,67 @@
 
       <section class="wrap full-rules" aria-labelledby="dsc-rules-title">
         <h2 id="dsc-rules-title">Rules</h2>
+        <svg class="icon-sprite" aria-hidden="true" focusable="false">
+          <symbol id="dsc-number-icon" viewBox="0 0 24 24"><path d="M10 4L6 20M18 4l-4 16M4 9h17M3 15h17"/></symbol>
+          <symbol id="dsc-branch-icon" viewBox="0 0 24 24"><path d="M4 20L20 4M11 13V6m3 4h6M7 17v-5"/></symbol>
+          <symbol id="dsc-tag-icon" viewBox="0 0 24 24"><path d="M4 4h8l8 8-8 8-8-8z"/><circle cx="8" cy="8" r="1"/></symbol>
+          <symbol id="dsc-shield-icon" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4-3 7-8 9-5-2-8-5-8-9V7z"/></symbol>
+        </svg>
         <div class="rule-grid">
-          <article><h3>Teams, groups, and rounds</h3><p>White Team, Red Team, and Blue Team each have 30 players split into two groups of 15. One group per team plays at a time, with its players waiting around the circle. Number the players in each group from 1 to 15. Each player has one scheduled round, so each group plays 15 rounds. Each round has a fixed number of sets, to be decided.</p></article>
-          <article><h3>Calling numbers</h3><p>The game master calls number 1 first in round 1. The other numbers are called in random order. Each team’s player with the called number enters to retrieve the branch. If all teams are waiting or play reaches a stalemate, the game master can call additional numbers one at a time. Players with each newly called number join the players already in the circle to help retrieve the branch safely.</p></article>
-          <article><h3>Taking the branch</h3><p>The branch starts in the center of the circle. Whoever grabs it first holds it, and opponents may steal it. If players grab it at the same instant, they may pull, tug, or let go. Any player with a hand on the branch can be tagged. Players may block opponents to shield their teammates. Pushing any player or tackling is prohibited.</p></article>
-          <article><h3>Winning a round</h3><p>The circle has a 7 m radius. If the carrier reaches the edge, their team wins. If an opponent tags the carrier before the edge, the tagger’s team wins. Only one team can win a round. If nobody wins within 90 seconds, the round has no winner.</p></article>
+          <article>
+            <h3>Teams &amp; groups</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-teams"/></svg><span>White Team, Red Team, and Blue Team</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-player"/></svg><span><b>2</b> groups of <b>10</b> per team. One group from each team plays at a time.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-line"/></svg><span>Line up side by side near the edge.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-calendar"/></svg><span><b>10</b> rounds per group, one scheduled per player.</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Calling numbers</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-number-icon"/></svg><span>Number players <b>1–10</b>. Round <b>1</b> starts with number <b>1</b>.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-dice"/></svg><span>Call the other numbers in random order.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-whistle"/></svg><span>On each call, one player with that number enters per team.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-helper"/></svg><span>Stalemate? The game master may call extra numbers one at a time to help retrieve the branch.</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Taking the branch</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-branch-icon"/></svg><span>First to grab the branch in the center holds it.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-hand"/></svg><span>Stealing is allowed. Grab it together? Tug or let go.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-tag-icon"/></svg><span>Anyone touching the branch can be tagged.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-shield-icon"/></svg><span>Block opponents to shield teammates.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-no"/></svg><span>No pushing or tackling anyone.</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Winning a round</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-circle"/></svg><span><b>7 m</b> radius. The circle’s edge is the goal.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-ok"/></svg><span>Carry the branch to the edge to win.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-tag-icon"/></svg><span>Tag the carrier before they reach the edge. Your team wins.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-clock"/></svg><span>Only one team can win. No winner if the <b>90-second</b> clock runs out.</span></li>
+            </ul>
+          </article>
         </div>
         <div class="rule-extras">
           <section class="score-card" aria-labelledby="dsc-score-title">
             <h3 id="dsc-score-title">Points</h3>
-            <p class="score-note">Record each team’s round wins and the time of each win. The MC announces the win totals at the end, and teams are ranked by number of wins.</p>
+            <p class="score-note">Record each win and its time. Rank teams by total wins. The MC announces the totals at the end.</p>
             <ol class="podium">
               <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
               <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
               <li class="place-3"><span class="place">3rd</span><span class="bar"><strong>20</strong> pts</span></li>
             </ol>
-            <p class="score-note"><strong>Tiebreaker.</strong> If win totals are tied, play one final round with three players. Each team chooses one player.</p>
+            <p class="score-note"><strong>Tiebreaker.</strong> If wins are tied, each team picks one player for a final round.</p>
           </section>
           <section class="tba-card" aria-labelledby="dsc-tba-title">
             <h3 id="dsc-tba-title">To be announced</h3>
             <dl class="tba-list">
               <div><dt>Number of circles per game <span class="tag">TBD</span></dt></div>
-              <div><dt>Number of sets per round <span class="tag">TBD</span></dt></div>
+              <div><dt>Number of sets per round <span class="tag">TBD</span></dt><dd>Every round will have the same number of sets.</dd></div>
               <div><dt>What counts as a tag <span class="tag">TBD</span></dt></div>
               <div><dt>Start positions <span class="tag">TBD</span></dt></div>
               <div><dt>Whether teams have separate goal edges <span class="tag">TBD</span></dt></div>
