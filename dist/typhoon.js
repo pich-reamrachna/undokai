@@ -2,7 +2,7 @@
 
 // Typhoon Race: step-card scenes and the whole-course top view.
 (() => {
-  const racing = teamColors[0];
+  const racing = teams[0].color;
   const waiting = "#fff0a2";
   const nextUp = "#f7e282";
 
@@ -275,7 +275,7 @@
 
   function drawLane(ctx, lane, time) {
     const c = 52 + lane * 76;
-    const color = teamColors[lane];
+    const color = teams[lane].color;
     const [phase, p] = phaseAt(time - laneOffsets[lane]);
     const e = ease(p);
     const finished = [];
@@ -361,6 +361,9 @@
       }
       CONES.forEach((x) => topCone(ctx, x, c));
       drawLane(ctx, lane, time);
+      ctx.fillStyle = ink;
+      ctx.font = "bold 8px monospace";
+      ctx.fillText(teams[lane].name, 5, c - 24);
     }
   }
 

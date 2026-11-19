@@ -1,14 +1,14 @@
 "use strict";
 
 // Shared parts of the guide: the home page, pixel-art helpers, step cards, the top-view
-// panel and page switching. Each game's scenes live in their own file (typhoon.js,
-// beanbag.js, centipede.js) and register themselves with registerGuide().
+// panel and page switching. Each game's scenes live in their own file and register
+// themselves with registerGuide().
 
 const games = [
   { title: "Typhoon Race", href: "#typhoon-race" },
   { title: "Beanbag Toss", href: "#beanbag-toss" },
   { title: "Centipede Race", href: "#centipede-race" },
-  { title: "Game 4" },
+  { title: "Dondarm Slerk Cher", href: "#dondarm-slerk-cher" },
 ];
 
 const select = (id) => document.getElementById(id);
@@ -24,6 +24,7 @@ const glyphs = {
   G: ["01110","11011","11000","11000","11011","11011","01110"],
   H: ["11011","11011","11011","11111","11011","11011","11011"],
   I: ["11111","01110","01110","01110","01110","01110","11111"],
+  K: ["11001","11010","11100","11000","11100","11010","11001"],
   L: ["11000","11000","11000","11000","11000","11000","11111"],
   M: ["10001","11011","11111","10101","10001","10001","10001"],
   N: ["10001","11001","11001","10101","10011","10011","10001"],
@@ -50,6 +51,7 @@ function drawTitle(title) {
   lines.forEach((line, lineIndex) => {
     const inset = alignLeft ? 2 : Math.floor((width - (line.length * 6 - 1) * unit) / 2) + 2;
     [...line].forEach((letter, letterIndex) => {
+      if (letter === " ") return;
       glyphs[letter].forEach((row, y) => {
         [...row].forEach((cell, x) => {
           if (cell === "1") pixels.push([inset + (letterIndex * 6 + x) * unit, 3 + (lineIndex * 9 + y) * unit, lineIndex]);
@@ -175,7 +177,11 @@ games.forEach((game) => {
 const W = 160;
 const H = 96;
 const ink = "#282a49";
-const teamColors = ["#e04848", "#4a7fd4", "#fffdf5"];
+const teams = [
+  { name: "White Team", color: "#fffdf5" },
+  { name: "Red Team", color: "#e04848" },
+  { name: "Blue Team", color: "#4a7fd4" },
+];
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 const lerp = (a, b, p) => a + (b - a) * p;
 const mix = (a, b, p) => [lerp(a[0], b[0], p), lerp(a[1], b[1], p)];
@@ -367,7 +373,13 @@ function createOverview(view, { steps, draw, phaseAt, still = 0, onRender }) {
     start();
   }).observe(canvas);
 
-  return { start };
+  function restart(stillTime = still) {
+    clock = 0;
+    render(reducedMotion.matches ? stillTime : 0);
+    start();
+  }
+
+  return { start, restart };
 }
 
 // Game pages register here; the router shows the page that matches the URL hash.

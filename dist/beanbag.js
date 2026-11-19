@@ -2,7 +2,7 @@
 
 // Beanbag Toss: step-card scenes, the page illustration and the whole-field top view.
 (() => {
-  const team = teamColors[0];
+  const team = teams[0].color;
   const volunteerColor = "#4fae63";
   const ballColors = ["#e8503a", "#fffaf0"];
   const skin = "#f4c39a";
@@ -350,7 +350,7 @@
         throws.push({ k, angle, pick, start, scored, miss, out, helper: nearestIndex(helperHomes[teamIndex], miss) });
       }
     }
-    // A throw made after the end signal (team 1 only), to show that it doesn't count.
+    // White Team demonstrates a throw after the end signal, which doesn't count.
     if (teamIndex === 0) {
       const angle = (4 / 10) * Math.PI * 2 + Math.PI / 10;
       throws.push({ k: 4, angle, pick: PLAY_END + 100, start: PLAY_END + 300, late: true, rest: [cx + 12, cy - 10] });
@@ -422,7 +422,7 @@
     block(ctx, "#fff7e0", 0, 14, VW, 1);
     CENTERS.forEach((center, teamIndex) => {
       const [cx, cy] = center;
-      const color = teamColors[teamIndex];
+      const color = teams[teamIndex].color;
       const { ground, valid, returns } = simulate(teamIndex, t);
       const someoneInside = teamIndex === 1 && t >= INSIDE[0] + 600 && t < INSIDE[0] + 1500;
       const lineColor = someoneInside && Math.floor(t / 120) % 2 === 0 ? red : "#fff7e0";

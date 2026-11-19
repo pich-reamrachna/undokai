@@ -124,6 +124,8 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .how { padding-block: 38px 8px; display: grid; grid-template-columns: minmax(0,1fr); gap: 20px; }
 .how-hint { margin: 8px 0 0; color: var(--muted); font-size: .9rem; }
 .course-panel { border: 2px solid var(--ink); background: var(--white); box-shadow: 5px 5px var(--ink); margin-top: 10px; }
+.course-scenarios { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border-bottom: 2px solid var(--ink); }
+.course-scenarios button[aria-pressed="true"] { background: var(--yellow); }
 .course-body { display: grid; grid-template-columns: minmax(0,1.75fr) minmax(0,1fr); }
 .course-field { position: relative; background: #b9e3a8; }
 .course-field canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }

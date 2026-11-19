@@ -2,7 +2,7 @@
 
 // Centipede Race: step-card scenes, the page illustration and the whole-field top view.
 (() => {
-  const team = teamColors[0];
+  const team = teams[0].color;
   const nextUp = "#fff0a2";
   const red = "#e8503a";
   const SPACING = 12;
@@ -186,10 +186,10 @@
     { time: READY, step: 1, caption: "Go! Group 1 walks to the first handoff point, one lane per team." },
     { time: schedules[firstTeam][0].arrive, step: 2, caption: "Group 1 steps aside. Group 2 takes the planks and continues toward the finish." },
     { time: schedules[firstTeam][1].start + 400, step: 1, caption: "Every group walks the same distance in the same direction." },
-    { time: stumble.stumble, step: 3, caption: "Team 2’s planks came apart. Put them back on and carry on from the same spot. No penalty." },
+    { time: stumble.stumble, step: 3, caption: `${teams[STUMBLE.team].name}’s planks came apart. Put them back on and carry on from the same spot. No penalty.` },
     { time: stumble.stumble + STUMBLE.ms, step: 1, caption: "The waiting groups take over at the next handoff points down the field." },
     { time: schedules[firstTeam][GROUPS - 1].start, step: 1, caption: "Group 6 takes the planks for the final leg to the finish line." },
-    { time: finishes[firstTeam], step: -1, caption: "Team " + (firstTeam + 1) + "’s 6th group finishes first." },
+    { time: finishes[firstTeam], step: -1, caption: `${teams[firstTeam].name}’s 6th group finishes first.` },
     { time: Math.max(...finishes), step: -1, caption: "Ranked by finish order: 1st gets 50 points, 2nd 40, 3rd 20. No stopwatch." },
   ].sort((a, b) => a.time - b.time);
   const local = (time) => ((time % CYCLE) + CYCLE) % CYCLE;
@@ -224,7 +224,7 @@
 
   function drawLane(ctx, teamIndex, t, { group, x, stalled }) {
     const c = LANES[teamIndex];
-    const color = teamColors[teamIndex];
+    const color = teams[teamIndex].color;
     const legs = schedules[teamIndex];
     for (let g = 0; g < GROUPS; g++) {
       const leg = legs[g];
@@ -282,7 +282,7 @@
     }
     positions.forEach(({ x }, teamIndex) => {
       block(ctx, ink, mapX(x) - 2, 14 + teamIndex * 3, 5, 3);
-      block(ctx, teamColors[teamIndex], mapX(x) - 1, 15 + teamIndex * 3, 3, 1);
+      block(ctx, teams[teamIndex].color, mapX(x) - 1, 15 + teamIndex * 3, 3, 1);
     });
     ctx.textAlign = "start";
   }
