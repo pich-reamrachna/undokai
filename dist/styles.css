@@ -50,10 +50,16 @@ main:focus, .race-title:focus { outline: none; }
 .flag-cat .flag-strip { animation: flag-wave 1s steps(5, jump-none) infinite alternate; }
 @keyframes flag-wave { from { transform: translateY(calc(var(--amp) * -1)); } to { transform: translateY(var(--amp)); } }
 /* The cat runs on the spot: it flips between its drawing and a smear frame, bobbing with each step. */
-.cat-runner { position: absolute; left: 58%; bottom: calc(var(--track-h) * .1); width: calc(var(--track-h) * 1.2); aspect-ratio: 361 / 355; animation: cat-bob .28s steps(1) infinite; }
+.cat-runner { position: absolute; left: 56%; bottom: calc(var(--track-h) * .1); width: calc(var(--track-h) * 1.2); aspect-ratio: 361 / 355; animation: cat-bob .28s steps(1) infinite; }
 .cat-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
 .cat-frame-1 { animation: cat-frame-1 .28s steps(1) infinite; }
 .cat-frame-2 { animation: cat-frame-2 .28s steps(1) infinite; }
+/* Three runners, one per team colour, on different lanes: further back means higher and smaller.
+   Their step cycles are offset so they don't run in step with each other. */
+.runner-red { left: 47%; bottom: calc(var(--track-h) * .46); width: var(--track-h); }
+.runner-grey { left: 66%; bottom: calc(var(--track-h) * .27); width: calc(var(--track-h) * 1.1); }
+.runner-red, .runner-red .cat-frame { animation-delay: -.09s; }
+.runner-grey, .runner-grey .cat-frame { animation-delay: -.19s; }
 @keyframes cat-bob { 0% { transform: translateY(0); } 50% { transform: translateY(-6%); } }
 @keyframes cat-frame-1 { 0% { opacity: 1; } 50% { opacity: 0; } }
 @keyframes cat-frame-2 { 0% { opacity: 0; } 50% { opacity: 1; } }
@@ -219,7 +225,9 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .clouds-near { --h: 150px; top: 18px; }
   .clouds-far { --h: 60px; top: 110px; }
   .trees { --h: 110px; }
-  .cat-runner { left: auto; right: 10%; }
+  .runner-blue { left: 56%; }
+  .runner-red { left: 18%; }
+  .runner-grey { left: 38%; }
   .game-grid { gap: 8px; }
   .game-card { gap: 6px; padding: 9px 10px; min-height: 64px; }
   .game-card.active { padding: 8px 9px; box-shadow: 2px 2px var(--ink); }
