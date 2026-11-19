@@ -31,18 +31,36 @@ main:focus, .race-title:focus { outline: none; }
 .brand img { width: 100%; height: auto; }
 .eyebrow, .footer-inner { font-family: var(--mono); font-weight: 700; }
 .header-dot { background: #ee8348; display: inline-block; width: 8px; height: 8px; flex: 0 0 8px; }
-.hero { --track-h: 144px; --fence-h: 101px; --reserve: 226px; min-height: calc(100svh - var(--header-h)); position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; text-align: center; background: linear-gradient(165deg,#91d8e5,#c9f1ec 82%); border-bottom: 2px solid var(--ink); }
+.hero { --track-h: 144px; --fence-h: 101px; --reserve: 244px; min-height: calc(100svh - var(--header-h)); position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; text-align: center; background: linear-gradient(165deg,#91d8e5,#c9f1ec 82%); border-bottom: 2px solid var(--ink); }
 .scene { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 .cloud { position: absolute; image-rendering: pixelated; height: auto; }
-.cloud-left { width: clamp(220px, 22vw, 351px); top: 64px; left: max(16px, calc(50% - 780px)); transform: scaleX(-1); }
-.cloud-right { width: clamp(260px, 26vw, 436px); top: 52px; right: max(16px, calc(50% - 800px)); }
-.cloud-small { width: clamp(130px, 11vw, 178px); top: 240px; right: max(40px, calc(50% - 560px)); opacity: .48; transform: scaleX(-1); }
-.fence { position: absolute; inset: auto 0 calc(var(--track-h) - 4px); height: var(--fence-h); background: url(assets/fence.png) repeat-x left bottom / auto 100%; }
-.track { position: absolute; inset: auto 0 0; height: var(--track-h); background: #d9673f repeat-x left top / auto 100%; image-rendering: pixelated; }
+/* Scenery scrolls past behind the cat: each layer repeats a tile sideways at its own speed,
+   slow far away (clouds) and fast up close (track), so the cat looks like it is running. */
+.scroll { position: absolute; left: 0; right: 0; background-repeat: repeat-x; background-size: auto 100%; background-position: 0 bottom; image-rendering: pixelated; animation: scroll var(--dur) linear infinite; }
+@keyframes scroll { from { background-position-x: 0; } to { background-position-x: var(--tile); } }
+.clouds-far { --h: 96px; --tile: calc(var(--h) * 6.5625); --dur: 64s; top: 132px; height: var(--h); background-image: url(assets/clouds-strip.png); opacity: .55; }
+.clouds-near { --h: 256px; --tile: calc(var(--h) * 6.5625); --dur: 56s; top: 24px; height: var(--h); background-image: url(assets/clouds-strip.png); background-position: 0 top; }
+.trees { --h: clamp(150px, 15vw, 279px); --tile: calc(var(--h) * 7.168); --dur: 20s; bottom: calc(var(--track-h) - 8px); height: var(--h); background-image: url(assets/trees-strip.png); }
+.fence { --tile: calc(var(--fence-h) * 4.525); --dur: 1.9s; bottom: calc(var(--track-h) - 4px); height: var(--fence-h); background-image: url(assets/fence.png); }
+.track { --tile: calc(var(--track-h) * 1.3333); --dur: .8s; bottom: 0; height: var(--track-h); background-color: #d9673f; background-position: 0 top; }
+/* The flag cat stands still on the far lane and slides past with the track (moved by guide.js).
+   Its flag is cut into thin columns that bob one after another, so a wave rolls to the right. */
+.flag-cat { position: absolute; left: 0; bottom: calc(var(--track-h) * .8); height: calc(var(--track-h) * 1.32); aspect-ratio: 558 / 507; will-change: transform; }
+.flag-cat img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.flag-cat .flag-strip { animation: flag-wave 1s steps(5, jump-none) infinite alternate; }
+@keyframes flag-wave { from { transform: translateY(calc(var(--amp) * -1)); } to { transform: translateY(var(--amp)); } }
+/* The cat runs on the spot: it flips between its drawing and a smear frame, bobbing with each step. */
+.cat-runner { position: absolute; left: 58%; bottom: calc(var(--track-h) * .1); width: calc(var(--track-h) * 1.2); aspect-ratio: 361 / 355; animation: cat-bob .28s steps(1) infinite; }
+.cat-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cat-frame-1 { animation: cat-frame-1 .28s steps(1) infinite; }
+.cat-frame-2 { animation: cat-frame-2 .28s steps(1) infinite; }
+@keyframes cat-bob { 0% { transform: translateY(0); } 50% { transform: translateY(-6%); } }
+@keyframes cat-frame-1 { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes cat-frame-2 { 0% { opacity: 0; } 50% { opacity: 1; } }
 .spark { position: absolute; color: #fff8cd; text-shadow: 2px 2px #dd9d70; font-size: 26px; }
 .spark-left { right: calc(50% + 280px); top: 210px; }
 .spark-right { left: calc(50% + 250px); top: 120px; }
-.hero-content { flex: 1; display: flex; flex-direction: column; align-items: center; width: 100%; padding: clamp(28px, 5vh, 56px) 20px calc(var(--track-h) + var(--fence-h) - 20px); position: relative; }
+.hero-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: clamp(28px, 5vh, 56px) 20px calc(var(--track-h) + var(--fence-h) - 20px); position: relative; }
 .eyebrow { margin: 0; letter-spacing: .14em; font-size: .74rem; }
 .hero-kicker { display: flex; gap: 13px; align-items: center; justify-content: center; }
 .hero-kicker span { width: 6px; height: 6px; background: var(--orange); }
@@ -51,7 +69,7 @@ main:focus, .race-title:focus { outline: none; }
 .pixel-ready canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
 .hero-title { width: min(420px, 68vw, max(160px, calc((100svh - var(--header-h) - var(--track-h) - var(--fence-h) - var(--reserve)) * 1.7))); }
 .hero-copy { margin: 12px 0 0; font-size: 1rem; font-weight: 700; }
-.hero-games { width: min(900px, calc(100vw - 88px)); margin: auto; padding-top: 28px; scroll-margin-top: 18px; }
+.hero-games { width: min(900px, calc(100vw - 88px)); margin: 0 auto; padding-top: 52px; scroll-margin-top: 18px; }
 h2 { font-size: clamp(1.65rem, 3vw, 2.38rem); line-height: 1.07; letter-spacing: -.05em; margin: 6px 0 0; }
 .game-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 13px; }
 .game-card { width: 100%; min-width: 0; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; padding: 13px 16px; border: 1px solid #afa894; background: #fffdf5; text-align: left; transition: background .12s, transform .12s; }
@@ -90,13 +108,15 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .video-bar h2, .video-bar h3 { display: flex; gap: 8px; align-items: center; }
 .video-time { color: var(--yellow); white-space: nowrap; }
 .video-frame { aspect-ratio: 16/9; background: var(--ink); }
-.video-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+.video-frame iframe, .video-frame video { display: block; width: 100%; height: 100%; border: 0; }
+.video-frame video { object-fit: contain; background: var(--ink); }
+.beanbag-art { image-rendering: pixelated; }
 .video-note { border-top: 2px solid var(--ink); margin: 0; padding: 12px 14px 14px; font-size: .88rem; line-height: 1.42; }
 .how { padding-block: 38px 8px; display: grid; grid-template-columns: minmax(0,1fr); gap: 20px; }
 .how-hint { margin: 8px 0 0; color: var(--muted); font-size: .9rem; }
 .course-panel { border: 2px solid var(--ink); background: var(--white); box-shadow: 5px 5px var(--ink); margin-top: 10px; }
 .course-body { display: grid; grid-template-columns: minmax(0,1.75fr) minmax(0,1fr); }
-.course-field { position: relative; }
+.course-field { position: relative; background: #b9e3a8; }
 .course-field canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
 .course-label { position: absolute; top: .7%; transform: translateX(-50%); background: #fff8de; border: 1px solid var(--ink); padding: 1px 4px; font: 800 clamp(.5rem, 1.2vw, .68rem) var(--mono); letter-spacing: .06em; white-space: nowrap; }
 .course-side { border-left: 2px solid var(--ink); padding: 16px; display: flex; flex-direction: column; gap: 16px; }
@@ -106,6 +126,15 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .course-phases li.current { background: var(--yellow); box-shadow: 3px 3px var(--ink); transform: translate(-2px,-2px); }
 .course-now { margin: 0; font-size: .92rem; line-height: 1.45; min-height: 2.9em; }
 .course-now-label { font: 800 .64rem var(--mono); letter-spacing: .1em; background: var(--ink); color: var(--yellow); padding: 2px 5px; margin-right: 4px; vertical-align: 1px; }
+.team-scores { list-style: none; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; padding: 0; margin: 0; }
+.team-scores li { display: grid; gap: 4px; border: 1px solid var(--ink); background: #eef9e9; padding: 7px 9px; }
+.team-name { display: flex; align-items: center; gap: 6px; font: 700 .7rem var(--mono); letter-spacing: .04em; }
+.swatch { display: inline-block; width: 10px; height: 10px; border: 1px solid var(--ink); }
+.team-score { font: 800 1.5rem var(--mono); line-height: 1; }
+.team-rank { min-height: 1em; font: 800 .66rem var(--mono); letter-spacing: .1em; color: #b0532a; }
+.field-steps .step-media { background: #a2d492; }
+.field-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; color: var(--muted); font-size: .78rem; }
+.field-key > span { display: inline-flex; align-items: center; gap: 6px; }
 .course-speed { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; margin-top: auto; }
 .speed-button { min-height: 36px; padding: 6px 10px; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); font: 800 .76rem var(--mono); transition: transform .12s, box-shadow .12s; }
 .speed-button:hover:not(:disabled) { background: var(--yellow); }
@@ -131,10 +160,17 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .rule-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-top: 20px; }
 .rule-grid article { border-top: 2px solid #df9e62; padding: 9px 2px 0; }
 .rule-grid h3, .rule-extras h3 { margin: 0 0 5px; font-size: 1.03rem; }
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.rule-list { list-style: none; display: grid; gap: 10px; padding: 0; margin: 8px 0 0; }
+.rule-list li { display: grid; grid-template-columns: 30px minmax(0,1fr); align-items: center; gap: 10px; font-size: .92rem; line-height: 1.35; }
+.rule-list b { font-family: var(--mono); font-size: 1.02rem; color: #b0532a; }
+.ricon { width: 30px; height: 30px; padding: 5px; border: 2px solid var(--ink); background: #fff3c4; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: square; stroke-linejoin: miter; }
 .rule-grid p { margin: 0; color: var(--muted); line-height: 1.5; font-size: .88rem; }
 .rule-extras { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin-top: 30px; }
 .score-card, .tba-card { border: 2px solid var(--ink); background: var(--white); padding: 16px 18px 20px; }
 .tba-card { border-style: dashed; border-color: #afa894; background: transparent; }
+.tie-card { border-style: solid; border-color: var(--ink); background: var(--white); }
+.score-note { margin: 0; color: var(--muted); font-size: .86rem; line-height: 1.45; }
 .podium { list-style: none; display: flex; align-items: flex-end; justify-content: center; gap: 10px; padding: 0; margin: 14px 0 0; }
 .podium li { flex: 1; max-width: 116px; display: flex; flex-direction: column; text-align: center; }
 .place { font: 800 .74rem var(--mono); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
@@ -153,9 +189,11 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .tag { font: 800 .62rem var(--mono); letter-spacing: .1em; padding: 2px 5px; background: #eee7d6; border: 1px solid #d6cfbb; color: #7d402b; }
 @media (max-height: 760px) {
   .hero { --track-h: 112px; --fence-h: 80px; }
+  .trees { --h: clamp(100px, 8vw, 150px); }
+  .flag-cat { height: calc(var(--track-h) * 1.08); }
 }
 @media (max-width: 900px) {
-  .hero { --reserve: 300px; }
+  .hero { --reserve: 312px; }
   .wrap { width: calc(100% - 48px); }
   .game-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .hero-games { width: calc(100vw - 48px); }
@@ -175,11 +213,13 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   :root { --header-h: 65px; }
   .hero { --track-h: 96px; --fence-h: 68px; }
   .hero-content { padding-top: 32px; }
-  .hero-games { width: calc(100vw - 32px); padding-top: 22px; }
+  .hero-games { width: calc(100vw - 32px); padding-top: 34px; }
   .hero-copy { max-width: 294px; margin: 12px auto 16px; font-size: .91rem; }
-  .cloud-left { width: 150px; top: 40px; left: 8px; }
-  .cloud-right { width: 170px; top: 70px; right: 8px; }
-  .cloud-small, .spark { display: none; }
+  .spark { display: none; }
+  .clouds-near { --h: 150px; top: 18px; }
+  .clouds-far { --h: 60px; top: 110px; }
+  .trees { --h: 110px; }
+  .cat-runner { left: auto; right: 10%; }
   .game-grid { gap: 8px; }
   .game-card { gap: 6px; padding: 9px 10px; min-height: 64px; }
   .game-card.active { padding: 8px 9px; box-shadow: 2px 2px var(--ink); }
@@ -214,5 +254,7 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .rule-extras { grid-template-columns: minmax(0,1fr); gap: 14px; margin-top: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .scroll, .cat-runner, .cat-frame, .flag-cat .flag-strip { animation: none; }
+  .cat-frame-2 { opacity: 0; }
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
