@@ -14,6 +14,7 @@ const games = [
 const select = (id) => document.getElementById(id);
 const home = select("home-view");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const phoneLayout = window.matchMedia("(max-width: 650px)");
 
 const glyphs = {
   A: ["01110","11011","10001","11111","11011","11011","11011"],
@@ -37,43 +38,65 @@ const glyphs = {
   Y: ["10001","11011","01010","00100","00100","00100","00100"],
 };
 
-function drawTitle(title) {
-  const lines = title.dataset.pixel.split("|");
+function drawTitle(title, alignment = title.dataset.pixelAlign) {
+  const words = title.dataset.pixel.split("|");
   const unit = 8;
-  const width = Math.max(...lines.map((line) => line.length * 6 - 1)) * unit;
-  const lettering = document.createElement("canvas");
+  const columns = Number(title.dataset.pixelColumns) || Math.max(...words.map((line) => line.length));
+  const width = (columns * 6 - 1) * unit;
+  const lines = words.map((text) => {
+    const lineWidth = (text.length * 6 - 1) * unit;
+    return { text, width: lineWidth, scale: Math.min(1, width / lineWidth) };
+  });
+  const lettering = title.querySelector("canvas") ?? document.createElement("canvas");
   lettering.width = width + 8;
-  lettering.height = (lines.length * 9 - 2) * unit + 12;
+  const lineHeight = 9 * unit;
+  const height = lines.reduce((total, line) => total + lineHeight * line.scale, 0);
+  lettering.height = Math.ceil(height - 4 * lines.at(-1).scale);
   lettering.setAttribute("aria-hidden", "true");
   const brush = lettering.getContext("2d");
-  const pixels = [];
-  const alignLeft = title.dataset.pixelAlign === "left";
-  lines.forEach((line, lineIndex) => {
-    const inset = alignLeft ? 2 : Math.floor((width - (line.length * 6 - 1) * unit) / 2) + 2;
-    [...line].forEach((letter, letterIndex) => {
+  let top = 0;
+  lines.forEach(({ text, width: lineWidth, scale }, lineIndex) => {
+    const extraWidth = Math.round(width - lineWidth * scale);
+    let inset = 2;
+    if (alignment === "right") inset += extraWidth;
+    if (!alignment) inset += Math.floor(extraWidth / 2);
+    const pixels = [];
+    [...text].forEach((letter, letterIndex) => {
       if (letter === " ") return;
       glyphs[letter].forEach((row, y) => {
         [...row].forEach((cell, x) => {
-          if (cell === "1") pixels.push([inset + (letterIndex * 6 + x) * unit, 3 + (lineIndex * 9 + y) * unit, lineIndex]);
+          if (cell === "1") pixels.push([(letterIndex * 6 + x) * unit, 3 + y * unit]);
         });
       });
     });
+    const fillPixel = (x, y, w, h) => {
+      const left = Math.round(x * scale);
+      const upper = Math.round(top + y * scale);
+      brush.fillRect(inset + left, upper, Math.round((x + w) * scale) - left, Math.round(top + (y + h) * scale) - upper);
+    };
+    brush.fillStyle = "#332d72";
+    pixels.forEach(([x, y]) => fillPixel(x + 2, y + 5, unit + 1, unit + 2));
+    brush.fillStyle = "#e7783a";
+    pixels.forEach(([x, y]) => fillPixel(x - 2, y - 2, unit + 4, unit + 4));
+    pixels.forEach(([x, y]) => {
+      brush.fillStyle = lineIndex === 0 ? "#ffca56" : "#ffe08a";
+      fillPixel(x, y, unit - 1, unit - 1);
+      brush.fillStyle = lineIndex === 0 ? "#ffdb78" : "#ffedab";
+      fillPixel(x, y, unit - 1, 1);
+    });
+    top += lineHeight * scale;
   });
-  brush.fillStyle = "#332d72";
-  pixels.forEach(([x, y]) => brush.fillRect(x + 2, y + 5, unit + 1, unit + 2));
-  brush.fillStyle = "#e7783a";
-  pixels.forEach(([x, y]) => brush.fillRect(x - 2, y - 2, unit + 4, unit + 4));
-  pixels.forEach(([x, y, line]) => {
-    brush.fillStyle = line === 0 ? "#ffca56" : "#ffe08a";
-    brush.fillRect(x, y, unit - 1, unit - 1);
-    brush.fillStyle = line === 0 ? "#ffdb78" : "#ffedab";
-    brush.fillRect(x, y, unit - 1, 1);
-  });
-  title.append(lettering);
+  if (!lettering.parentElement) title.append(lettering);
   title.classList.add("pixel-ready");
 }
 
-document.querySelectorAll("[data-pixel]").forEach(drawTitle);
+document.querySelectorAll(".hero-title[data-pixel]").forEach((title) => drawTitle(title));
+const gameTitles = document.querySelectorAll(".race-title[data-pixel]");
+function drawGameTitles() {
+  gameTitles.forEach((title) => drawTitle(title, phoneLayout.matches ? "right" : title.dataset.pixelAlign));
+}
+drawGameTitles();
+phoneLayout.addEventListener("change", drawGameTitles);
 
 // Pixel-art running track along the bottom of the home page, drawn once as a repeating tile.
 function drawTrack() {

@@ -22,7 +22,7 @@
   --header-h: 77px;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-block-start: var(--header-h); }
 body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); }
 a { color: inherit; text-decoration: none; }
 button { color: inherit; font: inherit; cursor: pointer; }
@@ -34,7 +34,7 @@ main:focus, .race-title:focus { outline: none; }
 .wrap { width: min(1120px, calc(100% - 88px)); margin-inline: auto; }
 .skip { position: fixed; z-index: 5; top: 12px; left: 12px; padding: 10px; background: white; transform: translateY(-160%); }
 .skip:focus { transform: translateY(0); }
-.site-header { background: var(--white); border-bottom: 2px solid var(--ink); position: relative; z-index: 1; }
+.site-header { background: var(--white); border-bottom: 2px solid var(--ink); position: sticky; inset-block-start: 0; z-index: 1; }
 .header-inner { height: 75px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-inline: clamp(24px, 4vw, 64px); }
 .language-toggle { display: inline-flex; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); }
 .language-toggle button { min-height: 36px; padding: 4px 10px; border: 0; background: transparent; font: 700 .8rem var(--sans); }
@@ -50,13 +50,15 @@ html[lang="ja"] .race-title.pixel-ready > span { position: static; display: bloc
 html[lang="ja"] .race-title {
   color: var(--ink);
   font-family: "DotGothic16", var(--sans);
-  font-size: clamp(1.8rem, 4.4vw, 3.5rem);
+  font-size: clamp(2rem, 4.9vw, 3.875rem);
   font-weight: 400;
   line-height: 1.2;
   -webkit-text-stroke: .4px currentColor;
   text-shadow: 2px 2px var(--yellow), 3px 3px var(--orange);
 }
-html[lang="ja"] #dsc-title { word-break: keep-all; overflow-wrap: anywhere; }
+html[lang="ja"] #dsc-title > span { container-type: inline-size; }
+.dsc-title-line { display: block; white-space: nowrap; font-size: min(1em, calc(100cqi / 6)); }
+.dsc-title-line + .dsc-title-line { font-size: min(1em, calc(100cqi / 8)); }
 .eyebrow, .footer-inner { font-family: var(--mono); font-weight: 700; }
 .header-dot { background: #ee8348; display: inline-block; width: 8px; height: 8px; flex: 0 0 8px; }
 .hero { --track-h: 144px; --fence-h: 101px; --reserve: 244px; min-height: calc(100svh - var(--header-h)); position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; text-align: center; background: linear-gradient(165deg,#91d8e5,#c9f1ec 82%); border-bottom: 2px solid var(--ink); }
@@ -121,15 +123,23 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .race-sky { position: relative; isolation: isolate; overflow: hidden; border-bottom: 2px solid var(--ink); background: linear-gradient(165deg, #9bdde7, #d7f5ee 95%); }
 .race-cloud { width: 304px; bottom: 52px; right: -85px; z-index: -1; opacity: .6; }
 .race-content { padding-block: 23px 34px; }
-.back-link { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 8px 14px; border: 2px solid var(--ink); background: var(--white); box-shadow: 3px 3px var(--ink); font: 800 .88rem var(--mono); }
-.back-link span { font-size: 1.1rem; line-height: 1; }
-.back-link:hover { background: var(--yellow); }
-.back-link:active { box-shadow: 1px 1px var(--ink); transform: translate(2px, 2px); }
+.back-link { display: inline-grid; width: 44px; height: 55px; place-items: center; }
+.back-link img { transition: transform .15s ease-out; }
+@media (hover: hover) {
+  .back-link:hover img { transform: scale(1.25); }
+}
 .race-layout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr); align-items: start; gap: clamp(22px,4vw,58px); margin-top: 19px; }
-.race-layout > .video-card { margin-top: 24px; }
+#centipede-race-view .race-layout { grid-template-columns: minmax(0,36fr) minmax(0,41fr); }
+.race-layout > .video-card { align-self: center; margin-block: 24px; }
 .race-intro { padding-top: 6px; }
 .race-kicker { display: flex; align-items: center; gap: 10px; }
 .race-title { font-size: clamp(2.1rem, 4vw, 4rem); width: min(100%, 380px); margin: 17px 0 12px; }
+/* CENTIPEDE needs nine pixel letters across. TYPHOON needs seven. */
+#cp-title { width: min(100%, calc(380px * 9 / 7)); }
+.race-heading { display: grid; grid-template: "kicker" "title" / minmax(0,1fr); column-gap: 8px; }
+.race-heading .race-kicker { grid-area: kicker; }
+.race-heading .race-title { grid-area: title; }
+.race-heading .back-link { grid-area: title; place-self: center start; margin-inline-start: -60px; }
 .race-lede { font-size: 1rem; line-height: 1.5; max-width: 320px; margin: 10px 0 0; }
 .kicker-jp { font-family: var(--sans); letter-spacing: .08em; color: #7d402b; }
 .race-facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 18px 0 0; }
@@ -296,11 +306,20 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .spark-left { left: 20%; right: auto; }
   .spark-right { right: 18%; left: auto; }
   .race-layout { grid-template-columns: minmax(0,.75fr) minmax(0,1.25fr); gap: 22px; }
+  #centipede-race-view .race-layout { grid-template-columns: minmax(0,27fr) minmax(0,29fr); }
   .step-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .course-body { grid-template-columns: minmax(0,1fr); }
   .course-side { border-left: 0; border-top: 2px solid var(--ink); }
   .course-phases { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .rule-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (width > 900px) {
+  .race-content { width: min(1120px, calc(100% - 120px)); }
+}
+@media (650px < width <= 900px) {
+  .race-content { width: calc(100% - 96px); }
+  .race-heading .back-link { margin-inline-start: -48px; }
+  .race-heading .back-link img { width: 27px; height: auto; }
 }
 @media (max-width: 650px) {
   .wrap { width: calc(100% - 32px); }
@@ -325,14 +344,20 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .card-caption { font-size: .65rem; }
   .card-arrow { font-size: .9rem; }
   .race-content { padding-block: 13px 27px; }
-  .race-layout { grid-template-columns: minmax(0,1fr); gap: 16px; margin-top: 8px; }
-  .race-layout > .video-card { margin-top: 8px; }
-  .race-intro { position: relative; padding-right: 30%; min-height: 156px; }
-  .race-title { width: min(100%, 300px); margin: 10px 0 5px; }
-  .race-lede { font-size: .83rem; line-height: 1.4; margin-top: 5px; }
-  .race-art { position: absolute; width: 27%; right: 0; bottom: 6px; margin: 0; }
-  .race-kicker { font-size: .61rem; gap: 6px; }
-  .race-facts { margin-top: 12px; gap: 6px; }
+  .race-layout { grid-template-columns: minmax(0,1fr); gap: 16px; margin-top: 0; }
+  #centipede-race-view .race-layout { grid-template-columns: minmax(0,1fr); }
+  .race-layout > .video-card { margin-block: 16px 0; }
+  .race-intro { display: grid; grid-template-columns: minmax(0,7fr) minmax(0,3fr); padding-top: 0; }
+  .race-heading { grid-column: 1 / -1; grid-template: ". kicker" "back title" / minmax(44px,3fr) minmax(0,7fr); margin-bottom: 12px; }
+  #centipede-race-view .race-heading { grid-template-columns: 44px minmax(0,1fr); }
+  .race-heading .back-link { grid-area: back; height: 44px; margin-inline: -8px 0; }
+  .race-heading .back-link img { width: 24px; height: auto; }
+  .race-title { justify-self: end; width: min(100%, 300px); margin: 10px 0 5px; text-align: right; }
+  #cp-title { width: min(100%, calc(300px * 9 / 7)); }
+  .race-lede { grid-column: 1 / -1; max-width: none; font-size: .83rem; line-height: 1.4; margin-top: 5px; text-wrap: pretty; }
+  .race-art { grid-area: 3 / 2; place-self: center end; width: 90%; margin: 12px 0 0; }
+  .race-kicker { justify-content: flex-end; font-size: .61rem; gap: 6px; }
+  .race-facts { grid-area: 3 / 1; align-self: center; margin-top: 12px; gap: 6px; }
   .race-facts li { font-size: .66rem; padding: 4px 7px; }
   .how { padding-top: 28px; gap: 14px; }
   .course-side { padding: 12px; gap: 12px; }

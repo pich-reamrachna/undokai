@@ -45,7 +45,7 @@
     block(ctx, "#376437", x + 3, y - 3, 3, 2);
   }
 
-  function drawTag(ctx, [taggerX, taggerY], [carrierX, carrierY], side = false) {
+  function drawTag(ctx, [taggerX, taggerY], [carrierX, carrierY], { side = false, showLabel }) {
     const direction = Math.sign(carrierX - taggerX);
     const height = side ? 10 : 0;
     const arm = [taggerX + direction * (side ? 4 : 2), taggerY - height];
@@ -56,6 +56,7 @@
     block(ctx, "#fffaf0", x - 1, y - 5, 2, 2);
     block(ctx, "#fffaf0", x + 3, y - 3, 2, 2);
     block(ctx, "#fffaf0", x + 3, y + 2, 2, 2);
+    if (!showLabel) return;
 
     const labelY = carrierY - (side ? 33 : 22);
     const label = translate("TAG!");
@@ -70,7 +71,7 @@
   }
 
   function drawCircle(ctx, state) {
-    const { players = [], holders = [], helpers = [], tag } = state;
+    const { players = [], holders = [], helpers = [], tag, result } = state;
     ctx.save();
     block(ctx, "#b9e3a8", 0, 0, W, H);
     for (let x = 0; x < W; x += 24) block(ctx, "#b0dba0", x, 13, 12, H - 13);
@@ -92,7 +93,7 @@
     entrants.forEach((point, i) => topPlayer(ctx, point, teams[i % teams.length].color, "stand"));
     const [x, y] = leafPosition(entrants, holders);
     drawLeaf(ctx, x, y + (holders.length === 1 ? 4 : 0));
-    if (tag) drawTag(ctx, entrants[tag[0]], entrants[tag[1]]);
+    if (tag) drawTag(ctx, entrants[tag[0]], entrants[tag[1]], { showLabel: Boolean(result) });
     drawLabels(ctx, state, 7);
     ctx.restore();
   }
@@ -143,7 +144,7 @@
   function sideScene(stateAt) {
     return (ctx, t) => {
       const state = stateAt(t);
-      const { players = [], helpers = [], holders = [], tag } = state;
+      const { players = [], helpers = [], holders = [], tag, result } = state;
       const before = stateAt(Math.max(0, t - 0.015));
       const entrants = [...players, ...helpers];
       const previousEntrants = [...(before.players ?? []), ...(before.helpers ?? [])];
@@ -169,7 +170,7 @@
       });
       const [x, y] = projectSide(leafPosition(entrants, holders));
       drawLeaf(ctx, x, y - (holders.length ? 9 : 0));
-      if (tag) drawTag(ctx, projectSide(entrants[tag[0]]), projectSide(entrants[tag[1]]), true);
+      if (tag) drawTag(ctx, projectSide(entrants[tag[0]]), projectSide(entrants[tag[1]]), { side: true, showLabel: Boolean(result) });
       drawLabels(ctx, state, 9);
       ctx.restore();
     };
@@ -184,15 +185,31 @@
     return movePlayers(atBranch, [atGoal, [59, 56], [64, 42]], t);
   }
 
-  function stealAndTag(t) {
-    return movePlayers(atBranch, [[77, 58], [101, 54], [88, 54]], t);
+  function stealAndTag(t, contactGap) {
+    const chase = [[76, 55], [94, 53], [82, 43]];
+    const contact = [[77, 58], [101, 54], [101 - contactGap, 54]];
+    const chaseTurn = 0.45;
+    return t < chaseTurn
+      ? movePlayers(atBranch, chase, progress(t, 0, chaseTurn))
+      : movePlayers(chase, contact, progress(t, chaseTurn, 1));
+  }
+
+  function tagState(time, start, contact, result, contactGap) {
+    return {
+      players: stealAndTag(progress(time, start, contact), contactGap),
+      holders: [1],
+      tag: time >= contact ? tagContact : null,
+      result: time >= result ? winner(teams[2]) : null,
+    };
   }
 
   const additionalCall = 2800;
   const pickup = 5100;
   const assistedFinish = 6800;
+  const tagStart = 3700;
+  const tagTouch = 5000;
   const tagEnd = 5250;
-  const cardTagEnd = 0.62;
+  const sideContactGap = 12;
   const timeoutEntry = 2150;
   const timeoutEnd = 5700;
   const exampleDuration = 8000;
@@ -239,7 +256,7 @@
       detail: "Reach the center first. Players who grab it together may pull, tug, or let go. Opponents can steal it.",
       duration: 4200,
       scene: sideScene((t) => ({
-        players: t < 0.48 ? approach(progress(t, 0, 0.48)) : stealAndTag(progress(t, 0.75, 1) * 0.5),
+        players: t < 0.48 ? approach(progress(t, 0, 0.48)) : stealAndTag(progress(t, 0.75, 1) * 0.5, sideContactGap),
         holders: t < 0.48 ? [] : t < 0.75 ? [0, 1] : [1],
       })),
     },
@@ -255,10 +272,7 @@
       title: "Make a valid tag",
       detail: "Touch an opponent still inside who has touched the leaf or is holding it. A valid tag wins the set for your team.",
       duration: 3300,
-      scene: sideScene((t) => ({
-        players: stealAndTag(progress(t, 0, cardTagEnd)), holders: [1],
-        tag: t >= cardTagEnd ? tagContact : null, result: t >= cardTagEnd ? winner(teams[2]) : null,
-      })),
+      scene: sideScene((t) => tagState(t, 0, 0.55, 0.62, sideContactGap)),
     },
   ];
 
@@ -301,16 +315,13 @@
       phases: [
         call,
         { until: 2500, step: 1, caption: "Two players reach the leaf at the same instant." },
-        { until: 3700, step: 1, caption: "Both players touch the leaf. Either can be tagged while still inside the circle, even after letting go." },
+        { until: tagStart, step: 1, caption: "Both players touch the leaf. Either can be tagged while still inside the circle, even after letting go." },
         { until: tagEnd, step: 3, caption: "{carrier} takes the leaf. {tagger} closes in.", values: { carrier: teams[1].name, tagger: teams[2].name } },
         { until: exampleDuration, step: 3, caption: "{tagger} touches {carrier}’s leaf carrier inside the circle and wins the set.", values: { tagger: teams[2].name, carrier: teams[1].name } },
       ],
-      state: (t, number) => ({
-        players: t < 3700 ? approach(progress(t, 1000, 2500), number) : stealAndTag(progress(t, 3700, tagEnd)),
-        holders: t < 2500 ? [] : t < 3700 ? [0, 1] : [1],
-        tag: t >= tagEnd ? tagContact : null,
-        result: t >= tagEnd ? winner(teams[2]) : null,
-      }),
+      state: (t, number) => t < tagStart
+        ? { players: approach(progress(t, 1000, 2500), number), holders: t < 2500 ? [] : [0, 1] }
+        : tagState(t, tagStart, tagTouch, tagEnd, 6),
     },
     {
       title: "Time runs out",

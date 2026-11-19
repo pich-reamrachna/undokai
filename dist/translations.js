@@ -249,7 +249,7 @@ const japaneseCopy = {
 
 // These phrases retain the original emphasis while allowing Japanese word order.
 const japaneseFormatted = {
-  "Dondarm Slerk Cher": "ドンダーム・<wbr>スレック・<wbr>チェー",
+  "Dondarm Slerk Cher": "<span class=\"dsc-title-line\">ドンダーム・</span><span class=\"dsc-title-line\">スレック・チェー</span>",
   "3 teams": "<strong>3</strong>チーム",
   "5 per group": "1組<strong>5</strong>人",
   "1 long pole": "長い棒<strong>1</strong>本",
