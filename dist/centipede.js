@@ -13,22 +13,22 @@
     {
       title: "Step on the planks",
       detail: "Your group of 4 lines up behind the start line. Everyone puts one foot on each of the 2 planks.",
-      scene: drawStart, duration: 4200, still: 0.3,
+      scene: drawStart, duration: 4200,
     },
     {
       title: "Walk in step",
       detail: "Lift the same plank together, then the other one. Walk straight to the next handoff point.",
-      scene: drawWalk, duration: 4800, still: 0.32,
+      scene: drawWalk, duration: 4800,
     },
     {
       title: "Hand over the planks",
       detail: "Step off at the handoff point. Your next group gets on and keeps going in the same direction. Group 6 crosses the finish line.",
-      scene: drawHand, duration: 6400, still: 0.5,
+      scene: drawHand, duration: 6400,
     },
     {
       title: "Fell off? Get back on",
       detail: "If someone falls or the planks come apart, put them back on and carry on from the same spot. No penalty.",
-      scene: drawFall, duration: 5600, still: 0.45,
+      scene: drawFall, duration: 5600,
     },
   ];
 
@@ -335,7 +335,7 @@
     view,
     controllers: [
       createSteps(view, steps),
-      createOverview(view, { steps, draw: drawField, phaseAt, still: READY + 3000, onRender: updateReadouts }),
+      createOverview(view, { steps, draw: drawField, phaseAt, onRender: updateReadouts }),
     ],
   });
 })();

@@ -233,8 +233,7 @@ function topPlayer(ctx, [x, y], color, pose) {
   }
 }
 
-// Step cards: all visible; clicking a card plays or pauses its animation, one at a time,
-// and each card resumes from where it was paused.
+// Step cards play one at a time and keep their progress until the player leaves the guide.
 function createSteps(view, steps) {
   const renderScale = 3;
   const contexts = [];
@@ -271,7 +270,6 @@ function createSteps(view, steps) {
     text.append(number, title, detail);
     card.append(media, text);
     view.querySelector(".step-list").append(card);
-    step.scene(contexts[index], step.still);
     return card;
   });
 
@@ -294,8 +292,7 @@ function createSteps(view, steps) {
     if (playing >= 0 && !view.hidden) frame = requestAnimationFrame(animate);
   }
 
-  function toggle(index) {
-    playing = playing === index ? -1 : index;
+  function updateControls() {
     cards.forEach((card, cardIndex) => {
       const active = cardIndex === playing;
       const button = card.querySelector(".step-play");
@@ -304,18 +301,32 @@ function createSteps(view, steps) {
       button.setAttribute("aria-label", (active ? "Pause" : "Play") + " step " + (cardIndex + 1) + " animation");
       button.textContent = active ? "Ⅱ" : "▶";
     });
+  }
+
+  function toggle(index) {
+    playing = playing === index ? -1 : index;
+    updateControls();
     start();
   }
 
-  return { start };
+  function reset() {
+    playing = -1;
+    times.fill(0);
+    updateControls();
+    start();
+    steps.forEach((step, index) => step.scene(contexts[index], 0));
+  }
+
+  return { start, reset };
 }
 
 const speeds = [0.25, 0.5, 1, 1.5, 2, 3];
+const defaultSpeedIndex = speeds.indexOf(1);
 
 // Top-view panel: plays on its own while on screen and pauses when scrolled away.
 // draw(ctx, time) paints a frame; phaseAt(time) returns { step, caption } for the side list;
 // onRender(time) lets a game update extra readouts such as a clock or scores.
-function createOverview(view, { steps, draw, phaseAt, still = 0, onRender }) {
+function createOverview(view, { steps, draw, phaseAt, onRender }) {
   const canvas = view.querySelector(".course-field canvas");
   const ctx = canvas.getContext("2d");
   const phaseList = view.querySelector(".course-phases");
@@ -334,7 +345,7 @@ function createOverview(view, { steps, draw, phaseAt, still = 0, onRender }) {
   let last = null;
   let frame = 0;
   let visible = false;
-  let speedIndex = 2;
+  let speedIndex = defaultSpeedIndex;
 
   function render(time) {
     draw(ctx, time);
@@ -370,19 +381,23 @@ function createOverview(view, { steps, draw, phaseAt, still = 0, onRender }) {
     if (visible && !view.hidden && !reducedMotion.matches) frame = requestAnimationFrame(tick);
   }
 
-  render(reducedMotion.matches ? still : 0);
   new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
     start();
   }).observe(canvas);
 
-  function restart(stillTime = still) {
+  function restart(stillTime = 0) {
     clock = 0;
     render(reducedMotion.matches ? stillTime : 0);
     start();
   }
 
-  return { start, restart };
+  function reset() {
+    setSpeed(defaultSpeedIndex);
+    restart();
+  }
+
+  return { start, restart, reset };
 }
 
 // Game pages register here; the router shows the page that matches the URL hash.
@@ -392,7 +407,7 @@ function registerGuide(guide) {
   guides.push(guide);
 }
 
-function route() {
+function route(restored = false) {
   const active = guides.find((guide) => guide.hash === location.hash);
   home.hidden = Boolean(active);
   // The home page fills the screen exactly, so the footer only shows on game pages.
@@ -400,7 +415,7 @@ function route() {
   document.title = (active ? active.title : "Game Rules") + " | Undokai 2026";
   guides.forEach((guide) => {
     const show = guide === active;
-    const changed = guide.view.hidden === show;
+    const entering = show && (guide.view.hidden || restored);
     guide.view.hidden = !show;
     const embed = guide.view.querySelector("iframe[data-src]");
     if (embed && show && embed.src !== embed.dataset.src) embed.src = embed.dataset.src;
@@ -409,11 +424,14 @@ function route() {
       if (show && clip.dataset.src && !clip.hasAttribute("src")) clip.src = clip.dataset.src;
       if (!show) clip.pause();
     });
-    if (show && changed) {
+    if (entering) {
       window.scrollTo({ top: 0, behavior: "instant" });
       guide.view.querySelector(".race-title").focus({ preventScroll: true });
     }
-    guide.controllers.forEach((controller) => controller.start());
+    guide.controllers.forEach((controller) => {
+      if (entering) controller.reset();
+      else controller.start();
+    });
   });
   if (!active && location.hash === "#games") select("games").scrollIntoView();
 }
@@ -427,5 +445,8 @@ document.querySelector(".skip").addEventListener("click", (event) => {
 // Deferred game scripts run before DOMContentLoaded, so every guide is registered by now.
 document.addEventListener("DOMContentLoaded", () => {
   route();
-  window.addEventListener("hashchange", route);
+  window.addEventListener("hashchange", () => route());
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) route(true);
+  });
 });

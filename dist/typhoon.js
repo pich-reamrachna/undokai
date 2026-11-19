@@ -8,22 +8,22 @@
     {
       title: "Grab the pole and go",
       detail: "Your group of five lines up at the start, all holding the same long pole. Then run together to cone 1.",
-      scene: drawHold, duration: 2600, still: 0,
+      scene: drawHold, duration: 2600,
     },
     {
       title: "Spin at cone 1, U-turn at cone 2",
       detail: "Run from the start and circle cone 1 once. Run diagonally to the left of cone 2, U-turn around it, then run straight back to your team.",
-      scene: drawSpin, duration: 6000, still: 0,
+      scene: drawSpin, duration: 6000,
     },
     {
       title: "Sweep low, then high",
       detail: "Run back across the start line with the pole. The three middle players let go and step away. The two end players sweep the pole low from the front row to the back, and everyone jumps over it. Then they sweep it back to the front held up high, and everyone ducks under it. Finally they drop the pole at the start line for the front row to pick up.",
-      scene: drawSweep, duration: 9000, still: 0.36,
+      scene: drawSweep, duration: 9000,
     },
     {
       title: "Next group goes until the last group runs",
       detail: "Pass the pole to the next group. The last group wears sashes. The first sash group across the finish line wins for its team.",
-      scene: (ctx, t) => drawHold(ctx, t, true), duration: 2600, still: 0,
+      scene: (ctx, t) => drawHold(ctx, t, true), duration: 2600,
     },
   ];
 
@@ -437,7 +437,7 @@
     view,
     controllers: [
       createSteps(view, steps),
-      createOverview(view, { steps, draw: drawCourse, phaseAt: overviewPhaseAt, still: 2400 }),
+      createOverview(view, { steps, draw: drawCourse, phaseAt: overviewPhaseAt }),
     ],
   });
 })();

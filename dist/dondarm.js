@@ -112,14 +112,12 @@
       title: "Listen for your number",
       detail: "One player per team enters on each call. If play stalls, the game master can call another number. Teammates may shield the carrier by blocking without pushing.",
       duration: exampleDuration,
-      still: 0.53,
       scene: (ctx, t) => drawCircle(ctx, assistedRound(t * exampleDuration)),
     },
     {
       title: "Grab the branch",
       detail: "Reach the center first. Players who grab it together may pull, tug, or let go. Opponents can steal it.",
       duration: 4200,
-      still: 0.65,
       scene: (ctx, t) => drawCircle(ctx, {
         players: t < 0.48 ? approach(progress(t, 0, 0.48)) : stealAndTag(progress(t, 0.75, 1) * 0.5),
         holders: t < 0.48 ? [] : t < 0.75 ? [0, 1] : [1],
@@ -129,7 +127,6 @@
       title: "Carry it to the edge",
       detail: "Your team wins if you reach the edge with the branch. Anyone holding the branch can be tagged.",
       duration: 3300,
-      still: 0.59,
       scene: (ctx, t) => drawCircle(ctx, {
         players: runForEdge(progress(t, 0, 0.75)), holders: [0], result: t >= 0.75 ? winner(teams[0]) : null,
       }),
@@ -138,7 +135,6 @@
       title: "Tag the carrier",
       detail: "Tag a carrier before the edge to win for your team. If nobody wins within 90 seconds, the round has no winner.",
       duration: 3300,
-      still: 0.8,
       scene: (ctx, t) => drawCircle(ctx, {
         players: stealAndTag(progress(t, 0, 0.75)), holders: [1], result: t >= 0.75 ? winner(teams[2]) : null,
       }),
@@ -225,27 +221,37 @@
   }
 
   const view = select("dondarm-slerk-cher-view");
-  const overview = createOverview(view, { steps, draw: drawExample, phaseAt, still: selectedExample.still });
+  const overview = createOverview(view, { steps, draw: drawExample, phaseAt });
   const scenarios = view.querySelector(".course-scenarios");
-  examples.forEach((example) => {
+  const scenarioButtons = examples.map((example) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "speed-button";
     button.textContent = example.title;
     button.setAttribute("aria-pressed", String(example === selectedExample));
     button.addEventListener("click", () => {
-      scenarios.querySelector('[aria-pressed="true"]').setAttribute("aria-pressed", "false");
-      button.setAttribute("aria-pressed", "true");
-      selectedExample = example;
+      selectExample(example);
       overview.restart(example.still ?? example.end);
     });
     scenarios.append(button);
+    return button;
   });
+
+  function selectExample(example) {
+    selectedExample = example;
+    scenarioButtons.forEach((button, index) => button.setAttribute("aria-pressed", String(examples[index] === example)));
+  }
 
   registerGuide({
     hash: "#dondarm-slerk-cher",
     title: "Dondarm Slerk Cher",
     view,
-    controllers: [createSteps(view, steps), overview],
+    controllers: [createSteps(view, steps), {
+      start: overview.start,
+      reset() {
+        selectExample(examples[0]);
+        overview.reset();
+      },
+    }],
   });
 })();

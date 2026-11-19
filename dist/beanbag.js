@@ -28,22 +28,22 @@
     {
       title: "Wait for the whistle",
       detail: "Throwers wait outside. Three teammates help inside, and the organizer in green holds the basket. Start on the whistle.",
-      scene: drawReady, duration: 3200, still: 0.2,
+      scene: drawReady, duration: 3200,
     },
     {
       title: "Pick up and throw",
       detail: "Throw into the basket from outside. Inside helpers toss fallen balls back to teammates outside. Helpers cannot throw into the basket.",
-      scene: drawThrow, duration: 5600, still: 0.24,
+      scene: drawThrow, duration: 5600,
     },
     {
       title: "Stay outside the circle",
       detail: "Inside helpers keep other teammates outside the circle. Each team has a referee or guide who watches for fouls.",
-      scene: drawInside, duration: 5600, still: 0.52,
+      scene: drawInside, duration: 5600,
     },
     {
       title: "Stop at the end signal",
       detail: "Everyone stops at the end signal. Only balls inside the basket count. A ball thrown after the signal doesn't count.",
-      scene: drawStop, duration: 5000, still: 0.85,
+      scene: drawStop, duration: 5000,
     },
   ];
 
@@ -582,7 +582,7 @@
     view,
     controllers: [
       createSteps(view, steps),
-      createOverview(view, { steps, draw: drawField, phaseAt, still: 6000, onRender: updateReadouts }),
+      createOverview(view, { steps, draw: drawField, phaseAt, onRender: updateReadouts }),
     ],
   });
 })();

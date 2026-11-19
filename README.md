@@ -23,8 +23,8 @@ Alternatively, run `vercel --prod` from the project folder with the Vercel CLI.
 ## Update the game guide
 
 - Edit the `games` array at the top of `dist/guide.js` to update game names. Give a game an `href` to make its card a link. Cards without one show as "Coming soon".
-- Edit the `steps` array in a game's file to update its "How to play" cards. All cards show at once. Click a card to play or pause its animation. Each card resumes from where it paused.
-- Below the cards, each top-view panel plays on its own and pauses while it is scrolled off screen. Its **Slower / Faster** buttons step through the speeds in the `speeds` array (0.25× to 3×). Edit the captions in the corresponding game script. The shared animation team names and colors are in `teams` in `dist/guide.js`.
+- Edit the `steps` array in a game's file to update its "How to play" cards. Click a card to play or pause it. Each card keeps its progress during the visit and resets when you open the guide again.
+- Each top-view animation starts from the beginning when you open its guide. It plays while on screen and pauses when scrolled away. Its **Slower / Faster** buttons step through the speeds in the `speeds` array (0.25× to 3×). Edit the captions in the corresponding game script. The shared animation team names and colors are in `teams` in `dist/guide.js`.
 - Edit the **Rules** and **Points** sections of each page in `dist/index.html` for the full rules. Remove items from **To be announced** once they are decided.
 
 ## Videos
