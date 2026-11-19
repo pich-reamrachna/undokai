@@ -32,6 +32,6 @@ Alternatively, run `vercel --prod` from the project folder with the Vercel CLI.
 - Typhoon Race: the clip is `dist/assets/typhoon-race.mp4`. The video’s `data-src` is loaded when the guide opens. Update the length label if you replace the clip.
 - Beanbag Toss: the clip is `dist/assets/bean-bag.mp4`, played by a `<video>` tag in the Beanbag Toss section of `dist/index.html`. To swap it, replace the file (keep it short, ideally an MP4 under ~20 MB) and update the length label (`0:08`) above the player.
 - Centipede Race: the clip is `dist/assets/centipede.mp4`, played by a `<video>` tag in the Centipede Race section of `dist/index.html`. Update the length label if you replace the clip.
-- Dondarm Slerk Cher has a video placeholder. Replace the `video-empty` block with a YouTube iframe or a `<video>` tag and update the "Coming soon" label above it.
+- Dondarm Slerk Cher: the clip is `dist/assets/dondarm-slerk-cher (1).mp4`. The video’s `data-src` is loaded when the guide opens. Update the length label if you replace the clip.
 - Google Photos links can't be shown inside the page (Google blocks it). Download the video from Google Photos and add it to `dist/assets` instead.
 - A YouTube video loads only while its game page is open, and a video file pauses when you leave its page.

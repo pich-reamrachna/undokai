@@ -82,7 +82,7 @@
                 <span class="video-time">0:30</span>
               </div>
               <div class="video-frame">
-                <video data-src="assets/typhoon-race.mp4" controls playsinline preload="metadata" aria-label="Typhoon Race example clip"></video>
+                <video data-src="assets/typhoon-race.mp4" controls muted playsinline preload="metadata" aria-label="Typhoon Race example clip"></video>
               </div>
             </section>
           </div>
@@ -209,7 +209,7 @@
                 <span class="video-time">0:08</span>
               </div>
               <div class="video-frame">
-                <video src="assets/bean-bag.mp4#t=0.1" controls playsinline loop preload="metadata" aria-label="Beanbag Toss example clip"></video>
+                <video src="assets/bean-bag.mp4#t=0.1" controls muted playsinline loop preload="metadata" aria-label="Beanbag Toss example clip"></video>
               </div>
             </section>
           </div>
@@ -374,7 +374,7 @@
                 <span class="video-time">0:17</span>
               </div>
               <div class="video-frame">
-                <video src="assets/centipede.mp4" controls playsinline preload="metadata" aria-label="Centipede Race example clip"></video>
+                <video src="assets/centipede.mp4" controls muted playsinline preload="metadata" aria-label="Centipede Race example clip"></video>
               </div>
             </section>
           </div>
@@ -438,7 +438,7 @@
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#c-teams"/></svg><span>All <b>3</b> teams race at once, one lane each</span></li>
               <li><svg class="ricon"><use href="#c-player"/></svg><span><b>4</b> players per group</span></li>
-              <li><svg class="ricon"><use href="#c-relay"/></svg><span><b>6</b> groups per team, so <b>24</b> of <b>40</b> players run</span></li>
+              <li><svg class="ricon"><use href="#c-relay"/></svg><span><b>6</b> groups per team, so <b>24</b> players run</span></li>
               <li><svg class="ricon"><use href="#c-dice"/></svg><span>Group order is decided on the spot</span></li>
             </ul>
           </article>
@@ -493,23 +493,25 @@
           <a class="back-link" href="./#games"><span aria-hidden="true">←</span> All games</a>
           <div class="race-layout">
             <div class="race-intro">
-              <p class="eyebrow race-kicker">BRANCH TAG</p>
+              <p class="eyebrow race-kicker">LEAF TAG</p>
               <h1 id="dsc-title" class="race-title" tabindex="-1" data-pixel="DONDARM|SLERK CHER" data-pixel-align="left"><span>Dondarm Slerk Cher</span></h1>
-              <p class="race-lede">When your number is called, run into the circle. Grab the branch and carry it to the edge before an opponent tags you.</p>
+              <p class="race-lede">When your number is called, run into the circle. Grab the leaf and carry it past the circle’s edge before an opponent tags you.</p>
               <ul class="race-facts" aria-label="At a glance">
                 <li><strong>3</strong> teams</li>
-                <li><strong>2 × 10</strong> players per team</li>
+                <li><strong>2</strong> rounds</li>
                 <li><strong>7 m</strong> radius</li>
-                <li><strong>90 s</strong> per round</li>
+                <li><strong>90 s</strong> per set</li>
               </ul>
               <img class="race-art" src="assets/Donderm-slerk-cher-transparent.png" width="1678" height="937" alt="Players crouch by a leafy branch while the game master and teammates look on">
             </div>
             <section class="video-card" aria-labelledby="dsc-video-title">
               <div class="video-bar">
-                <h2 id="dsc-video-title"><span class="header-dot"></span> Watch a round</h2>
-                <span class="video-time">Coming soon</span>
+                <h2 id="dsc-video-title"><span class="header-dot"></span> Watch a clip</h2>
+                <span class="video-time">0:10</span>
               </div>
-              <div class="video-frame video-empty"><p>Video coming soon</p></div>
+              <div class="video-frame">
+                <video data-src="assets/dondarm-slerk-cher%20(1).mp4" controls muted playsinline preload="metadata" aria-label="Dondarm Slerk Cher example clip"></video>
+              </div>
             </section>
           </div>
         </div>
@@ -529,12 +531,12 @@
           <div class="course-scenarios" role="group" aria-label="Choose a scenario"></div>
           <div class="course-body">
             <div class="course-field">
-              <canvas width="320" height="192" role="img" aria-label="Illustrated rounds inside the circle. One group of 10 each from White Team, Red Team, and Blue Team waits near the edge. Players enter as their numbers are called. The examples show additional players called in during a stalemate, a goal, a tag, and a timeout."></canvas>
+              <canvas width="320" height="192" role="img" aria-label="Example sets in the shared circle. Ten players from each team wait outside the line. Players enter as their numbers are called. The examples show a stalemate, a goal, a tag, and a timeout."></canvas>
             </div>
             <div class="course-side">
               <ol class="course-phases" aria-label="Steps"></ol>
               <p class="course-now"><span class="course-now-label">NOW</span> <span class="course-caption"></span></p>
-              <p class="field-key"><span>Small squares are waiting players. Their positions are illustrative. The timeout example is sped up.</span></p>
+              <p class="field-key"><span>The small squares show 10 waiting players per team in this example. The timeout example is sped up.</span></p>
               <div class="course-speed" role="group" aria-label="Animation speed">
                 <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
                 <output class="speed-value" aria-live="polite">1×</output>
@@ -555,62 +557,57 @@
         </svg>
         <div class="rule-grid">
           <article>
-            <h3>Teams &amp; groups</h3>
+            <h3>Teams &amp; rounds</h3>
             <ul class="rule-list">
               <li><svg class="ricon" aria-hidden="true"><use href="#i-teams"/></svg><span>White Team, Red Team, and Blue Team</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#i-player"/></svg><span><b>2</b> groups of <b>10</b> per team. One group from each team plays at a time.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#i-line"/></svg><span>Line up side by side near the edge.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#i-calendar"/></svg><span><b>10</b> rounds per group, one scheduled per player.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-player"/></svg><span>Play <b>2</b> rounds. Each team sends one group per round.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-line"/></svg><span>Line up outside the circle with a small gap from the line.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-calendar"/></svg><span>The set count depends on the number of players from each team that round. If each team has <b>5</b> players, play <b>5</b> sets.</span></li>
             </ul>
           </article>
           <article>
             <h3>Calling numbers</h3>
             <ul class="rule-list">
-              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-number-icon"/></svg><span>Number players <b>1–10</b>. Round <b>1</b> starts with number <b>1</b>.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#c-dice"/></svg><span>Call the other numbers in random order.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-number-icon"/></svg><span>Number the players before each round.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-dice"/></svg><span>Call numbers in random order.</span></li>
               <li><svg class="ricon" aria-hidden="true"><use href="#i-whistle"/></svg><span>On each call, one player with that number enters per team.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#i-helper"/></svg><span>Stalemate? The game master may call extra numbers one at a time to help retrieve the branch.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-helper"/></svg><span>Stalemate? The game master may call extra numbers one at a time to help retrieve the leaf.</span></li>
             </ul>
           </article>
           <article>
-            <h3>Taking the branch</h3>
+            <h3>Taking the leaf</h3>
             <ul class="rule-list">
-              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-branch-icon"/></svg><span>First to grab the branch in the center holds it.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-branch-icon"/></svg><span>First to grab the leaf in the center holds it.</span></li>
               <li><svg class="ricon" aria-hidden="true"><use href="#c-hand"/></svg><span>Stealing is allowed. Grab it together? Tug or let go.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-tag-icon"/></svg><span>Anyone touching the branch can be tagged.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-shield-icon"/></svg><span>Block opponents to shield teammates.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-tag-icon"/></svg><span>Tag by touching an opponent who is still inside and has touched the leaf or is holding it.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-shield-icon"/></svg><span>Only players inside may block someone’s path out.</span></li>
               <li><svg class="ricon" aria-hidden="true"><use href="#i-no"/></svg><span>No pushing or tackling anyone.</span></li>
             </ul>
           </article>
           <article>
-            <h3>Winning a round</h3>
+            <h3>Winning a set</h3>
             <ul class="rule-list">
-              <li><svg class="ricon" aria-hidden="true"><use href="#i-circle"/></svg><span><b>7 m</b> radius. The circle’s edge is the goal.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#c-ok"/></svg><span>Carry the branch to the edge to win.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-tag-icon"/></svg><span>Tag the carrier before they reach the edge. Your team wins.</span></li>
-              <li><svg class="ricon" aria-hidden="true"><use href="#i-clock"/></svg><span>Only one team can win. No winner if the <b>90-second</b> clock runs out.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-circle"/></svg><span><b>1</b> shared circle with a <b>7 m</b> radius.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-ok"/></svg><span>Any team can win by carrying the leaf past any point on the circle.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#dsc-tag-icon"/></svg><span>A valid tag wins the set for the tagger’s team.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-clock"/></svg><span>Only one team can win a set. If the <b>90-second</b> clock runs out, no team earns a point.</span></li>
             </ul>
           </article>
         </div>
         <div class="rule-extras">
           <section class="score-card" aria-labelledby="dsc-score-title">
             <h3 id="dsc-score-title">Points</h3>
-            <p class="score-note">Record each win and its time. Rank teams by total wins. The MC announces the totals at the end.</p>
+            <p class="score-note">Record each set win and its time. The MC announces the totals, and teams are ranked by set wins across both rounds.</p>
             <ol class="podium">
               <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
               <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
               <li class="place-3"><span class="place">3rd</span><span class="bar"><strong>20</strong> pts</span></li>
             </ol>
-            <p class="score-note"><strong>Tiebreaker.</strong> If wins are tied, each team picks one player for a final round.</p>
           </section>
-          <section class="tba-card" aria-labelledby="dsc-tba-title">
-            <h3 id="dsc-tba-title">To be announced</h3>
+          <section class="tba-card tie-card" aria-labelledby="dsc-tie-title">
+            <h3 id="dsc-tie-title">If totals are tied</h3>
             <dl class="tba-list">
-              <div><dt>Number of circles per game <span class="tag">TBD</span></dt></div>
-              <div><dt>Number of sets per round <span class="tag">TBD</span></dt><dd>Every round will have the same number of sets.</dd></div>
-              <div><dt>What counts as a tag <span class="tag">TBD</span></dt></div>
-              <div><dt>Start positions <span class="tag">TBD</span></dt></div>
-              <div><dt>Whether teams have separate goal edges <span class="tag">TBD</span></dt></div>
+              <div><dt>Tiebreak set</dt><dd>Each team picks one player for a final set.</dd></div>
             </dl>
           </section>
         </div>
