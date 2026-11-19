@@ -14,7 +14,6 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="./" aria-label="Undokai 2026 home"><img src="assets/undokai-logo.webp" width="398" height="202" alt="Undokai 2026"></a>
-      <div class="header-label"><span class="header-dot"></span> SPORTS FESTIVAL <span class="header-divider">/</span> 2026</div>
     </div>
   </header>
 
@@ -22,38 +21,34 @@
     <div id="home-view">
       <section class="hero" aria-labelledby="home-title">
         <div class="scene" aria-hidden="true">
-          <img class="cloud cloud-left" src="assets/cloud.png" alt="">
-          <img class="cloud cloud-right" src="assets/cloud.png" alt="">
-          <img class="cloud cloud-small" src="assets/cloud.png" alt="">
+          <img class="cloud cloud-left" src="assets/cloud-full.png" alt="">
+          <img class="cloud cloud-right" src="assets/cloud-full.png" alt="">
+          <img class="cloud cloud-small" src="assets/cloud-full.png" alt="">
           <span class="spark spark-left">✦</span><span class="spark spark-right">✦</span>
-          <div class="field"></div>
-          <img class="tree" src="assets/tree.webp" alt="">
+          <div class="fence"></div>
+          <img class="tree" src="assets/tree-full.png" alt="">
+          <div class="track" id="track"></div>
         </div>
         <div class="hero-content">
           <p class="eyebrow hero-kicker"><span aria-hidden="true"></span> UNDOKAI 2026 <span aria-hidden="true"></span></p>
           <h1 id="home-title" class="hero-title" data-pixel="GAME|RULES"><span>Game Rules</span></h1>
           <p class="hero-copy">Pick a game, learn the rules, and get ready to play.</p>
-          <a href="#games" class="button button-primary">Choose a game <span aria-hidden="true">»</span></a>
+          <div id="games" class="hero-games">
+            <div class="game-grid" id="game-grid"></div>
+            <noscript><p>Enable JavaScript to open the game guide.</p></noscript>
+          </div>
         </div>
-      </section>
-
-      <section id="games" class="games wrap" aria-labelledby="games-title">
-        <div class="section-heading">
-          <div><p class="eyebrow section-kicker"><span></span> PARTICIPANT GUIDE</p><h2 id="games-title">Choose your game</h2></div>
-        </div>
-        <div class="game-grid" id="game-grid"></div>
-        <noscript><p>Enable JavaScript to open the game guide.</p></noscript>
       </section>
     </div>
 
     <section id="race-view" class="race" aria-labelledby="race-title" hidden>
       <div class="race-sky">
-        <img class="cloud race-cloud" src="assets/cloud.png" alt="" aria-hidden="true">
+        <img class="cloud race-cloud" src="assets/cloud-full.png" alt="" aria-hidden="true">
         <div class="wrap race-content">
           <a class="back-link" href="./#games"><span aria-hidden="true">←</span> All games</a>
           <div class="race-layout">
             <div class="race-intro">
-              <p class="eyebrow race-kicker"><span class="mini-number" aria-label="Game 1">01</span> TEAM RELAY <span class="kicker-jp" lang="ja">台風の目</span></p>
+              <p class="eyebrow race-kicker">TEAM RELAY <span class="kicker-jp" lang="ja">台風の目</span></p>
               <h1 id="race-title" class="race-title" tabindex="-1" data-pixel="TYPHOON|RACE" data-pixel-align="left"><span>Typhoon Race</span></h1>
               <p class="race-lede">Five players, one long pole. Spin around cone 1, U-turn at cone 2, sweep the pole under your team’s feet and over their heads, then pass it on.</p>
               <ul class="race-facts" aria-label="At a glance">
@@ -139,7 +134,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer" id="site-footer" hidden>
     <div class="wrap footer-inner"><span><strong>UNDOKAI</strong> 2026</span><span>Japanese Sports Festival</span></div>
   </footer>
 

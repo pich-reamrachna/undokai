@@ -1,10 +1,10 @@
 "use strict";
 
 const games = [
-  { number: "01", title: "Typhoon Race", href: "#typhoon-race" },
-  { number: "02", title: "Game 2" },
-  { number: "03", title: "Game 3" },
-  { number: "04", title: "Game 4" },
+  { title: "Typhoon Race", href: "#typhoon-race" },
+  { title: "Game 2" },
+  { title: "Game 3" },
+  { title: "Game 4" },
 ];
 
 const steps = [
@@ -91,15 +91,37 @@ function drawTitle(title) {
 
 document.querySelectorAll("[data-pixel]").forEach(drawTitle);
 
+// Pixel-art running track along the bottom of the home page, drawn once as a repeating tile.
+function drawTrack() {
+  const tile = document.createElement("canvas");
+  tile.width = 48;
+  tile.height = 36;
+  const ctx = tile.getContext("2d");
+  const fill = (color, x, y, width, height) => {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, width, height);
+  };
+  fill("#8fca6a", 0, 0, 48, 3);
+  fill("#a4d77c", 0, 0, 48, 1);
+  for (let x = 0; x < 48; x += 8) fill("#79b45a", x + 3, 1, 2, 1);
+  for (let x = 0; x < 48; x += 12) {
+    fill("#fff7e6", x, 3, 6, 2);
+    fill("#e35d3a", x + 6, 3, 6, 2);
+  }
+  fill("#d9673f", 0, 5, 48, 31);
+  for (let i = 0; i < 70; i++) fill(i % 2 ? "#c95a35" : "#e5784d", (i * 29 + 7) % 48, 6 + ((i * 17) % 29), 1, 1);
+  [13, 21, 29].forEach((y) => fill("#fff1d6", 0, y, 48, 1));
+  fill("#b9512f", 0, 35, 48, 1);
+  select("track").style.backgroundImage = "url(" + tile.toDataURL() + ")";
+}
+
+drawTrack();
+
 // Games without a guide yet are shown as plain cards, not buttons.
 games.forEach((game) => {
   const card = document.createElement(game.href ? "a" : "div");
   card.className = game.href ? "game-card active" : "game-card soon";
   if (game.href) card.href = game.href;
-  const number = document.createElement("span");
-  number.className = "card-number";
-  number.setAttribute("aria-hidden", "true");
-  number.textContent = game.number;
   const text = document.createElement("span");
   const name = document.createElement("strong");
   name.className = "card-title";
@@ -108,7 +130,7 @@ games.forEach((game) => {
   description.className = "card-caption";
   description.textContent = game.href ? "View game rules" : "Coming soon";
   text.append(name, description);
-  card.append(number, text);
+  card.append(text);
   if (game.href) {
     const arrow = document.createElement("span");
     arrow.className = "card-arrow";
@@ -646,6 +668,8 @@ function route() {
   const changed = race.hidden === isRace;
   home.hidden = isRace;
   race.hidden = !isRace;
+  // The home page fills the screen exactly, so the footer only shows on game pages.
+  select("site-footer").hidden = !isRace;
   document.title = (isRace ? "Typhoon Race" : "Game Rules") + " | Undokai 2026";
   // Load the video only on the race page, and unload it on leaving so it stops playing.
   if (isRace && video.src !== video.dataset.src) video.src = video.dataset.src;
