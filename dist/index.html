@@ -196,14 +196,14 @@
             <div class="race-intro">
               <p class="eyebrow race-kicker">TEAM THROW <span class="kicker-jp" lang="ja">玉入れ</span></p>
               <h1 id="bb-title" class="race-title" tabindex="-1" data-pixel="BEANBAG|TOSS" data-pixel-align="left"><span>Beanbag Toss</span></h1>
-              <p class="race-lede">Ten players, one basket, two minutes. Throw as many balls into your team’s basket as you can before the end signal.</p>
+              <p class="race-lede">Ten throwers per team, one basket, two minutes. Score from outside the circle while three teammates inside return fallen balls.</p>
               <ul class="race-facts" aria-label="At a glance">
                 <li><strong>3</strong> teams</li>
-                <li><strong>10</strong> per match</li>
+                <li><strong>10</strong> throwers per team</li>
                 <li><strong>4</strong> matches</li>
                 <li><strong>100</strong> balls each</li>
               </ul>
-              <canvas class="race-art beanbag-art" width="160" height="96" role="img" aria-label="Illustration of players throwing balls into a basket held up on a pole"></canvas>
+              <canvas class="race-art beanbag-art" width="160" height="96" role="img" aria-label="Throwers aim at a basket held by an organizer in green. Three teammates help inside the circle, and a referee watches from outside."></canvas>
             </div>
             <section class="video-card" aria-labelledby="bb-video-title">
               <div class="video-bar">
@@ -227,14 +227,30 @@
         <section class="course-panel" aria-labelledby="bb-course-title">
           <div class="video-bar">
             <h3 id="bb-course-title"><span class="header-dot"></span> Whole field</h3>
-            <span class="video-time course-clock">MATCH 2:00</span>
+            <span class="video-time">Top view</span>
           </div>
           <div class="course-body">
             <div class="course-field">
-              <canvas width="320" height="196" role="img" aria-label="Top view of the circles for White Team, Red Team, and Blue Team. Players stand outside each circle, pick balls up from the line and throw them into the basket held in the middle, and stop at the end signal."></canvas>
-              <span class="course-label" style="left: 18.1%">White Team</span>
-              <span class="course-label" style="left: 50%">Red Team</span>
-              <span class="course-label" style="left: 81.9%">Blue Team</span>
+              <div class="beanbag-timer-row">
+                <span class="course-clock" role="timer" aria-label="Match time remaining">
+                  <span class="beanbag-clock-value visually-hidden">02:00</span>
+                  <span class="beanbag-clock-bezel" aria-hidden="true">
+                    <span class="beanbag-clock-face">
+                      <span class="beanbag-clock-digit" data-digit="0"></span>
+                      <span class="beanbag-clock-digit" data-digit="2"></span>
+                      <span class="beanbag-clock-colon"></span>
+                      <span class="beanbag-clock-digit" data-digit="0"></span>
+                      <span class="beanbag-clock-digit" data-digit="0"></span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div class="beanbag-field-map">
+                <canvas width="320" height="196" role="img" aria-label="Top view of White Team, Red Team, and Blue Team. The green organizers hold the baskets. Three helpers in each team’s color return balls to throwers outside their circle. A referee or guide watches each team for fouls."></canvas>
+                <span class="course-label" style="left: 18.1%">White Team</span>
+                <span class="course-label" style="left: 50%">Red Team</span>
+                <span class="course-label" style="left: 81.9%">Blue Team</span>
+              </div>
             </div>
             <div class="course-side">
               <ol class="course-phases" aria-label="Steps"></ol>
@@ -245,7 +261,8 @@
                 <li><span class="team-name"><span class="swatch" style="background: #4a7fd4"></span>Blue Team</span><b class="team-score">0</b><span class="team-rank"></span></li>
               </ol>
               <p class="field-key">
-                <span><span class="swatch" style="background: #4fae63"></span>Volunteers inside the circle, including the one holding the basket</span>
+                <span><span class="swatch" style="background: #4fae63"></span>Organizer holding the basket</span>
+                <span><span class="swatch" style="background: #66539f"></span>Referee or guide</span>
               </p>
               <div class="course-speed" role="group" aria-label="Animation speed">
                 <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
@@ -282,7 +299,7 @@
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#i-clock"/></svg><span><b>4</b> matches, <b>2</b> min each</span></li>
               <li><svg class="ricon"><use href="#i-teams"/></svg><span>All <b>3</b> teams throw at once</span></li>
-              <li><svg class="ricon"><use href="#i-player"/></svg><span><b>10</b> players per team, each match</span></li>
+              <li><svg class="ricon"><use href="#i-player"/></svg><span><b>10</b> outside throwers per team, each match</span></li>
               <li><svg class="ricon"><use href="#i-calendar"/></svg><span>Players picked on game day. Everyone plays once.</span></li>
             </ul>
           </article>
@@ -291,7 +308,7 @@
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#i-ball"/></svg><span><b>100</b> balls per team</span></li>
               <li><svg class="ricon"><use href="#i-line"/></svg><span>They start on the circle line</span></li>
-              <li><svg class="ricon"><use href="#i-repeat"/></svg><span>Pick up, throw, repeat</span></li>
+              <li><svg class="ricon"><use href="#i-repeat"/></svg><span>Pick up balls from the line. Throw from outside.</span></li>
               <li><svg class="ricon"><use href="#i-colors"/></svg><span>Any ball color is fine</span></li>
             </ul>
           </article>
@@ -299,17 +316,18 @@
             <h3>The circle</h3>
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#i-circle"/></svg><span><b>5 m</b> circle around the basket</span></li>
-              <li><svg class="ricon"><use href="#i-no"/></svg><span>Never step inside. Throw from outside.</span></li>
-              <li><svg class="ricon"><use href="#i-helper"/></svg><span>Volunteers inside throw fallen balls back to you</span></li>
-              <li><svg class="ricon"><use href="#i-back"/></svg><span>Stepped in? Go back out.</span></li>
+              <li><svg class="ricon"><use href="#i-helper"/></svg><span><b>3</b> teammates help inside. The organizer in green holds the basket.</span></li>
+              <li><svg class="ricon"><use href="#i-back"/></svg><span>Helpers toss fallen balls back to teammates outside.</span></li>
+              <li><svg class="ricon"><use href="#i-no"/></svg><span>Helpers keep other teammates outside and never throw into the basket.</span></li>
             </ul>
           </article>
           <article>
             <h3>What counts</h3>
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#i-whistle"/></svg><span>Whistle starts and ends the match</span></li>
-              <li><svg class="ricon"><use href="#i-basket"/></svg><span>Only balls in the basket count</span></li>
+              <li><svg class="ricon"><use href="#i-basket"/></svg><span>Only balls thrown into the basket from outside count.</span></li>
               <li><svg class="ricon"><use href="#i-late"/></svg><span>Thrown after the end? Doesn’t count.</span></li>
+              <li><svg class="ricon"><use href="#i-helper"/></svg><span>One referee or guide per team watches for fouls.</span></li>
             </ul>
           </article>
         </div>

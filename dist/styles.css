@@ -129,6 +129,48 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .course-field { position: relative; background: #b9e3a8; }
 .course-field canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
 .course-field .typhoon-course-canvas { image-rendering: auto; }
+.beanbag-timer-row { display: flex; justify-content: flex-end; padding: 8px 10px 3px; }
+.beanbag-timer-row .course-clock {
+  --clock-shape: polygon(9px 0, calc(100% - 9px) 0, calc(100% - 9px) 3px, calc(100% - 6px) 3px, calc(100% - 6px) 6px, calc(100% - 3px) 6px, calc(100% - 3px) 9px, 100% 9px,
+    100% calc(100% - 9px), calc(100% - 3px) calc(100% - 9px), calc(100% - 3px) calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) calc(100% - 3px), calc(100% - 9px) calc(100% - 3px), calc(100% - 9px) 100%,
+    9px 100%, 9px calc(100% - 3px), 6px calc(100% - 3px), 6px calc(100% - 6px), 3px calc(100% - 6px), 3px calc(100% - 9px), 0 calc(100% - 9px), 0 9px, 3px 9px, 3px 6px, 6px 6px, 6px 3px, 9px 3px);
+  display: inline-grid;
+  padding: 3px;
+  color: #24274a;
+  background: #293d6e;
+  clip-path: var(--clock-shape);
+}
+.beanbag-clock-bezel { display: grid; padding: 4px; background: #6cb9db; box-shadow: inset 0 2px #a3e0f6, inset 0 -2px #3c74a5; clip-path: var(--clock-shape); }
+.beanbag-clock-face {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 8px;
+  background: #f6da7b;
+  box-shadow: inset 0 2px #ffeab0, inset 0 -2px #d5a759;
+  clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+}
+.beanbag-clock-digit {
+  width: 11px;
+  height: 20px;
+  background:
+    linear-gradient(var(--digit-top, currentColor) 0 0) center top / 7px 2px no-repeat,
+    linear-gradient(var(--digit-middle, currentColor) 0 0) center / 7px 2px no-repeat,
+    linear-gradient(var(--digit-bottom, currentColor) 0 0) center bottom / 7px 2px no-repeat,
+    linear-gradient(var(--digit-upper-left, currentColor) 0 0) left 2px / 2px 7px no-repeat,
+    linear-gradient(var(--digit-upper-right, currentColor) 0 0) right 2px / 2px 7px no-repeat,
+    linear-gradient(var(--digit-lower-left, currentColor) 0 0) left 11px / 2px 7px no-repeat,
+    linear-gradient(var(--digit-lower-right, currentColor) 0 0) right 11px / 2px 7px no-repeat;
+}
+.beanbag-clock-digit:is([data-digit="1"], [data-digit="4"]) { --digit-top: transparent; }
+.beanbag-clock-digit:is([data-digit="0"], [data-digit="1"], [data-digit="7"]) { --digit-middle: transparent; }
+.beanbag-clock-digit:is([data-digit="1"], [data-digit="4"], [data-digit="7"]) { --digit-bottom: transparent; }
+.beanbag-clock-digit:is([data-digit="1"], [data-digit="2"], [data-digit="3"], [data-digit="7"]) { --digit-upper-left: transparent; }
+.beanbag-clock-digit:is([data-digit="5"], [data-digit="6"]) { --digit-upper-right: transparent; }
+.beanbag-clock-digit:is([data-digit="1"], [data-digit="3"], [data-digit="4"], [data-digit="5"], [data-digit="7"], [data-digit="9"]) { --digit-lower-left: transparent; }
+.beanbag-clock-digit[data-digit="2"] { --digit-lower-right: transparent; }
+.beanbag-clock-colon { width: 3px; height: 20px; background: linear-gradient(currentColor 0 0) center 5px / 3px 3px no-repeat, linear-gradient(currentColor 0 0) center 12px / 3px 3px no-repeat; }
+.beanbag-field-map { position: relative; }
 .course-label { position: absolute; top: .7%; transform: translateX(-50%); background: #fff8de; border: 1px solid var(--ink); padding: 1px 4px; font: 800 clamp(.5rem, 1.2vw, .68rem) var(--mono); letter-spacing: .06em; white-space: nowrap; }
 .course-side { border-left: 2px solid var(--ink); padding: 16px; display: flex; flex-direction: column; gap: 16px; }
 .course-phases { list-style: none; counter-reset: phase; display: grid; gap: 8px; padding: 0; margin: 0; }
