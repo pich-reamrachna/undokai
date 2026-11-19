@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#9bdee6">
-  <meta name="description" content="The participant game guide for Undokai 2026, with walkthroughs for the Typhoon Race and Beanbag Toss.">
+  <meta name="description" content="The participant game guide for Undokai 2026, with walkthroughs for the Typhoon Race, Beanbag Toss and Centipede Race.">
   <title>Game Rules | Undokai 2026</title>
   <link rel="stylesheet" href="styles.css">
   <script src="guide.js" defer></script>
   <script src="typhoon.js" defer></script>
   <script src="beanbag.js" defer></script>
+  <script src="centipede.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -290,6 +291,141 @@
             <dl class="tba-list">
               <div><dt>Extra round</dt><dd>Tied teams play 1 more round of 1 minute. Each team leader picks 10 players.</dd></div>
               <div><dt>Still tied?</dt><dd>Play again.</dd></div>
+            </dl>
+          </section>
+        </div>
+      </section>
+    </section>
+
+    <section id="centipede-race-view" class="race" aria-labelledby="cp-title" hidden>
+      <div class="race-sky">
+        <img class="cloud race-cloud" src="assets/cloud-full.png" alt="" aria-hidden="true">
+        <div class="wrap race-content">
+          <a class="back-link" href="./#games"><span aria-hidden="true">←</span> All games</a>
+          <div class="race-layout">
+            <div class="race-intro">
+              <p class="eyebrow race-kicker">TEAM RELAY <span class="kicker-jp" lang="ja">ムカデ競争</span></p>
+              <h1 id="cp-title" class="race-title" tabindex="-1" data-pixel="CENTIPEDE|RACE" data-pixel-align="left"><span>Centipede Race</span></h1>
+              <p class="race-lede">Four players, two planks. Walk in step to the next handoff point. All six groups go in the same direction, and the team whose 6th group crosses the finish line first wins.</p>
+              <ul class="race-facts" aria-label="At a glance">
+                <li><strong>3</strong> teams</li>
+                <li><strong>4</strong> per group</li>
+                <li><strong>6</strong> groups</li>
+                <li><strong>2</strong> planks</li>
+              </ul>
+              <canvas class="race-art centipede-art" width="160" height="96" role="img" aria-label="Illustration of four players walking in step on two planks"></canvas>
+            </div>
+            <section class="video-card" aria-labelledby="cp-video-title">
+              <div class="video-bar">
+                <h2 id="cp-video-title"><span class="header-dot"></span> Watch a round</h2>
+                <span class="video-time">Coming soon</span>
+              </div>
+              <div class="video-frame video-empty"><p>Video coming soon</p></div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <section class="wrap how" aria-labelledby="cp-how-title">
+        <div class="how-heading">
+          <h2 id="cp-how-title">How to play</h2>
+          <p class="how-hint">Tap a card to play or pause its animation.</p>
+        </div>
+        <ol class="step-list field-steps"></ol>
+        <section class="course-panel" aria-labelledby="cp-course-title">
+          <div class="video-bar">
+            <h3 id="cp-course-title"><span class="header-dot"></span> Whole field</h3>
+            <span class="video-time">Top view</span>
+          </div>
+          <div class="course-body">
+            <div class="course-field">
+              <canvas width="320" height="206" role="img" aria-label="Top view of three lanes with a map of the full relay above them. The camera follows the teams from left to right through five handoff points. The sixth group crosses the finish line."></canvas>
+            </div>
+            <div class="course-side">
+              <ol class="course-phases" aria-label="Steps"></ol>
+              <p class="course-now"><span class="course-now-label">NOW</span> <span class="course-caption"></span></p>
+              <ol class="team-scores" aria-label="Groups finished by each team">
+                <li><span class="team-name"><span class="swatch" style="background: #e04848"></span>Team 1</span><b class="team-score">0/6</b><span class="team-rank"></span></li>
+                <li><span class="team-name"><span class="swatch" style="background: #4a7fd4"></span>Team 2</span><b class="team-score">0/6</b><span class="team-rank"></span></li>
+                <li><span class="team-name"><span class="swatch" style="background: #fffdf5"></span>Team 3</span><b class="team-score">0/6</b><span class="team-rank"></span></li>
+              </ol>
+              <p class="field-key"><span>Groups finished. Faded groups have already walked.</span></p>
+              <div class="course-speed" role="group" aria-label="Animation speed">
+                <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
+                <output class="speed-value" aria-live="polite">1×</output>
+                <button class="speed-button speed-up" type="button" aria-label="Speed up">Faster »</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="wrap full-rules" aria-labelledby="cp-rules-title">
+        <h2 id="cp-rules-title">Rules</h2>
+        <svg class="icon-sprite" aria-hidden="true" focusable="false">
+          <symbol id="c-teams" viewBox="0 0 24 24"><circle cx="6" cy="9" r="2.2"/><circle cx="12" cy="7" r="2.6"/><circle cx="18" cy="9" r="2.2"/><path d="M2 19c0-2.4 1.8-4 4-4M8 19c0-3 1.8-5 4-5s4 2 4 5M18 15c2.2 0 4 1.6 4 4"/></symbol>
+          <symbol id="c-player" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></symbol>
+          <symbol id="c-relay" viewBox="0 0 24 24"><path d="M3 8h16m-4-4 4 4-4 4M3 16h16m-4-4 4 4-4 4"/></symbol>
+          <symbol id="c-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><circle cx="9" cy="9" r="1.2"/><circle cx="15" cy="15" r="1.2"/><circle cx="15" cy="9" r="1.2"/><circle cx="9" cy="15" r="1.2"/></symbol>
+          <symbol id="c-planks" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="4"/><rect x="3" y="14" width="18" height="4"/></symbol>
+          <symbol id="c-feet" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="4"/><rect x="3" y="15" width="18" height="4"/><path d="M9 4v6M15 14v6"/></symbol>
+          <symbol id="c-no" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/></symbol>
+          <symbol id="c-straight" viewBox="0 0 24 24"><path d="M3 12h16M15 7l5 5-5 5M3 6v12"/></symbol>
+          <symbol id="c-ruler" viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></symbol>
+          <symbol id="c-hand" viewBox="0 0 24 24"><rect x="3" y="10" width="11" height="4"/><path d="M14 8l5 4-5 4M19 5v14"/></symbol>
+          <symbol id="c-back" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5M4 9h11a5 5 0 0 1 0 10h-3"/></symbol>
+          <symbol id="c-pin" viewBox="0 0 24 24"><path d="M12 21s-6-6.5-6-11a6 6 0 0 1 12 0c0 4.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></symbol>
+          <symbol id="c-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol>
+        </svg>
+        <div class="rule-grid">
+          <article>
+            <h3>Teams &amp; groups</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon"><use href="#c-teams"/></svg><span>All <b>3</b> teams race at once, one lane each</span></li>
+              <li><svg class="ricon"><use href="#c-player"/></svg><span><b>4</b> players per group</span></li>
+              <li><svg class="ricon"><use href="#c-relay"/></svg><span><b>6</b> groups per team, so <b>24</b> of <b>40</b> players run</span></li>
+              <li><svg class="ricon"><use href="#c-dice"/></svg><span>Group order is decided on the spot</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Planks</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon"><use href="#c-planks"/></svg><span><b>2</b> planks per team</span></li>
+              <li><svg class="ricon"><use href="#c-feet"/></svg><span>One foot on each plank</span></li>
+              <li><svg class="ricon"><use href="#c-no"/></svg><span>No cones and no long pole</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>The relay</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon"><use href="#c-straight"/></svg><span>All six groups walk in the same direction</span></li>
+              <li><svg class="ricon"><use href="#c-ruler"/></svg><span>Same distance for every group</span></li>
+              <li><svg class="ricon"><use href="#c-hand"/></svg><span>Hand the planks over at the next handoff point. Group 6 crosses the finish line.</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Fell off?</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon"><use href="#c-back"/></svg><span>Put the planks back on</span></li>
+              <li><svg class="ricon"><use href="#c-pin"/></svg><span>Carry on from the same spot</span></li>
+              <li><svg class="ricon"><use href="#c-ok"/></svg><span>No penalty</span></li>
+            </ul>
+          </article>
+        </div>
+        <div class="rule-extras">
+          <section class="score-card" aria-labelledby="cp-score-title">
+            <h3 id="cp-score-title">Points</h3>
+            <p class="score-note">Ranked by finish order: the team whose 6th group finishes first wins. No stopwatch.</p>
+            <ol class="podium">
+              <li class="place-1"><span class="place">1st</span><span class="bar"><strong>50</strong> pts</span></li>
+              <li class="place-2"><span class="place">2nd</span><span class="bar"><strong>40</strong> pts</span></li>
+              <li class="place-3"><span class="place">3rd</span><span class="bar"><strong>20</strong> pts</span></li>
+            </ol>
+          </section>
+          <section class="tba-card" aria-labelledby="cp-tba-title">
+            <h3 id="cp-tba-title">To be announced</h3>
+            <dl class="tba-list">
+              <div><dt>Who runs <span class="tag">TBA</span></dt><dd>Leader picks, volunteers, or random.</dd></div>
             </dl>
           </section>
         </div>

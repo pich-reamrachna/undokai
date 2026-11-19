@@ -2,12 +2,12 @@
 
 // Shared parts of the guide: the home page, pixel-art helpers, step cards, the top-view
 // panel and page switching. Each game's scenes live in their own file (typhoon.js,
-// beanbag.js) and register themselves with registerGuide().
+// beanbag.js, centipede.js) and register themselves with registerGuide().
 
 const games = [
   { title: "Typhoon Race", href: "#typhoon-race" },
   { title: "Beanbag Toss", href: "#beanbag-toss" },
-  { title: "Game 3" },
+  { title: "Centipede Race", href: "#centipede-race" },
   { title: "Game 4" },
 ];
 
@@ -19,9 +19,11 @@ const glyphs = {
   A: ["01110","11011","10001","11111","11011","11011","11011"],
   B: ["11110","11011","11011","11110","11011","11011","11110"],
   C: ["01111","11000","11000","11000","11000","11000","01111"],
+  D: ["11110","11011","11011","11011","11011","11011","11110"],
   E: ["11111","11000","11000","11110","11000","11000","11111"],
   G: ["01110","11011","11000","11000","11011","11011","01110"],
   H: ["11011","11011","11011","11111","11011","11011","11011"],
+  I: ["11111","01110","01110","01110","01110","01110","11111"],
   L: ["11000","11000","11000","11000","11000","11000","11111"],
   M: ["10001","11011","11111","10101","10001","10001","10001"],
   N: ["10001","11001","11001","10101","10011","10011","10001"],
