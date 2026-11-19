@@ -39,7 +39,6 @@ main:focus, .race-title:focus { outline: none; }
 .cloud-small { width: clamp(130px, 11vw, 178px); top: 240px; right: max(40px, calc(50% - 560px)); opacity: .48; transform: scaleX(-1); }
 .fence { position: absolute; inset: auto 0 calc(var(--track-h) - 4px); height: var(--fence-h); background: url(assets/fence.png) repeat-x left bottom / auto 100%; }
 .track { position: absolute; inset: auto 0 0; height: var(--track-h); background: #d9673f repeat-x left top / auto 100%; image-rendering: pixelated; }
-.tree { position: absolute; width: clamp(180px, 18vw, 400px); height: auto; bottom: calc(var(--track-h) - 8px); left: max(16px, calc(50% - 780px)); image-rendering: pixelated; }
 .spark { position: absolute; color: #fff8cd; text-shadow: 2px 2px #dd9d70; font-size: 26px; }
 .spark-left { right: calc(50% + 280px); top: 210px; }
 .spark-right { left: calc(50% + 250px); top: 120px; }
@@ -181,7 +180,6 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .cloud-left { width: 150px; top: 40px; left: 8px; }
   .cloud-right { width: 170px; top: 70px; right: 8px; }
   .cloud-small, .spark { display: none; }
-  .tree { width: 150px; left: 8px; }
   .game-grid { gap: 8px; }
   .game-card { gap: 6px; padding: 9px 10px; min-height: 64px; }
   .game-card.active { padding: 8px 9px; box-shadow: 2px 2px var(--ink); }
