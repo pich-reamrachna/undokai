@@ -68,7 +68,7 @@
             <div class="race-intro">
               <p class="eyebrow race-kicker">TEAM RELAY <span class="kicker-jp" lang="ja">台風の目</span></p>
               <h1 id="race-title" class="race-title" tabindex="-1" data-pixel="TYPHOON|RACE" data-pixel-align="left"><span>Typhoon Race</span></h1>
-              <p class="race-lede">Five players, one long pole. Spin around cone 1, U-turn at cone 2, sweep the pole under your team’s feet and over their heads, then pass it on.</p>
+              <p class="race-lede">Five players, one long pole. Circle cone 1, run diagonally to the left of cone 2, then U-turn and run straight back. Sweep the pole low and high, then pass it on.</p>
               <ul class="race-facts" aria-label="At a glance">
                 <li><strong>3</strong> teams</li>
                 <li><strong>5</strong> per group</li>
@@ -78,13 +78,12 @@
             </div>
             <section class="video-card" aria-labelledby="video-title">
               <div class="video-bar">
-                <h2 id="video-title"><span class="header-dot"></span> Watch one round</h2>
-                <span class="video-time">0:00 – 0:38</span>
+                <h2 id="video-title"><span class="header-dot"></span> Watch a clip</h2>
+                <span class="video-time">0:30</span>
               </div>
               <div class="video-frame">
-                <iframe data-src="https://www.youtube-nocookie.com/embed/SG-FIztlRp8?rel=0" title="Typhoon Race example video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <video data-src="assets/typhoon-race.mp4" controls playsinline preload="metadata" aria-label="Typhoon Race example clip"></video>
               </div>
-              <p class="video-note">The first 38 seconds show one full round. Your team keeps going until every group has run.</p>
             </section>
           </div>
         </div>
@@ -103,15 +102,16 @@
           </div>
           <div class="course-body">
             <div class="course-field">
-              <canvas width="320" height="246" role="img" aria-label="Top view of three lanes for White Team, Red Team, and Blue Team. Each team's group spins a full circle around cone 1, makes a U-turn at cone 2, runs back, sweeps the pole along the waiting rows, and hands it to the next group."></canvas>
-              <span class="course-label" style="left: 26%">WAITING</span>
-              <span class="course-label" style="left: 37.5%">START</span>
+              <canvas class="typhoon-course-canvas" width="1280" height="984" role="img" aria-label="Top view of the full relay for White Team, Red Team, and Blue Team. Groups run the cone route and sweep the pole along the rows before handing it off. The final group in each lane wears gold sashes. The first final group to cross the finish line wins for its team."></canvas>
+              <span class="course-label" style="left: 16%">WAITING</span>
+              <span class="course-label" style="left: 37.5%">START/FINISH</span>
               <span class="course-label" style="left: 59.4%">CONE 1</span>
-              <span class="course-label" style="left: 81.9%">CONE 2 · U-TURN</span>
+              <span class="course-label" style="left: 81.9%">CONE 2 U-TURN</span>
             </div>
             <div class="course-side">
               <ol class="course-phases" aria-label="Steps"></ol>
               <p class="course-now"><span class="course-now-label">NOW</span> <span class="course-caption"></span></p>
+              <p class="field-key">Gold sashes mark each team’s last group. This example shows six groups per team.</p>
               <div class="course-speed" role="group" aria-label="Animation speed">
                 <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
                 <output class="speed-value" aria-live="polite">1×</output>
@@ -124,11 +124,47 @@
 
       <section class="wrap full-rules" aria-labelledby="full-rules-title">
         <h2 id="full-rules-title">Rules</h2>
+        <svg class="icon-sprite" aria-hidden="true" focusable="false">
+          <symbol id="ty-cone-icon" viewBox="0 0 24 24"><path d="M3 20h18M6 20L11 4h2l5 16M9 11h6M7 16h10"/></symbol>
+          <symbol id="ty-diagonal-icon" viewBox="0 0 24 24"><path d="M5 19L19 5M11 5h8v8"/></symbol>
+          <symbol id="ty-sash-icon" viewBox="0 0 24 24"><path d="M8 4l3 3h2l3-3 5 4-3 5-2-1v8H8v-8l-2 1-3-5zM8 5l8 14M6 8l7 12"/></symbol>
+          <symbol id="ty-flag-icon" viewBox="0 0 24 24"><path d="M5 21V4h14v10H5M10 4v10m5-10v10m-10-5h14"/></symbol>
+        </svg>
         <div class="rule-grid">
-          <article><h3>Teams and lanes</h3><p>All 3 teams run a continuous relay at the same time, one lane per team. Waiting groups stand in rows, one group per row. The front row goes next.</p></article>
-          <article><h3>Dropped the pole?</h3><p>If the pole falls or someone lets go, grab it again and keep going. No penalty.</p></article>
-          <article><h3>Missed a jump or duck?</h3><p>If the pole hits a waiting teammate who didn’t jump or duck, there’s no penalty. Keep going.</p></article>
-          <article><h3>Finish</h3><p>The relay ends when every group on your team has run. Teams are ranked by the order they finish.</p></article>
+          <article>
+            <h3>Teams &amp; lanes</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-teams"/></svg><span>All <b>3</b> teams race at once, one lane each.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-player"/></svg><span><b>5</b> players share one pole.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-relay"/></svg><span>Line up one group per row. The front row goes next.</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Cone route</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#ty-cone-icon"/></svg><span>Run to cone <b>1</b> and circle it once.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#ty-diagonal-icon"/></svg><span>Run diagonally to the left of cone <b>2</b>.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-back"/></svg><span>U-turn around cone <b>2</b>, then run straight back.</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Pole sweep &amp; handoff</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#i-helper"/></svg><span>The middle three step aside. The two end players sweep the pole.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-feet"/></svg><span>Sweep low toward the back. Waiting players jump over the pole.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-back"/></svg><span>Sweep high back to the front. Waiting players duck.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-hand"/></svg><span>Set the pole down at the start for the next group.</span></li>
+            </ul>
+          </article>
+          <article>
+            <h3>Penalties &amp; finish</h3>
+            <ul class="rule-list">
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-ok"/></svg><span>Lose your grip or drop the pole? Grab it and keep going. No penalty.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#c-ok"/></svg><span>Pole hits a waiting player? Keep going. No penalty.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#ty-sash-icon"/></svg><span>Each team’s last group wears sashes.</span></li>
+              <li><svg class="ricon" aria-hidden="true"><use href="#ty-flag-icon"/></svg><span>The first sash group back across the start line wins. Rank the other teams by finish order.</span></li>
+            </ul>
+          </article>
         </div>
         <div class="rule-extras">
           <section class="score-card" aria-labelledby="score-title">

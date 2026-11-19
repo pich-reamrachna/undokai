@@ -4,7 +4,7 @@ This static site contains the landing page and guides for Typhoon Race, Beanbag 
 
 ## Preview locally
 
-Run `python3 -m http.server 8000 --directory dist` from the project folder and open http://localhost:8000. A YouTube embed shows "Error 153" if you open `dist/index.html` directly from disk, because YouTube needs the page to be served over HTTP.
+Run `python3 -m http.server 8000 --directory dist` from the project folder and open http://localhost:8000.
 
 ## Deploy on Vercel
 
@@ -29,7 +29,7 @@ Alternatively, run `vercel --prod` from the project folder with the Vercel CLI.
 
 ## Videos
 
-- Typhoon Race: edit the `data-src` of the iframe in the Typhoon Race section of `dist/index.html`.
+- Typhoon Race: the clip is `dist/assets/typhoon-race.mp4`. The video’s `data-src` is loaded when the guide opens. Update the length label if you replace the clip.
 - Beanbag Toss: the clip is `dist/assets/bean-bag.mp4`, played by a `<video>` tag in the Beanbag Toss section of `dist/index.html`. To swap it, replace the file (keep it short, ideally an MP4 under ~20 MB) and update the length label (`0:08`) above the player.
 - Centipede Race: the clip is `dist/assets/centipede.mp4`, played by a `<video>` tag in the Centipede Race section of `dist/index.html`. Update the length label if you replace the clip.
 - Dondarm Slerk Cher has a video placeholder. Replace the `video-empty` block with a YouTube iframe or a `<video>` tag and update the "Coming soon" label above it.

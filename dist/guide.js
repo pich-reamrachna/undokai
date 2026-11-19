@@ -402,11 +402,13 @@ function route() {
     const show = guide === active;
     const changed = guide.view.hidden === show;
     guide.view.hidden = !show;
-    // Load a video only while its page is open, and unload it on leaving so it stops playing.
-    const video = guide.view.querySelector("iframe[data-src]");
-    if (video && show && video.src !== video.dataset.src) video.src = video.dataset.src;
-    if (video && !show && video.src && video.src !== "about:blank") video.src = "about:blank";
-    if (!show) guide.view.querySelectorAll("video").forEach((clip) => clip.pause());
+    const embed = guide.view.querySelector("iframe[data-src]");
+    if (embed && show && embed.src !== embed.dataset.src) embed.src = embed.dataset.src;
+    if (embed && !show && embed.src && embed.src !== "about:blank") embed.src = "about:blank";
+    guide.view.querySelectorAll("video").forEach((clip) => {
+      if (show && clip.dataset.src && !clip.hasAttribute("src")) clip.src = clip.dataset.src;
+      if (!show) clip.pause();
+    });
     if (show && changed) {
       window.scrollTo({ top: 0, behavior: "instant" });
       guide.view.querySelector(".race-title").focus({ preventScroll: true });
