@@ -142,7 +142,6 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .video-bar h2, .video-bar h3 { display: flex; gap: 8px; align-items: center; }
 .video-time { color: var(--yellow); white-space: nowrap; }
 .video-frame { aspect-ratio: 16/9; background: var(--ink); }
-.centipede-art { image-rendering: pixelated; }
 .video-frame iframe, .video-frame video { display: block; width: 100%; height: 100%; border: 0; }
 .video-frame video { object-fit: contain; background: var(--ink); }
 .beanbag-art { image-rendering: pixelated; }
@@ -152,7 +151,7 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .course-scenarios { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border-bottom: 2px solid var(--ink); }
 .course-scenarios button[aria-pressed="true"] { background: var(--yellow); }
 .course-body { display: grid; grid-template-columns: minmax(0,1.75fr) minmax(0,1fr); }
-.course-field { position: relative; background: #b9e3a8; }
+.course-field { position: relative; background: #b9e3a8; cursor: pointer; }
 .course-field canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
 .course-field .typhoon-course-canvas { image-rendering: auto; }
 .beanbag-timer-row { display: flex; justify-content: flex-end; padding: 8px 10px 3px; }
@@ -214,12 +213,31 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .field-steps .step-media { background: #a2d492; }
 .field-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; color: var(--muted); font-size: .78rem; }
 .field-key > span { display: inline-flex; align-items: center; gap: 6px; }
-.course-speed { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; margin-top: auto; }
+.course-playback { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; padding: 0 8px 3px; background: var(--ink); color: var(--white); cursor: auto; }
+.course-timeline {
+  appearance: none;
+  flex: 0 0 100%;
+  min-width: 0;
+  height: 36px;
+  margin: 0;
+  background: linear-gradient(to right, var(--yellow) var(--played, 0%), #686980 var(--played, 0%)) center / 100% 4px no-repeat;
+  cursor: pointer;
+  touch-action: pan-y pinch-zoom;
+}
+.course-timeline::-webkit-slider-runnable-track { height: 4px; }
+.course-timeline::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%; background: var(--yellow); }
+.course-timeline::-moz-range-track { height: 4px; }
+.course-timeline::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: var(--yellow); }
+.course-time { padding-inline: 4px; font: 700 .75rem var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.course-playback button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; font: 700 1.15rem/1 system-ui, sans-serif; }
+.course-playback .course-rewind { font-size: 1.45rem; }
+.course-playback button:hover { background: #ffffff22; }
+.course-playback :focus-visible { outline: 2px solid var(--yellow); outline-offset: -2px; }
+.course-rate { min-height: 44px; margin-inline-start: auto; padding-inline: 8px; border: 1px solid #ffffff55; background: var(--ink); color: inherit; font: 800 .85rem var(--mono); cursor: pointer; }
 .speed-button { min-height: 36px; padding: 6px 10px; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); font: 800 .76rem var(--mono); transition: transform .12s, box-shadow .12s; }
 .speed-button:hover:not(:disabled) { background: var(--yellow); }
 .speed-button:active:not(:disabled) { transform: translate(2px,2px); box-shadow: 0 0 var(--ink); }
 .speed-button:disabled { opacity: .4; cursor: default; box-shadow: none; }
-.speed-value { min-width: 3.2em; text-align: center; font: 800 .9rem var(--mono); }
 .step-list { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
 .step-card { min-width: 0; border: 2px solid var(--ink); background: var(--white); cursor: pointer; transition: background-color .25s, box-shadow .25s, transform .25s; }
 .step-card.current { background: #fff6cc; box-shadow: 4px 4px var(--ink); transform: translate(-2px,-2px); }

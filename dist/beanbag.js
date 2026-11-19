@@ -582,7 +582,7 @@
     view,
     controllers: [
       createSteps(view, steps),
-      createOverview(view, { steps, draw: drawField, phaseAt, onRender: updateReadouts }),
+      createOverview(view, { steps, draw: drawField, phaseAt, duration: CYCLE, onRender: updateReadouts }),
     ],
   });
 })();

@@ -117,11 +117,6 @@
               <ol class="course-phases" aria-label="Steps"></ol>
               <p class="course-now"><span class="course-now-label">NOW</span> <span class="course-caption"></span></p>
               <p class="field-key">Gold sashes mark each team’s last group. This example shows six groups per team.</p>
-              <div class="course-speed" role="group" aria-label="Animation speed">
-                <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
-                <output class="speed-value" aria-live="polite">1×</output>
-                <button class="speed-button speed-up" type="button" aria-label="Speed up">Faster »</button>
-              </div>
             </div>
           </div>
         </section>
@@ -267,11 +262,6 @@
                 <span><span class="swatch" style="background: #4fae63"></span>Organizer holding the basket</span>
                 <span><span class="swatch" style="background: #66539f"></span>Referee or guide</span>
               </p>
-              <div class="course-speed" role="group" aria-label="Animation speed">
-                <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
-                <output class="speed-value" aria-live="polite">1×</output>
-                <button class="speed-button speed-up" type="button" aria-label="Speed up">Faster »</button>
-              </div>
             </div>
           </div>
         </section>
@@ -371,7 +361,7 @@
                 <li><strong>6</strong> groups</li>
                 <li><strong>2</strong> planks</li>
               </ul>
-              <canvas class="race-art centipede-art" width="160" height="96" role="img" aria-label="Illustration of four players walking in step on two planks"></canvas>
+              <img class="race-art" src="assets/mukade.png" width="1575" height="998" alt="Illustration of six players walking in step on two planks">
             </div>
             <section class="video-card" aria-labelledby="cp-video-title">
               <div class="video-bar">
@@ -410,11 +400,6 @@
                 <li><span class="team-name"><span class="swatch" style="background: #4a7fd4"></span>Blue Team</span><b class="team-score">0/6</b><span class="team-rank"></span></li>
               </ol>
               <p class="field-key"><span>Groups finished. Faded groups have already walked.</span></p>
-              <div class="course-speed" role="group" aria-label="Animation speed">
-                <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
-                <output class="speed-value" aria-live="polite">1×</output>
-                <button class="speed-button speed-up" type="button" aria-label="Speed up">Faster »</button>
-              </div>
             </div>
           </div>
         </section>
@@ -542,11 +527,6 @@
               <ol class="course-phases" aria-label="Steps"></ol>
               <p class="course-now"><span class="course-now-label">NOW</span> <span class="course-caption"></span></p>
               <p class="field-key"><span>The small squares show 10 waiting players per team in this example. The timeout example is sped up.</span></p>
-              <div class="course-speed" role="group" aria-label="Animation speed">
-                <button class="speed-button speed-down" type="button" aria-label="Slow down">« Slower</button>
-                <output class="speed-value" aria-live="polite">1×</output>
-                <button class="speed-button speed-up" type="button" aria-label="Speed up">Faster »</button>
-              </div>
             </div>
           </div>
         </section>
@@ -619,6 +599,16 @@
       </section>
     </section>
   </main>
+
+  <template id="course-playback">
+    <div class="course-playback" role="group">
+      <input class="course-timeline" type="range" min="0" step="any" value="0">
+      <button class="course-play" type="button"></button>
+      <button class="course-rewind" type="button">↶</button>
+      <span class="course-time" aria-hidden="true"></span>
+      <select class="course-rate"></select>
+    </div>
+  </template>
 
   <footer class="site-footer" id="site-footer" hidden>
     <div class="wrap footer-inner"><span><strong>UNDOKAI</strong> 2026</span><span>Japanese Sports Festival</span></div>

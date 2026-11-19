@@ -336,19 +336,25 @@ function createSteps(view, steps) {
 }
 
 const speeds = [0.25, 0.5, 1, 1.5, 2, 3];
-const defaultSpeedIndex = speeds.indexOf(1);
 
-// Top-view panel: plays on its own while on screen and pauses when scrolled away.
+// Top-view panel: playback stops while offscreen and resumes if still enabled.
 // draw(ctx, time) paints a frame; phaseAt(time) returns { step, caption } for the side list;
 // onRender(time) lets a game update extra readouts such as a clock or scores.
-function createOverview(view, { steps, draw, phaseAt, onRender }) {
-  const canvas = view.querySelector(".course-field canvas");
+function createOverview(view, { steps, draw, phaseAt, duration, onRender }) {
+  const field = view.querySelector(".course-field");
+  const canvas = field.querySelector("canvas");
   const ctx = canvas.getContext("2d");
   const phaseList = view.querySelector(".course-phases");
   const caption = view.querySelector(".course-caption");
-  const speedValue = view.querySelector(".speed-value");
-  const slower = view.querySelector(".speed-down");
-  const faster = view.querySelector(".speed-up");
+  const controls = select("course-playback").content.firstElementChild.cloneNode(true);
+  const timeline = controls.querySelector(".course-timeline");
+  const timeLabel = controls.querySelector(".course-time");
+  const play = controls.querySelector(".course-play");
+  const rewind = controls.querySelector(".course-rewind");
+  const rate = controls.querySelector(".course-rate");
+  timeline.max = duration;
+  rate.append(...speeds.map((speed) => new Option(speed + "×", speed)));
+  field.append(controls);
   const phaseItems = steps.map((step) => {
     const item = document.createElement("li");
     item.textContent = translate(step.title);
@@ -361,13 +367,34 @@ function createOverview(view, { steps, draw, phaseAt, onRender }) {
   let last = null;
   let frame = 0;
   let visible = false;
-  let speedIndex = defaultSpeedIndex;
-  let displayedTime = 0;
+  let playing = !reducedMotion.matches;
+  let seekingPointer = null;
 
-  function render(time) {
-    displayedTime = time;
+  function formatTime(time) {
+    const seconds = Math.floor(time / 1000);
+    return Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+  }
+
+  const total = formatTime(duration);
+
+  function updateTimelineLabel() {
+    const elapsed = formatTime(clock);
+    const label = elapsed + " / " + total;
+    if (timeLabel.textContent !== label) timeLabel.textContent = label;
+    const description = translate("{elapsed} of {total}", { elapsed, total });
+    if (timeline.getAttribute("aria-valuetext") !== description) {
+      timeline.setAttribute("aria-valuetext", description);
+    }
+  }
+
+  function render() {
+    // The game scenes wrap at exactly one cycle. Show the final frame at the slider's endpoint.
+    const time = clock === duration ? duration - 1 : clock;
     draw(ctx, time);
     if (onRender) onRender(time);
+    timeline.value = clock;
+    timeline.style.setProperty("--played", (clock / duration * 100) + "%");
+    updateTimelineLabel();
     const phase = phaseAt(time);
     if (phase !== current) {
       current = phase;
@@ -376,27 +403,59 @@ function createOverview(view, { steps, draw, phaseAt, onRender }) {
     }
   }
 
-  function setSpeed(index) {
-    speedIndex = Math.max(0, Math.min(speeds.length - 1, index));
-    speedValue.textContent = speeds[speedIndex] + "×";
-    slower.disabled = speedIndex === 0;
-    faster.disabled = speedIndex === speeds.length - 1;
+  function labelControl(control, label) {
+    const text = translate(label);
+    control.setAttribute("aria-label", text);
+    control.title = text;
   }
 
-  slower.addEventListener("click", () => setSpeed(speedIndex - 1));
-  faster.addEventListener("click", () => setSpeed(speedIndex + 1));
+  function updatePlayButton() {
+    labelControl(play, playing ? "Pause animation" : "Play animation");
+    play.textContent = playing ? "Ⅱ" : "▶";
+  }
+
+  function togglePlayback() {
+    playing = !playing;
+    updatePlayButton();
+    start();
+  }
+
+  play.addEventListener("click", togglePlayback);
+  field.addEventListener("click", (event) => {
+    if (!controls.contains(event.target)) togglePlayback();
+  });
+  rewind.addEventListener("click", () => restart());
+
+  timeline.addEventListener("pointerdown", (event) => {
+    if (seekingPointer !== null || event.button !== 0) return;
+    seekingPointer = event.pointerId;
+    start();
+  });
+  timeline.addEventListener("input", () => {
+    clock = timeline.valueAsNumber;
+    render();
+    start();
+  });
+
+  function finishSeeking(event) {
+    if (seekingPointer !== event.pointerId) return;
+    seekingPointer = null;
+    start();
+  }
+  window.addEventListener("pointerup", finishSeeking);
+  window.addEventListener("pointercancel", finishSeeking);
 
   function tick(now) {
-    if (last !== null) clock += (now - last) * speeds[speedIndex];
+    if (last !== null) clock = (clock + (now - last) * Number(rate.value)) % duration;
     last = now;
-    render(clock);
+    render();
     frame = requestAnimationFrame(tick);
   }
 
   function start() {
     cancelAnimationFrame(frame);
     last = null;
-    if (visible && !view.hidden && !reducedMotion.matches) frame = requestAnimationFrame(tick);
+    if (visible && !view.hidden && playing && seekingPointer === null) frame = requestAnimationFrame(tick);
   }
 
   new IntersectionObserver(([entry]) => {
@@ -405,20 +464,33 @@ function createOverview(view, { steps, draw, phaseAt, onRender }) {
   }).observe(canvas);
 
   function restart(stillTime = 0) {
-    clock = 0;
-    render(reducedMotion.matches ? stillTime : 0);
+    clock = reducedMotion.matches && !playing ? stillTime : 0;
+    render();
     start();
   }
 
   function reset() {
-    setSpeed(defaultSpeedIndex);
+    rate.value = "1";
+    playing = !reducedMotion.matches;
+    seekingPointer = null;
+    updatePlayButton();
     restart();
   }
 
+  function updateControlCopy() {
+    controls.setAttribute("aria-label", translate("Animation playback"));
+    labelControl(rewind, "Rewind to start");
+    labelControl(rate, "Animation speed");
+    labelControl(timeline, "Animation timeline");
+    updatePlayButton();
+  }
+
+  updateControlCopy();
   onLanguageChange(() => {
+    updateControlCopy();
     phaseItems.forEach((item, index) => { item.textContent = translate(steps[index].title); });
     current = null;
-    if (!view.hidden) render(displayedTime);
+    if (!view.hidden) render();
   });
 
   return { start, restart, reset };

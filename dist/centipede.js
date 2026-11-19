@@ -328,14 +328,13 @@
     });
   }
 
-  drawWalk(view.querySelector(".centipede-art").getContext("2d"), 0.36);
   registerGuide({
     hash: "#centipede-race",
     title: "Centipede Race",
     view,
     controllers: [
       createSteps(view, steps),
-      createOverview(view, { steps, draw: drawField, phaseAt, onRender: updateReadouts }),
+      createOverview(view, { steps, draw: drawField, phaseAt, duration: CYCLE, onRender: updateReadouts }),
     ],
   });
 })();

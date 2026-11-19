@@ -343,7 +343,7 @@
   }
 
   const view = select("dondarm-slerk-cher-view");
-  const overview = createOverview(view, { steps, draw: drawExample, phaseAt });
+  const overview = createOverview(view, { steps, draw: drawExample, phaseAt, duration: exampleDuration });
   const scenarios = view.querySelector(".course-scenarios");
   const scenarioButtons = examples.map((example) => {
     const button = document.createElement("button");

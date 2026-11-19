@@ -438,7 +438,7 @@
     view,
     controllers: [
       createSteps(view, steps),
-      createOverview(view, { steps, draw: drawCourse, phaseAt: overviewPhaseAt }),
+      createOverview(view, { steps, draw: drawCourse, phaseAt: overviewPhaseAt, duration: CYCLE }),
     ],
   });
 })();
