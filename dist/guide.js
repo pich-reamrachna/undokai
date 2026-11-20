@@ -16,6 +16,61 @@ const home = select("home-view");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const phoneLayout = window.matchMedia("(max-width: 650px)");
 
+function setupHeaderMenus() {
+  const triggers = document.querySelectorAll(".header-menu-toggle");
+  const languageLabel = document.querySelector(".language-menu-label");
+  const musicVolume = document.querySelector(".music-volume");
+  let openTrigger = null;
+
+  function closeMenu(restoreFocus = false) {
+    if (!openTrigger) return;
+    const trigger = openTrigger;
+    openTrigger = null;
+    trigger.setAttribute("aria-expanded", "false");
+    if (restoreFocus) trigger.focus();
+  }
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      const wasOpen = openTrigger === trigger;
+      closeMenu();
+      if (!wasOpen) {
+        openTrigger = trigger;
+        trigger.setAttribute("aria-expanded", "true");
+      }
+    });
+    trigger.parentElement.addEventListener("focusout", (event) => {
+      if (openTrigger === trigger && event.relatedTarget && !trigger.parentElement.contains(event.relatedTarget)) {
+        closeMenu();
+      }
+    });
+    trigger.hidden = false;
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!openTrigger) return;
+    if (!openTrigger.parentElement.contains(event.target)) closeMenu();
+    else if (event.target.closest("[data-language]")) closeMenu(true);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && openTrigger) closeMenu(true);
+  });
+  function updateLayout() {
+    closeMenu();
+    musicVolume.setAttribute("aria-orientation", phoneLayout.matches ? "vertical" : "horizontal");
+  }
+  updateLayout();
+  phoneLayout.addEventListener("change", updateLayout);
+
+  function updateLanguageLabel() {
+    languageLabel.textContent = language === "ja" ? "日本語" : "EN";
+  }
+  updateLanguageLabel();
+  onLanguageChange(updateLanguageLabel);
+}
+
+setupHeaderMenus();
+
 const glyphs = {
   A: ["01110","11011","10001","11111","11011","11011","11011"],
   B: ["11110","11011","11011","11110","11011","11011","11110"],

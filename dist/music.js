@@ -3,6 +3,7 @@
 (() => {
   const audio = document.getElementById("background-music");
   const controls = document.querySelector(".music-controls");
+  const menu = controls.closest(".header-menu");
   const toggle = controls.querySelector(".music-toggle");
   const slider = controls.querySelector(".music-volume");
   const storageKey = "undokai-music";
@@ -11,7 +12,8 @@
   try {
     const stored = JSON.parse(localStorage.getItem(storageKey));
     if (typeof stored?.enabled === "boolean") settings.enabled = stored.enabled;
-    if (Number.isInteger(stored?.volume) && stored.volume >= 0 && stored.volume <= 100) {
+    if (stored?.volume === 0) settings.enabled = false;
+    if (Number.isInteger(stored?.volume) && stored.volume > 0 && stored.volume <= 100) {
       settings.volume = stored.volume;
     }
   } catch {
@@ -29,22 +31,24 @@
   }
 
   function updateVolume() {
-    const level = settings.volume / 100;
+    const level = settings.enabled ? settings.volume / 100 : 0;
     if (nativeVolume) audio.volume = level;
     else if (gain) gain.gain.value = level;
     audio.muted = level === 0;
-    slider.value = settings.volume;
-    slider.setAttribute("aria-valuetext", settings.volume + "%");
   }
 
   function isPlaying() {
-    return !audio.paused && !audio.error && (!audioContext || audioContext.state === "running");
+    return settings.enabled && !audio.paused && !audio.error && (!audioContext || audioContext.state === "running");
   }
 
-  function updateToggle() {
+  function updateControls() {
     const playing = isPlaying();
+    menu.dataset.musicPlaying = String(playing);
     toggle.setAttribute("aria-pressed", String(playing));
     toggle.title = translate(playing ? "Turn music off" : "Turn music on");
+    const level = playing ? settings.volume : 0;
+    slider.value = level;
+    slider.setAttribute("aria-valuetext", level + "%");
     if (playing) document.removeEventListener("click", startOnInteraction);
   }
 
@@ -58,42 +62,50 @@
           context.createMediaElementSource(audio).connect(volume).connect(context.destination);
           audioContext = context;
           gain = volume;
-          audioContext.addEventListener("statechange", updateToggle);
+          audioContext.addEventListener("statechange", updateControls);
           updateVolume();
         } catch {
           // The toggle can still control playback if a volume graph is unavailable.
         }
       }
-      audioContext?.resume().catch(updateToggle);
+      audioContext?.resume().catch(updateControls);
     }
-    audio.play().then(updateToggle, updateToggle);
+    audio.play().then(updateControls, (error) => {
+      if (error.name === "NotAllowedError" && settings.enabled) {
+        document.addEventListener("click", startOnInteraction);
+      }
+      updateControls();
+    });
   }
 
   function startOnInteraction(event) {
     if (settings.enabled && !toggle.contains(event.target) && !isPlaying()) startPlayback();
   }
 
-  toggle.addEventListener("click", () => {
-    settings.enabled = !isPlaying();
-    if (settings.enabled && settings.volume === 0) {
-      settings.volume = Number(slider.defaultValue);
-      updateVolume();
-    }
-    saveSettings();
-    if (settings.enabled) startPlayback();
-    else audio.pause();
-  });
-
-  slider.addEventListener("input", () => {
-    settings.volume = slider.valueAsNumber;
+  function setPlayback(enabled) {
+    settings.enabled = enabled;
     updateVolume();
     saveSettings();
+    if (enabled && !isPlaying()) {
+      startPlayback();
+    } else {
+      if (!enabled) audio.pause();
+      updateControls();
+    }
+  }
+
+  toggle.addEventListener("click", () => setPlayback(!isPlaying()));
+
+  slider.addEventListener("input", () => {
+    const level = slider.valueAsNumber;
+    if (level > 0) settings.volume = level;
+    setPlayback(level > 0);
   });
 
-  for (const event of ["play", "pause", "playing", "error"]) audio.addEventListener(event, updateToggle);
-  onLanguageChange(updateToggle);
+  for (const event of ["play", "pause", "playing", "error"]) audio.addEventListener(event, updateControls);
+  onLanguageChange(updateControls);
   updateVolume();
-  updateToggle();
+  updateControls();
   controls.hidden = false;
   if (settings.enabled) {
     document.addEventListener("click", startOnInteraction);

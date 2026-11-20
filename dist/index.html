@@ -21,19 +21,33 @@
     <div class="header-inner">
       <a class="brand" href="#" aria-label="Undokai 2026 home"><img src="assets/undokai-logo.webp" width="398" height="202" alt="Undokai 2026"></a>
       <div class="header-controls">
-        <div class="music-controls" role="group" aria-label="Music controls" hidden>
-          <button class="music-toggle" type="button" aria-label="Background music" aria-pressed="false">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <div class="header-menu" data-music-playing="false">
+          <button class="header-menu-toggle" type="button" aria-label="Music controls" aria-controls="music-panel" aria-expanded="false" hidden>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M3 9h4l5-4v14l-5-4H3z"/>
               <path class="music-waves" d="M16 9a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12"/>
               <path class="music-muted" d="m16 10 5 5m0-5-5 5"/>
             </svg>
           </button>
-          <input class="music-volume" type="range" min="0" max="100" value="30" aria-label="Music volume">
+          <div class="header-panel music-controls" id="music-panel" role="group" aria-label="Music controls" hidden>
+            <button class="music-toggle" type="button" aria-label="Background music" aria-pressed="false">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 9h4l5-4v14l-5-4H3z"/>
+                <path class="music-waves" d="M16 9a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12"/>
+                <path class="music-muted" d="m16 10 5 5m0-5-5 5"/>
+              </svg>
+            </button>
+            <input class="music-volume" type="range" min="0" max="100" value="30" aria-label="Music volume">
+          </div>
         </div>
-        <div class="language-toggle" role="group" aria-label="Language" hidden>
-          <button type="button" lang="en" data-language="en" aria-pressed="true">English</button>
-          <button type="button" lang="ja" data-language="ja" aria-pressed="false">日本語</button>
+        <div class="header-menu">
+          <button class="header-menu-toggle" type="button" aria-label="Language" aria-controls="language-panel" aria-expanded="false" hidden>
+            <span class="language-menu-label" aria-hidden="true">EN</span>
+          </button>
+          <div class="header-panel language-toggle" id="language-panel" role="group" aria-label="Language" hidden>
+            <button type="button" lang="en" data-language="en" aria-pressed="true">English</button>
+            <button type="button" lang="ja" data-language="ja" aria-pressed="false">日本語</button>
+          </div>
         </div>
       </div>
     </div>

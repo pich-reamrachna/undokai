@@ -37,11 +37,12 @@ main:focus, .race-title:focus { outline: none; }
 .site-header { background: var(--white); border-bottom: 2px solid var(--ink); position: sticky; inset-block-start: 0; z-index: 1; }
 .header-inner { height: 75px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-inline: clamp(24px, 4vw, 64px); }
 .header-controls { display: flex; align-items: center; gap: 12px; flex: none; }
+.header-menu-toggle { display: none; }
 .music-controls { display: flex; align-items: center; gap: 6px; padding-inline-end: 6px; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); }
 .music-toggle { display: grid; width: 36px; height: 36px; place-items: center; padding: 0; border: 0; border-inline-end: 2px solid var(--ink); background: transparent; }
 .music-toggle[aria-pressed="true"] { background: var(--yellow); }
 .music-toggle:hover { background: #fff0a6; }
-.music-toggle[aria-pressed="false"] .music-waves, .music-toggle[aria-pressed="true"] .music-muted { display: none; }
+[data-music-playing="false"] .music-waves, [data-music-playing="true"] .music-muted { display: none; }
 .music-volume { width: 84px; height: 32px; margin: 0; accent-color: var(--ink); cursor: pointer; }
 .language-toggle { display: inline-flex; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); }
 .language-toggle button { min-height: 36px; padding: 4px 10px; border: 0; background: transparent; font: 700 .8rem var(--sans); }
@@ -340,10 +341,20 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
   .wrap { width: calc(100% - 32px); }
   .header-inner { height: 63px; gap: 8px; padding-inline: clamp(10px, 4vw, 20px); }
   .header-controls { gap: 8px; }
-  .music-toggle { width: 32px; height: 32px; }
-  .music-toggle svg { width: 17px; height: 17px; }
-  .music-volume { width: clamp(38px, 13vw, 66px); height: 28px; }
-  .language-toggle button { min-height: 32px; padding: 3px 8px; font-size: .75rem; }
+  .header-menu { position: relative; }
+  .header-menu-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 46px; min-height: 36px; padding: 4px 9px; border: 2px solid var(--ink); background: var(--white); box-shadow: 2px 2px var(--ink); font: 700 .75rem var(--sans); }
+  .header-menu-toggle::after { content: ""; width: 5px; height: 5px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); }
+  .header-menu-toggle[aria-expanded="true"] { background: var(--yellow); }
+  .header-menu-toggle[aria-expanded="true"]::after { transform: translateY(1px) rotate(225deg); }
+  .header-menu-toggle[aria-controls="music-panel"]::after { content: none; }
+  .header-menu-toggle[aria-expanded="false"] + .header-panel { display: none; }
+  .header-panel { position: absolute; inset-block-start: calc(100% + 8px); inset-inline-end: 0; flex-direction: column; }
+  .music-controls { gap: 4px; width: 46px; padding: 4px 0 8px; }
+  .music-toggle { width: 32px; height: 32px; border: 0; }
+  .music-volume { width: 28px; height: 112px; writing-mode: vertical-lr; direction: rtl; touch-action: none; }
+  .language-toggle { min-width: 98px; }
+  .language-toggle button { min-height: 36px; padding-inline: 12px; }
+  .language-toggle button + button { border-top: 2px solid var(--ink); border-left: 0; }
   .brand { width: 109px; }
   :root { --header-h: 65px; }
   .hero { --track-h: 96px; --fence-h: 68px; }
