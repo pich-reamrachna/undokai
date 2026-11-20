@@ -132,6 +132,51 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 .card-title { font-size: .98rem; line-height: 1.15; font-weight: 900; }
 .card-caption { font-size: .71rem; margin-top: 4px; color: var(--muted); }
 .card-arrow { font: 800 1.18rem var(--mono); }
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(.home-intro-pending, .home-intro) .hero {
+    margin-top: calc(-1 * var(--header-h));
+    min-height: 100svh;
+    padding-top: var(--header-h);
+  }
+  :is(.home-intro-pending, .home-intro) .scene { inset-block-start: var(--header-h); }
+  .home-intro-pending :is(.site-header, .hero-content) { visibility: hidden; }
+
+  .home-intro {
+    --title-delay: 140ms;
+    --title-duration: 440ms;
+    --card-start: calc(var(--title-delay) + var(--title-duration) + 30ms);
+    --card-duration: 220ms;
+    --card-stagger: 240ms;
+    --header-start: calc(var(--card-start) + var(--last-card-index) * var(--card-stagger) + var(--card-duration) + 50ms);
+  }
+  .home-intro .hero-title { animation: home-title-grow var(--title-duration) ease-out var(--title-delay) backwards; }
+  .home-intro :is(.hero-kicker, .hero-copy) { animation: home-copy-appear var(--title-duration) ease-out var(--title-delay) backwards; }
+  .home-intro .game-card {
+    animation: home-card-pop var(--card-duration) ease-out calc(var(--card-start) + var(--card-index) * var(--card-stagger)) backwards;
+  }
+  .home-intro .site-header { animation: home-header-slide 350ms ease-out var(--header-start) backwards; }
+}
+
+@keyframes home-title-grow {
+  from { visibility: hidden; opacity: 0; transform: scale(.18); }
+  70% { opacity: 1; }
+  to { visibility: visible; transform: scale(1); }
+}
+@keyframes home-copy-appear {
+  from { visibility: hidden; opacity: 0; }
+  to { visibility: visible; }
+}
+@keyframes home-card-pop {
+  from { visibility: hidden; opacity: 0; transform: translateY(14px) scale(.76); }
+  65% { opacity: 1; transform: translateY(-4px) scale(1.05); }
+  to { visibility: visible; transform: none; }
+}
+@keyframes home-header-slide {
+  from { visibility: hidden; transform: translateY(-100%); }
+  to { visibility: visible; transform: none; }
+}
+
 .site-footer { border-top: 1px solid var(--line); color: var(--muted); }
 .footer-inner { min-height: 52px; display: flex; justify-content: space-between; align-items: center; gap: 15px; font-size: .7rem; }
 .footer-inner strong { color: var(--ink); letter-spacing: .07em; }

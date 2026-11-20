@@ -6,6 +6,13 @@
   <meta name="theme-color" content="#9bdee6">
   <meta name="description" content="The participant game guide for Undokai 2026, with walkthroughs for Typhoon Race, Beanbag Toss, Centipede Race and Dondarm Slerk Cher.">
   <title>Game Rules | Undokai 2026</title>
+  <script>
+    if (!location.hash) {
+      const root = document.documentElement;
+      root.classList.add("home-intro-pending");
+      document.addEventListener("DOMContentLoaded", () => root.classList.remove("home-intro-pending"), { once: true });
+    }
+  </script>
   <link rel="stylesheet" href="styles.css">
   <script src="translations.js" defer></script>
   <script src="music.js" defer></script>

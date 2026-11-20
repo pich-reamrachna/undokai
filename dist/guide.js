@@ -228,9 +228,10 @@ function setupFlagCat() {
 setupFlagCat();
 
 // Games without a guide yet are shown as plain cards, not buttons.
-games.forEach((game) => {
+games.forEach((game, index) => {
   const card = document.createElement(game.href ? "a" : "div");
   card.className = game.href ? "game-card active" : "game-card soon";
+  card.style.setProperty("--card-index", index);
   if (game.href) card.href = game.href;
   const text = document.createElement("span");
   const name = document.createElement("strong");
@@ -257,6 +258,15 @@ games.forEach((game) => {
   }
   select("game-grid").append(card);
 });
+
+const introRoot = document.documentElement;
+if (introRoot.classList.contains("home-intro-pending") && !location.hash && !reducedMotion.matches) {
+  const header = document.querySelector(".site-header");
+  header.addEventListener("animationend", () => introRoot.classList.remove("home-intro"), { once: true });
+  header.addEventListener("animationcancel", () => introRoot.classList.remove("home-intro"), { once: true });
+  introRoot.style.setProperty("--last-card-index", Math.max(0, games.length - 1));
+  introRoot.classList.replace("home-intro-pending", "home-intro");
+}
 
 // Shared pixel-art helpers. Step scenes are drawn on a 160 × 96 canvas.
 const W = 160;
@@ -622,6 +632,7 @@ function loadGuideMedia(view) {
 
 function route(restored = false) {
   const active = guides.find((guide) => guide.hash === location.hash);
+  if (active || restored || location.hash === "#games") introRoot.classList.remove("home-intro");
   const leaving = guides.find((guide) => !guide.view.hidden && (guide !== active || restored));
   if (leaving) unloadGuideMedia(leaving.view);
   home.hidden = Boolean(active);
