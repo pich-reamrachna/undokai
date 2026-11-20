@@ -150,7 +150,7 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
     --card-stagger: 240ms;
     --header-start: calc(var(--card-start) + var(--last-card-index) * var(--card-stagger) + var(--card-duration) + 50ms);
   }
-  .home-intro .hero-title { animation: home-title-grow var(--title-duration) ease-out var(--title-delay) backwards; }
+  .home-intro .hero-title { animation: home-title-grow var(--title-duration) steps(8, jump-start) var(--title-delay) backwards; }
   .home-intro :is(.hero-kicker, .hero-copy) { animation: home-copy-appear var(--title-duration) ease-out var(--title-delay) backwards; }
   .home-intro .game-card {
     animation: home-card-pop var(--card-duration) ease-out calc(var(--card-start) + var(--card-index) * var(--card-stagger)) backwards;
@@ -159,8 +159,7 @@ a.game-card:hover { background: #fff1c2; transform: translateY(-2px); }
 }
 
 @keyframes home-title-grow {
-  from { visibility: hidden; opacity: 0; transform: scale(.18); }
-  70% { opacity: 1; }
+  from { visibility: hidden; transform: scale(.06); }
   to { visibility: visible; transform: scale(1); }
 }
 @keyframes home-copy-appear {
