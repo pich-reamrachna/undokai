@@ -6,8 +6,8 @@
 
 const games = [
   { title: "Typhoon Race", href: "#typhoon-race" },
-  { title: "Beanbag Toss", href: "#beanbag-toss" },
   { title: "Centipede Race", href: "#centipede-race" },
+  { title: "Beanbag Toss", href: "#beanbag-toss" },
   { title: "Dondarm Slerk Cher", href: "#dondarm-slerk-cher" },
 ];
 
