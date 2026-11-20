@@ -4,7 +4,7 @@ This static site contains the landing page and guides for Typhoon Race, Beanbag 
 
 ## Preview locally
 
-Run `python3 -m http.server 8000 --directory dist` from the project folder and open http://localhost:8000.
+Run `node preview.cjs` from the project folder and open http://localhost:8000. The preview supports seeking in the game videos.
 
 ## Deploy on Vercel
 
@@ -35,4 +35,4 @@ Alternatively, run `vercel --prod` from the project folder with the Vercel CLI.
 - Centipede Race: the clip is `dist/assets/centipede.mp4`, played by a `<video>` tag in the Centipede Race section of `dist/index.html`. Update the length label if you replace the clip.
 - Dondarm Slerk Cher: the clip is `dist/assets/dondarm-slerk-cher (1).mp4`. The video’s `data-src` is loaded when the guide opens. Update the length label if you replace the clip.
 - Google Photos links can't be shown inside the page (Google blocks it). Download the video from Google Photos and add it to `dist/assets` instead.
-- A YouTube video loads only while its game page is open, and a video file pauses when you leave its page.
+- A game clip unloads when you leave its page and starts from the beginning when you reopen it.

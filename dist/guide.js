@@ -586,8 +586,44 @@ function updatePageTitle(active = guides.find((guide) => guide.hash === location
 }
 onLanguageChange(() => updatePageTitle());
 
+function fullscreenElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement;
+}
+
+function exitDocumentFullscreen() {
+  const exit = document.exitFullscreen || document.webkitExitFullscreen;
+  exit?.call(document)?.catch(() => {});
+}
+
+function exitNativeVideoFullscreen(clip) {
+  if (clip.webkitDisplayingFullscreen) clip.webkitExitFullscreen?.();
+}
+
+function unloadGuideMedia(view) {
+  const fullscreen = fullscreenElement();
+  if (fullscreen && view.contains(fullscreen)) exitDocumentFullscreen();
+  view.querySelectorAll("video[src]").forEach((clip) => {
+    exitNativeVideoFullscreen(clip);
+    clip.pause();
+    // Clear the playback position and release the native player when leaving the guide.
+    clip.removeAttribute("src");
+    clip.load();
+  });
+  view.querySelectorAll("iframe[data-src]").forEach((embed) => {
+    if (embed.hasAttribute("src")) embed.removeAttribute("src");
+  });
+}
+
+function loadGuideMedia(view) {
+  view.querySelectorAll("video[data-src], iframe[data-src]").forEach((media) => {
+    media.src = media.dataset.src;
+  });
+}
+
 function route(restored = false) {
   const active = guides.find((guide) => guide.hash === location.hash);
+  const leaving = guides.find((guide) => !guide.view.hidden && (guide !== active || restored));
+  if (leaving) unloadGuideMedia(leaving.view);
   home.hidden = Boolean(active);
   // The home page fills the screen exactly, so the footer only shows on game pages.
   select("site-footer").hidden = !active;
@@ -596,14 +632,8 @@ function route(restored = false) {
     const show = guide === active;
     const entering = show && (guide.view.hidden || restored);
     guide.view.hidden = !show;
-    const embed = guide.view.querySelector("iframe[data-src]");
-    if (embed && show && embed.src !== embed.dataset.src) embed.src = embed.dataset.src;
-    if (embed && !show && embed.src && embed.src !== "about:blank") embed.src = "about:blank";
-    guide.view.querySelectorAll("video").forEach((clip) => {
-      if (show && clip.dataset.src && !clip.hasAttribute("src")) clip.src = clip.dataset.src;
-      if (!show) clip.pause();
-    });
     if (entering) {
+      loadGuideMedia(guide.view);
       window.scrollTo({ top: 0, behavior: "instant" });
       guide.view.querySelector(".race-title").focus({ preventScroll: true });
     }
@@ -615,6 +645,16 @@ function route(restored = false) {
   if (!active && location.hash === "#games") select("games").scrollIntoView();
 }
 
+// A fullscreen request can finish after the user has already navigated away.
+function dismissHiddenFullscreen() {
+  if (fullscreenElement()?.closest(".race[hidden]")) exitDocumentFullscreen();
+}
+document.addEventListener("fullscreenchange", dismissHiddenFullscreen);
+document.addEventListener("webkitfullscreenchange", dismissHiddenFullscreen);
+document.addEventListener("webkitbeginfullscreen", (event) => {
+  if (event.target.closest(".race[hidden]")) exitNativeVideoFullscreen(event.target);
+}, true);
+
 document.querySelector(".skip").addEventListener("click", (event) => {
   event.preventDefault();
   select("main").focus();
@@ -625,6 +665,10 @@ document.querySelector(".skip").addEventListener("click", (event) => {
 document.addEventListener("DOMContentLoaded", () => {
   route();
   window.addEventListener("hashchange", () => route());
+  window.addEventListener("pagehide", () => {
+    const visible = guides.find((guide) => !guide.view.hidden);
+    if (visible) unloadGuideMedia(visible.view);
+  });
   window.addEventListener("pageshow", (event) => {
     if (event.persisted) route(true);
   });
