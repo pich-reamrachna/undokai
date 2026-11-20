@@ -7,12 +7,11 @@
   const toggle = controls.querySelector(".music-toggle");
   const slider = controls.querySelector(".music-volume");
   const storageKey = "undokai-music";
-  const settings = { enabled: true, volume: slider.valueAsNumber };
+  const settings = { volume: slider.valueAsNumber };
+  let enabled = false;
 
   try {
     const stored = JSON.parse(localStorage.getItem(storageKey));
-    if (typeof stored?.enabled === "boolean") settings.enabled = stored.enabled;
-    if (stored?.volume === 0) settings.enabled = false;
     if (Number.isInteger(stored?.volume) && stored.volume > 0 && stored.volume <= 100) {
       settings.volume = stored.volume;
     }
@@ -31,14 +30,14 @@
   }
 
   function updateVolume() {
-    const level = settings.enabled ? settings.volume / 100 : 0;
+    const level = enabled ? settings.volume / 100 : 0;
     if (nativeVolume) audio.volume = level;
     else if (gain) gain.gain.value = level;
     audio.muted = level === 0;
   }
 
   function isPlaying() {
-    return settings.enabled && !audio.paused && !audio.error && (!audioContext || audioContext.state === "running");
+    return enabled && !audio.paused && !audio.error && (!audioContext || audioContext.state === "running");
   }
 
   function updateControls() {
@@ -48,8 +47,8 @@
     toggle.title = translate(playing ? "Turn music off" : "Turn music on");
     const level = playing ? settings.volume : 0;
     slider.value = level;
+    slider.disabled = !playing;
     slider.setAttribute("aria-valuetext", level + "%");
-    if (playing) document.removeEventListener("click", startOnInteraction);
   }
 
   function startPlayback() {
@@ -70,22 +69,12 @@
       }
       audioContext?.resume().catch(updateControls);
     }
-    audio.play().then(updateControls, (error) => {
-      if (error.name === "NotAllowedError" && settings.enabled) {
-        document.addEventListener("click", startOnInteraction);
-      }
-      updateControls();
-    });
+    audio.play().then(updateControls, updateControls);
   }
 
-  function startOnInteraction(event) {
-    if (settings.enabled && !toggle.contains(event.target) && !isPlaying()) startPlayback();
-  }
-
-  function setPlayback(enabled) {
-    settings.enabled = enabled;
+  function setPlayback(shouldPlay) {
+    enabled = shouldPlay;
     updateVolume();
-    saveSettings();
     if (enabled && !isPlaying()) {
       startPlayback();
     } else {
@@ -98,8 +87,14 @@
 
   slider.addEventListener("input", () => {
     const level = slider.valueAsNumber;
-    if (level > 0) settings.volume = level;
-    setPlayback(level > 0);
+    if (level === 0) {
+      setPlayback(false);
+      return;
+    }
+    settings.volume = level;
+    updateVolume();
+    updateControls();
+    saveSettings();
   });
 
   for (const event of ["play", "pause", "playing", "error"]) audio.addEventListener(event, updateControls);
@@ -107,8 +102,4 @@
   updateVolume();
   updateControls();
   controls.hidden = false;
-  if (settings.enabled) {
-    document.addEventListener("click", startOnInteraction);
-    startPlayback();
-  }
 })();
