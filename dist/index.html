@@ -386,21 +386,21 @@
             <div class="race-intro">
               <div class="race-heading">
                 <a class="back-link" href="./#games" aria-label="All games"><img src="assets/back-arrow.svg" width="30" height="55" alt=""></a>
-                <p class="eyebrow race-kicker">TEAM RELAY <span class="kicker-jp" lang="ja">ムカデ競争</span></p>
+                <p class="eyebrow race-kicker">TEAM RACE <span class="kicker-jp" lang="ja">ムカデ競争</span></p>
                 <h1 id="cp-title" class="race-title" tabindex="-1" data-pixel="CENTIPEDE|RACE" data-pixel-align="left"><span>Centipede Race</span></h1>
               </div>
-              <p class="race-lede">Four players, two planks. Walk in step to the next handoff point. All six groups go in the same direction, and the team whose 6th group crosses the finish line first wins.</p>
+              <p class="race-lede">Six groups of five take turns crossing the field on one shared pair of planks. The first team whose sixth group gets fully past the starting line with all five players wearing team sashes wins.</p>
               <ul class="race-facts" aria-label="At a glance">
                 <li><strong>3</strong> teams</li>
-                <li><strong>4</strong> per group</li>
+                <li><strong>5</strong> per group</li>
                 <li><strong>6</strong> groups</li>
-                <li><strong>2</strong> planks</li>
+                <li><strong>1</strong> pair of planks per team</li>
               </ul>
-              <img class="race-art" src="assets/mukade.png" width="1575" height="998" alt="Illustration of six players walking in step on two planks">
+              <img class="race-art" src="assets/mukade.png" width="1575" height="998" alt="Illustration of players walking in step on two planks">
             </div>
             <section class="video-card" aria-labelledby="cp-video-title">
               <div class="video-bar">
-                <h2 id="cp-video-title"><span class="header-dot"></span> Watch a clip</h2>
+                <h2 id="cp-video-title"><span class="header-dot"></span> See how to walk on the planks</h2>
                 <span class="video-time">0:17</span>
               </div>
               <div class="video-frame">
@@ -424,7 +424,7 @@
           </div>
           <div class="course-body">
             <div class="course-field">
-              <canvas width="320" height="206" role="img" aria-label="Top view of the lanes for White Team, Red Team, and Blue Team, with a map of the full relay above them. The camera follows the teams from left to right through five handoff points. The sixth group crosses the finish line."></canvas>
+              <canvas width="320" height="206" role="img" aria-label="Top view of the three team lanes. Each team passes one pair of planks from group to group. Groups 1, 3, and 5 walk from right to left. Groups 2, 4, and 6 walk back. All five players in Group 6 wear sashes and finish at the starting line."></canvas>
             </div>
             <div class="course-side">
               <ol class="course-phases" aria-label="Steps"></ol>
@@ -445,11 +445,10 @@
         <svg class="icon-sprite" aria-hidden="true" focusable="false">
           <symbol id="c-teams" viewBox="0 0 24 24"><circle cx="6" cy="9" r="2.2"/><circle cx="12" cy="7" r="2.6"/><circle cx="18" cy="9" r="2.2"/><path d="M2 19c0-2.4 1.8-4 4-4M8 19c0-3 1.8-5 4-5s4 2 4 5M18 15c2.2 0 4 1.6 4 4"/></symbol>
           <symbol id="c-player" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></symbol>
-          <symbol id="c-relay" viewBox="0 0 24 24"><path d="M3 8h16m-4-4 4 4-4 4M3 16h16m-4-4 4 4-4 4"/></symbol>
+          <symbol id="c-relay" viewBox="0 0 24 24"><path d="M3 8h16m-4-4 4 4-4 4M21 16H5m4-4-4 4 4 4"/></symbol>
           <symbol id="c-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><circle cx="9" cy="9" r="1.2"/><circle cx="15" cy="15" r="1.2"/><circle cx="15" cy="9" r="1.2"/><circle cx="9" cy="15" r="1.2"/></symbol>
           <symbol id="c-planks" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="4"/><rect x="3" y="14" width="18" height="4"/></symbol>
           <symbol id="c-feet" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="4"/><rect x="3" y="15" width="18" height="4"/><path d="M9 4v6M15 14v6"/></symbol>
-          <symbol id="c-no" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/></symbol>
           <symbol id="c-straight" viewBox="0 0 24 24"><path d="M3 12h16M15 7l5 5-5 5M3 6v12"/></symbol>
           <symbol id="c-ruler" viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></symbol>
           <symbol id="c-hand" viewBox="0 0 24 24"><rect x="3" y="10" width="11" height="4"/><path d="M14 8l5 4-5 4M19 5v14"/></symbol>
@@ -462,25 +461,26 @@
             <h3>Teams &amp; groups</h3>
             <ul class="rule-list">
               <li><svg class="ricon"><use href="#c-teams"/></svg><span>All <b>3</b> teams race at once, one lane each</span></li>
-              <li><svg class="ricon"><use href="#c-player"/></svg><span><b>4</b> players per group</span></li>
-              <li><svg class="ricon"><use href="#c-relay"/></svg><span><b>6</b> groups per team, so <b>24</b> players run</span></li>
+              <li><svg class="ricon"><use href="#c-player"/></svg><span><b>5</b> players per group</span></li>
+              <li><svg class="ricon"><use href="#c-relay"/></svg><span><b>6</b> groups per team, <b>30</b> players total</span></li>
               <li><svg class="ricon"><use href="#c-dice"/></svg><span>Group order is decided on the spot</span></li>
             </ul>
           </article>
           <article>
             <h3>Planks</h3>
             <ul class="rule-list">
-              <li><svg class="ricon"><use href="#c-planks"/></svg><span><b>2</b> planks per team</span></li>
+              <li><svg class="ricon"><use href="#c-planks"/></svg><span><b>1</b> pair per team, shared by all six groups</span></li>
               <li><svg class="ricon"><use href="#c-feet"/></svg><span>One foot on each plank</span></li>
-              <li><svg class="ricon"><use href="#c-no"/></svg><span>No cones and no long pole</span></li>
+              <li><svg class="ricon"><use href="#c-hand"/></svg><span>At the end of each crossing, the arriving group steps off and the next group gets onto the same planks.</span></li>
             </ul>
           </article>
           <article>
-            <h3>The relay</h3>
+            <h3>Course and finish</h3>
             <ul class="rule-list">
-              <li><svg class="ricon"><use href="#c-straight"/></svg><span>All six groups walk in the same direction</span></li>
-              <li><svg class="ricon"><use href="#c-ruler"/></svg><span>Same distance for every group</span></li>
-              <li><svg class="ricon"><use href="#c-hand"/></svg><span>Hand the planks over at the next handoff point. Group 6 crosses the finish line.</span></li>
+              <li><svg class="ricon"><use href="#c-straight"/></svg><span>Groups 1, 3, and 5 start at the starting end. Groups 2, 4, and 6 start at the far end.</span></li>
+              <li><svg class="ricon"><use href="#c-ruler"/></svg><span>Each group walks one length of the course. The next group waits behind the line for the planks.</span></li>
+              <li><svg class="ricon"><use href="#c-hand"/></svg><span>The next group can take the planks only after all five players walking on them are fully past the line.</span></li>
+              <li><svg class="ricon"><use href="#c-ok"/></svg><span>The starting line is also the finish line. Group 6 finishes when all five players walking on the planks are fully past it. All five wear team sashes from the time they are waiting through the finish.</span></li>
             </ul>
           </article>
           <article>
